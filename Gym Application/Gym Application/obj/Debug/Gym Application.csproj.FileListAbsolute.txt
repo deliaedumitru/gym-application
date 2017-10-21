@@ -30,3 +30,39 @@ c:\users\deliaed\documents\visual studio 2013\Projects\Gym Application\Gym Appli
 c:\users\deliaed\documents\visual studio 2013\Projects\Gym Application\Gym Application\obj\Debug\Gym Application.csprojResolveAssemblyReference.cache
 c:\users\deliaed\documents\visual studio 2013\Projects\Gym Application\Gym Application\obj\Debug\Gym Application.dll
 c:\users\deliaed\documents\visual studio 2013\Projects\Gym Application\Gym Application\obj\Debug\Gym Application.pdb
+F:\Anul III\PC\gym-application\Gym Application\Gym Application\bin\Gym Application.dll.config
+F:\Anul III\PC\gym-application\Gym Application\Gym Application\bin\Gym Application.dll
+F:\Anul III\PC\gym-application\Gym Application\Gym Application\bin\Gym Application.pdb
+F:\Anul III\PC\gym-application\Gym Application\Gym Application\bin\Antlr3.Runtime.dll
+F:\Anul III\PC\gym-application\Gym Application\Gym Application\bin\Microsoft.Web.Infrastructure.dll
+F:\Anul III\PC\gym-application\Gym Application\Gym Application\bin\Newtonsoft.Json.dll
+F:\Anul III\PC\gym-application\Gym Application\Gym Application\bin\System.Net.Http.Formatting.dll
+F:\Anul III\PC\gym-application\Gym Application\Gym Application\bin\System.Web.Helpers.dll
+F:\Anul III\PC\gym-application\Gym Application\Gym Application\bin\System.Web.Http.dll
+F:\Anul III\PC\gym-application\Gym Application\Gym Application\bin\System.Web.Http.WebHost.dll
+F:\Anul III\PC\gym-application\Gym Application\Gym Application\bin\System.Web.Mvc.dll
+F:\Anul III\PC\gym-application\Gym Application\Gym Application\bin\System.Web.Optimization.dll
+F:\Anul III\PC\gym-application\Gym Application\Gym Application\bin\System.Web.Razor.dll
+F:\Anul III\PC\gym-application\Gym Application\Gym Application\bin\System.Web.WebPages.Deployment.dll
+F:\Anul III\PC\gym-application\Gym Application\Gym Application\bin\System.Web.WebPages.dll
+F:\Anul III\PC\gym-application\Gym Application\Gym Application\bin\System.Web.WebPages.Razor.dll
+F:\Anul III\PC\gym-application\Gym Application\Gym Application\bin\WebGrease.dll
+F:\Anul III\PC\gym-application\Gym Application\Gym Application\bin\Newtonsoft.Json.xml
+F:\Anul III\PC\gym-application\Gym Application\Gym Application\bin\System.Net.Http.Formatting.xml
+F:\Anul III\PC\gym-application\Gym Application\Gym Application\bin\System.Web.Helpers.xml
+F:\Anul III\PC\gym-application\Gym Application\Gym Application\bin\System.Web.Http.xml
+F:\Anul III\PC\gym-application\Gym Application\Gym Application\bin\System.Web.Http.WebHost.xml
+F:\Anul III\PC\gym-application\Gym Application\Gym Application\bin\System.Web.Mvc.xml
+F:\Anul III\PC\gym-application\Gym Application\Gym Application\bin\System.Web.Optimization.xml
+F:\Anul III\PC\gym-application\Gym Application\Gym Application\bin\System.Web.Razor.xml
+F:\Anul III\PC\gym-application\Gym Application\Gym Application\bin\System.Web.WebPages.xml
+F:\Anul III\PC\gym-application\Gym Application\Gym Application\bin\System.Web.WebPages.Deployment.xml
+F:\Anul III\PC\gym-application\Gym Application\Gym Application\bin\System.Web.WebPages.Razor.xml
+F:\Anul III\PC\gym-application\Gym Application\Gym Application\bin\Antlr3.Runtime.pdb
+F:\Anul III\PC\gym-application\Gym Application\Gym Application\obj\Debug\Gym Application.csprojResolveAssemblyReference.cache
+F:\Anul III\PC\gym-application\Gym Application\Gym Application\obj\Debug\Gym Application.dll
+F:\Anul III\PC\gym-application\Gym Application\Gym Application\obj\Debug\Gym Application.pdb
+F:\Anul III\PC\gym-application\Gym Application\Gym Application\bin\EntityFramework.dll
+F:\Anul III\PC\gym-application\Gym Application\Gym Application\bin\EntityFramework.SqlServer.dll
+F:\Anul III\PC\gym-application\Gym Application\Gym Application\bin\EntityFramework.xml
+F:\Anul III\PC\gym-application\Gym Application\Gym Application\bin\EntityFramework.SqlServer.xml
