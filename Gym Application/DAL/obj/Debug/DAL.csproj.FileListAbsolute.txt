@@ -1,0 +1,12 @@
+F:\Anul III\PC\gym-application\Gym Application\DAL\bin\Debug\DAL.exe.config
+F:\Anul III\PC\gym-application\Gym Application\DAL\bin\Debug\DAL.exe
+F:\Anul III\PC\gym-application\Gym Application\DAL\bin\Debug\DAL.pdb
+F:\Anul III\PC\gym-application\Gym Application\DAL\bin\Debug\EntityFramework.dll
+F:\Anul III\PC\gym-application\Gym Application\DAL\bin\Debug\EntityFramework.SqlServer.dll
+F:\Anul III\PC\gym-application\Gym Application\DAL\bin\Debug\EntityFramework.xml
+F:\Anul III\PC\gym-application\Gym Application\DAL\bin\Debug\EntityFramework.SqlServer.xml
+F:\Anul III\PC\gym-application\Gym Application\DAL\obj\Debug\DAL.csprojResolveAssemblyReference.cache
+F:\Anul III\PC\gym-application\Gym Application\DAL\obj\Debug\DAL.exe
+F:\Anul III\PC\gym-application\Gym Application\DAL\obj\Debug\DAL.pdb
+F:\Anul III\PC\gym-application\Gym Application\DAL\obj\Debug\DAL.Migrations.Initialmigration.resources
+F:\Anul III\PC\gym-application\Gym Application\DAL\obj\Debug\DAL.csproj.GenerateResource.Cache
