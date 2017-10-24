@@ -13,10 +13,9 @@ namespace DAL.Model
         public ClassSchedule()
         {
             ClassParticipants = new HashSet<User>();
-            ClassParticipants = new HashSet<User>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         public int ClassId { get; set; }
@@ -32,10 +31,12 @@ namespace DAL.Model
 
         public virtual Class Class { get; set; }
 
+        public virtual User Trainer { get; set; }
+
+        public int TrainerId { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<User> ClassParticipants { get; set; }
 
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<User> ClassTrainers { get; set; }
     }
 }

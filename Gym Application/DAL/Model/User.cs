@@ -16,11 +16,11 @@ namespace DAL.Model
             Subcription = new HashSet<Subcription>();
             PersonalScheduleForTrainer = new HashSet<PersonalSchedule>();
             PersonalScheduleForParticipant = new HashSet<PersonalSchedule>();
-            ClassScheduleForTrainer = new HashSet<ClassSchedule>();
+            ClassForTrainer = new HashSet<Class>();
             ClassScheduleForParticipant = new HashSet<ClassSchedule>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required]
@@ -50,6 +50,9 @@ namespace DAL.Model
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Subcription> Subcription { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Class> ClassForTrainer { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClassSchedule> ClassScheduleForTrainer { get; set; }

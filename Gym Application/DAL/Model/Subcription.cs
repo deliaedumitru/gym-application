@@ -9,7 +9,7 @@ namespace DAL.Model
     [Table("Subcription")]
     public partial class Subcription
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         public int UserId { get; set; }

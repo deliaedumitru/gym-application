@@ -3,7 +3,7 @@ namespace DAL.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Initialmigration : DbMigration
+    public partial class Initial : DbMigration
     {
         public override void Up()
         {
@@ -11,7 +11,7 @@ namespace DAL.Migrations
                 "dbo.Class",
                 c => new
                     {
-                        Id = c.Int(nullable: false),
+                        Id = c.Int(nullable: false, identity: true),
                         Name = c.String(nullable: false, maxLength: 100),
                     })
                 .PrimaryKey(t => t.Id);
@@ -20,22 +20,25 @@ namespace DAL.Migrations
                 "dbo.ClassSchedule",
                 c => new
                     {
-                        Id = c.Int(nullable: false),
+                        Id = c.Int(nullable: false, identity: true),
                         ClassId = c.Int(nullable: false),
                         Date = c.DateTime(nullable: false),
                         Capacity = c.Int(),
                         Room = c.String(maxLength: 50),
                         Difficulty = c.Int(nullable: false),
+                        TrainerId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
+                .ForeignKey("dbo.Users", t => t.TrainerId)
                 .ForeignKey("dbo.Class", t => t.ClassId)
-                .Index(t => t.ClassId);
+                .Index(t => t.ClassId)
+                .Index(t => t.TrainerId);
             
             CreateTable(
                 "dbo.Users",
                 c => new
                     {
-                        Id = c.Int(nullable: false),
+                        Id = c.Int(nullable: false, identity: true),
                         Username = c.String(nullable: false, maxLength: 40),
                         Role = c.Int(nullable: false),
                         Name = c.String(maxLength: 200),
@@ -63,7 +66,7 @@ namespace DAL.Migrations
                 "dbo.PersonalSchedule",
                 c => new
                     {
-                        Id = c.Int(nullable: false),
+                        Id = c.Int(nullable: false, identity: true),
                         ParticipantId = c.Int(nullable: false),
                         TrainerId = c.Int(nullable: false),
                         Date = c.DateTime(nullable: false),
@@ -79,7 +82,7 @@ namespace DAL.Migrations
                 "dbo.Subcription",
                 c => new
                     {
-                        Id = c.Int(nullable: false),
+                        Id = c.Int(nullable: false, identity: true),
                         UserId = c.Int(nullable: false),
                         TypeId = c.Int(nullable: false),
                         StartDate = c.DateTime(nullable: false, storeType: "date"),
@@ -95,66 +98,68 @@ namespace DAL.Migrations
                 "dbo.SubscriptionType",
                 c => new
                     {
-                        Id = c.Int(nullable: false),
+                        Id = c.Int(nullable: false, identity: true),
                         Name = c.String(nullable: false, maxLength: 100),
                         Price = c.Double(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
             CreateTable(
-                "dbo.ClassParticipant",
+                "dbo.ClassScheduleParticipant",
                 c => new
                     {
-                        ParticipantId = c.Int(nullable: false),
                         ClassScheduleId = c.Int(nullable: false),
+                        ParticipantId = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => new { t.ParticipantId, t.ClassScheduleId })
-                .ForeignKey("dbo.Users", t => t.ParticipantId, cascadeDelete: true)
+                .PrimaryKey(t => new { t.ClassScheduleId, t.ParticipantId })
                 .ForeignKey("dbo.ClassSchedule", t => t.ClassScheduleId, cascadeDelete: true)
-                .Index(t => t.ParticipantId)
-                .Index(t => t.ClassScheduleId);
+                .ForeignKey("dbo.Users", t => t.ParticipantId, cascadeDelete: true)
+                .Index(t => t.ClassScheduleId)
+                .Index(t => t.ParticipantId);
             
             CreateTable(
                 "dbo.ClassTrainer",
                 c => new
                     {
-                        ClassScheduleId = c.Int(nullable: false),
+                        ClassId = c.Int(nullable: false),
                         TrainerId = c.Int(nullable: false),
                     })
-                .PrimaryKey(t => new { t.ClassScheduleId, t.TrainerId })
-                .ForeignKey("dbo.ClassSchedule", t => t.ClassScheduleId, cascadeDelete: true)
+                .PrimaryKey(t => new { t.ClassId, t.TrainerId })
+                .ForeignKey("dbo.Class", t => t.ClassId, cascadeDelete: true)
                 .ForeignKey("dbo.Users", t => t.TrainerId, cascadeDelete: true)
-                .Index(t => t.ClassScheduleId)
+                .Index(t => t.ClassId)
                 .Index(t => t.TrainerId);
             
         }
         
         public override void Down()
         {
-            DropForeignKey("dbo.ClassSchedule", "ClassId", "dbo.Class");
             DropForeignKey("dbo.ClassTrainer", "TrainerId", "dbo.Users");
-            DropForeignKey("dbo.ClassTrainer", "ClassScheduleId", "dbo.ClassSchedule");
+            DropForeignKey("dbo.ClassTrainer", "ClassId", "dbo.Class");
+            DropForeignKey("dbo.ClassSchedule", "ClassId", "dbo.Class");
+            DropForeignKey("dbo.ClassScheduleParticipant", "ParticipantId", "dbo.Users");
+            DropForeignKey("dbo.ClassScheduleParticipant", "ClassScheduleId", "dbo.ClassSchedule");
             DropForeignKey("dbo.Subcription", "UserId", "dbo.Users");
             DropForeignKey("dbo.Subcription", "TypeId", "dbo.SubscriptionType");
             DropForeignKey("dbo.PersonalSchedule", "TrainerId", "dbo.Users");
             DropForeignKey("dbo.PersonalSchedule", "ParticipantId", "dbo.Users");
             DropForeignKey("dbo.Feedback", "UserId", "dbo.Users");
             DropForeignKey("dbo.Feedback", "TrainerId", "dbo.Users");
-            DropForeignKey("dbo.ClassParticipant", "ClassScheduleId", "dbo.ClassSchedule");
-            DropForeignKey("dbo.ClassParticipant", "ParticipantId", "dbo.Users");
+            DropForeignKey("dbo.ClassSchedule", "TrainerId", "dbo.Users");
             DropIndex("dbo.ClassTrainer", new[] { "TrainerId" });
-            DropIndex("dbo.ClassTrainer", new[] { "ClassScheduleId" });
-            DropIndex("dbo.UserClassSchedules", new[] { "ClassSchedule_Id" });
-            DropIndex("dbo.UserClassSchedules", new[] { "User_Id" });
+            DropIndex("dbo.ClassTrainer", new[] { "ClassId" });
+            DropIndex("dbo.ClassScheduleParticipant", new[] { "ParticipantId" });
+            DropIndex("dbo.ClassScheduleParticipant", new[] { "ClassScheduleId" });
             DropIndex("dbo.Subcription", new[] { "TypeId" });
             DropIndex("dbo.Subcription", new[] { "UserId" });
             DropIndex("dbo.PersonalSchedule", new[] { "TrainerId" });
             DropIndex("dbo.PersonalSchedule", new[] { "ParticipantId" });
             DropIndex("dbo.Feedback", new[] { "UserId" });
             DropIndex("dbo.Feedback", new[] { "TrainerId" });
+            DropIndex("dbo.ClassSchedule", new[] { "TrainerId" });
             DropIndex("dbo.ClassSchedule", new[] { "ClassId" });
             DropTable("dbo.ClassTrainer");
-            DropTable("dbo.UserClassSchedules");
+            DropTable("dbo.ClassScheduleParticipant");
             DropTable("dbo.SubscriptionType");
             DropTable("dbo.Subcription");
             DropTable("dbo.PersonalSchedule");

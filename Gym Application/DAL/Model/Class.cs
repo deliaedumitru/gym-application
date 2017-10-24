@@ -15,7 +15,7 @@ namespace DAL.Model
             ClassSchedule = new HashSet<ClassSchedule>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required]
@@ -24,5 +24,9 @@ namespace DAL.Model
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ClassSchedule> ClassSchedule { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage( "Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly" )]
+        public virtual ICollection<User> ClassTrainers { get; set; }
+
     }
 }

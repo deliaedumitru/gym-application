@@ -9,7 +9,7 @@
     [Table("PersonalSchedule")]
     public partial class PersonalSchedule
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         public int ParticipantId { get; set; }

@@ -16,7 +16,7 @@ namespace DAL.Model
 
         [Key]
         [Column(Order = 1)]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated( DatabaseGeneratedOption.None )]
         public int UserId { get; set; }
 
         [Required]
