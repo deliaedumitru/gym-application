@@ -9,7 +9,7 @@ namespace DAL.Model
 
     [Table("ClassSchedule")]
     [DataContract]
-    public partial class ClassSchedule
+    public partial class ClassSchedule : BaseModel
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ClassSchedule()

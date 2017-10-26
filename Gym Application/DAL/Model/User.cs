@@ -6,7 +6,7 @@ namespace DAL.Model
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class User
+    public partial class User : BaseModel
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public User()
@@ -33,8 +33,10 @@ namespace DAL.Model
         public string Name { get; set; }
 
         [Required]
-        [StringLength(40)]
-        public string Password { get; set; }
+        public byte[] PasswordSalt { get; set; }
+
+        [Required]
+        public byte[] PasswordHash { get; set; }
 
         [Required]
         [StringLength(255)]
