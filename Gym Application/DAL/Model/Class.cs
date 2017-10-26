@@ -7,7 +7,7 @@ namespace DAL.Model
     using System.Data.Entity.Spatial;
 
     [Table("Class")]
-    public partial class Class
+    public partial class Class : BaseModel
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Class()

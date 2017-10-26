@@ -7,7 +7,7 @@
     using System.Data.Entity.Spatial;
 
     [Table("PersonalSchedule")]
-    public partial class PersonalSchedule
+    public partial class PersonalSchedule : BaseModel
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }

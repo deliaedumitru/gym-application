@@ -7,7 +7,7 @@ namespace DAL.Model
     using System.Data.Entity.Spatial;
 
     [Table("Subcription")]
-    public partial class Subcription
+    public partial class Subcription : BaseModel
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
