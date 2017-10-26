@@ -58,11 +58,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201710241507132_Initial.cs" />
-    <Compile Include="Migrations\201710241507132_Initial.Designer.cs">
-      <DependentUpon>201710241507132_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201710261554446_Initial-migration.cs" />
+    <Compile Include="Migrations\201710261554446_Initial-migration.Designer.cs">
+      <DependentUpon>201710261554446_Initial-migration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Model\BaseModel.cs" />
     <Compile Include="Model\Class.cs" />
     <Compile Include="Model\ClassSchedule.cs" />
     <Compile Include="Model\Difficulty.cs" />
@@ -75,14 +76,17 @@
     <Compile Include="Model\Subcription.cs" />
     <Compile Include="Model\SubscriptionType.cs" />
     <Compile Include="Model\User.cs" />
+    <Compile Include="Repository\IRepository.cs" />
+    <Compile Include="Repository\Repository.cs" />
+    <Compile Include="Repository\UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201710241507132_Initial.resx">
-      <DependentUpon>201710241507132_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201710261554446_Initial-migration.resx">
+      <DependentUpon>201710261554446_Initial-migration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
