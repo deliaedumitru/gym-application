@@ -15,7 +15,7 @@ namespace DAL.Model
             Subcriptions = new HashSet<Subcription>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required]
