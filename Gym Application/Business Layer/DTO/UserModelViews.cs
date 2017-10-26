@@ -29,4 +29,12 @@ namespace Business_Layer.DTO
         public string Username { get; set; }
         public string Name { get; set; }
     }
+
+    public class LoginModelView
+    {
+        [Required]
+        public string Username { get; set; }
+        [Required]
+        public string Password { get; set; }
+    }
 }

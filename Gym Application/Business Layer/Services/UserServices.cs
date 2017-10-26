@@ -31,5 +31,35 @@ namespace Business_Layer.Services
                 return new UserMapper().UserToBaseUserMV(user);
             }
         }
+
+        public BaseUserModelView GetOneAccountWithPassword(LoginModelView model)
+        {
+            using (var uow = new UnitOfWork())
+            {
+                string username = model.Username;
+                string password = model.Password;
+
+                IEnumerable<User> users = uow.Repository<User>().findAll();
+                BaseUserModelView result = null;
+                foreach (User user in users)
+                {
+                    if (user.Username.CompareTo(username) == 0)
+                    {
+                        Rfc2898DeriveBytes rfc2898DeriveBytes = new Rfc2898DeriveBytes(password, user.PasswordSalt);
+                        rfc2898DeriveBytes.IterationCount = 10000;
+                        byte[] passwordHash = rfc2898DeriveBytes.GetBytes(20);
+
+                        if (passwordHash.SequenceEqual(user.PasswordHash))
+                        {
+                            result = new UserMapper().UserToBaseUserMV(user);
+                            break;
+                        }
+                    }
+                }
+                if (result == null)
+                    throw (new Exception("User not found"));
+                return result;
+            }
+        }
     }
 }

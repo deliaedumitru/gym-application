@@ -13,7 +13,6 @@ namespace Gym_Application.Controllers
     public class UsersController : ApiController
     {
         //creeaza si salveaza un nou account
-        [Route("api/{controller}")]
         public IHttpActionResult Post([FromBody]RegistrationModelView account)
         {
             try
@@ -26,6 +25,23 @@ namespace Gym_Application.Controllers
                 }
                 else
                     return BadRequest();
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+        }
+
+        //returns the user with username & password BaseAccountModelView
+        [Route("api/{controller}/login")]
+        [HttpPost]
+        public IHttpActionResult Login([FromBody]LoginModelView model)
+        {
+            try
+            {
+                var service = new UserServices();
+                BaseUserModelView account = service.GetOneAccountWithPassword(model);
+                return Ok(account);
             }
             catch (Exception)
             {
