@@ -52,6 +52,8 @@ namespace Gym_Application.Controllers
             {
                 found_user.Role = Role.TRAINER;
                 user_repo.Update(found_user);
+                transaction_manager.Save();
+
                 found = true;
             }
 
@@ -78,6 +80,8 @@ namespace Gym_Application.Controllers
             {
                 found_user.Role = Role.USER;
                 user_repo.Update(found_user);
+                transaction_manager.Save();
+
                 found = true;
             }
 
