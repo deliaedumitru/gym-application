@@ -10,8 +10,8 @@ body {
     position: fixed;
     width: 100%;
     z-index: 10;
-    background-color: #000000;
-    color: #ffffff;
+    background-color: #ffffff;
+    color: #000000;
 }
 
 .nabar > ul {
