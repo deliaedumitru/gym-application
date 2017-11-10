@@ -12,13 +12,15 @@ class Main extends Component {
   render() {
     return (
       <HashRouter>
-        <div>
-          <h1>Gym App</h1>
-          <ul className="header">
-            <li><NavLink exact to="/">Home</NavLink></li>
-            <li><NavLink to="/LogIn">Log In</NavLink></li>
-            <li><NavLink to="/SignUp">Sign Up</NavLink></li>
-          </ul>
+        <div className="container">
+          <div className="navbar">
+            <ul className="logoul"><li>Gym App</li></ul>
+            <ul className="header">
+              <li className="home"><NavLink exact to="/">Home</NavLink></li>
+              <li><NavLink to="/LogIn">Log In</NavLink></li>
+              <li><NavLink to="/SignUp">Sign Up</NavLink></li>
+            </ul>
+          </div>
           <div className="content">
             <Route exact path="/" component={App}/>
             <Route path="/LogIn" component={LogIn}/>
