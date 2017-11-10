@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import logo from '../images/logo.svg';
 import './SignUp.css';
+import 'whatwg-fetch';
 
 class SignUp extends Component {
   render() {
@@ -22,6 +23,34 @@ class SignUp extends Component {
       </div>
     );
   }
+
+  
+
+  signUp() {
+    let username = document.getElementById('userNameInput').value;
+    let name = document.getElementById('nameInput').value;
+    let email = document.getElementById('emailInput').value;
+    console.log(username);
+    fetch('http://localhost:63288/api/users', {
+      method: 'POST',
+      body: {
+        'username': username,
+        'name': name,
+        'email': email,
+        'password': document.getElementById('passwordInput').value,
+        'role': '2'
+      },
+      mode: 'no-cors'
+    });
+  }
+
+
+
+componentDidMount() {
+  document.getElementById("loginButton").addEventListener("click", this.signUp); 
+}
+
 }
 
 export default SignUp;
+
