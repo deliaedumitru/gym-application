@@ -16,7 +16,7 @@ namespace Gym_Application.Controllers
     public class ClassSchedulesController : ApiController
     {
         private GymDBContext db = new GymDBContext();
-
+        
         // GET: api/ClassSchedules
         public IQueryable<ClassSchedule> GetClassSchedule()
         {
@@ -38,7 +38,7 @@ namespace Gym_Application.Controllers
 
         // GET: api/ClassSchedules/5/participants
         [ResponseType( typeof( IEnumerable<IdContainer> ) )]
-        [Route( "api/{controller}/{id}/participants" )]
+        [Route( "api/ClassSchedules/{id}/participants" )]
         public IHttpActionResult GetClassScheduleParticipants( int id )
         {
             ClassSchedule classSchedule = db.ClassSchedule.Find( id );
@@ -91,6 +91,105 @@ namespace Gym_Application.Controllers
             }
 
             return StatusCode( HttpStatusCode.NoContent );
+        }
+
+        // POST: api/ClassSchedules/{id}/participants/{id_user}   -   sign up for class schedule
+        [ResponseType( typeof( void ) )]
+        [Route( "api/ClassSchedules/{id_class_schedule}/participants/{id_user}" )]
+        public IHttpActionResult PostClassScheduleParticipants( int id_class_schedule, int id_user )
+        {
+            ClassSchedule classSchedule = db.ClassSchedule.Find( id_class_schedule );
+            User user = db.Users.Find( id_user );
+
+            if( ( classSchedule == null ) || ( user == null ) )
+            {
+                return NotFound();
+            }
+
+            if( user.Role != Role.USER )
+            {
+                return StatusCode( HttpStatusCode.PreconditionFailed );
+            }
+
+            if( !ModelState.IsValid )
+            {
+                return BadRequest( ModelState );
+            }
+
+            if( classSchedule.ClassParticipants.Count < classSchedule.Capacity )
+            {
+                classSchedule.ClassParticipants.Add( user );
+
+                db.Entry( classSchedule ).State = EntityState.Modified;
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch( DbUpdateConcurrencyException )
+                {
+                    if( !ClassScheduleExists( id_class_schedule ) )
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return StatusCode( HttpStatusCode.Created );
+            }
+            else
+            {
+                return StatusCode( HttpStatusCode.PreconditionFailed );
+            }
+
+        }
+
+        // DELETE: api/ClassSchedules/{id}/participants/{id_user}   -   unenroll from class schedule
+        [ResponseType( typeof( void ) )]
+        [Route( "api/ClassSchedules/{id_class_schedule}/participants/{id_user}" )]
+        public IHttpActionResult DeleteClassScheduleParticipants( int id_class_schedule, int id_user )
+        {
+            ClassSchedule classSchedule = db.ClassSchedule.Find( id_class_schedule );
+            User user = db.Users.Find( id_user );
+
+            if( classSchedule == null )
+            {
+                return NotFound();
+            }
+
+            if( !ModelState.IsValid )
+            {
+                return BadRequest( ModelState );
+            }
+
+            if( classSchedule.ClassParticipants.Contains( user ) )
+            {
+                classSchedule.ClassParticipants.Remove( user );
+
+                db.Entry( classSchedule ).State = EntityState.Modified;
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch( DbUpdateConcurrencyException )
+                {
+                    if( !ClassScheduleExists( id_class_schedule ) )
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return StatusCode( HttpStatusCode.NoContent );
+            }
+            else
+            {
+                return NotFound();
+            }
+
         }
 
         // POST: api/ClassSchedules
@@ -146,6 +245,8 @@ namespace Gym_Application.Controllers
 
             return Ok( classSchedule );
         }
+
+
 
         protected override void Dispose( bool disposing )
         {
