@@ -10,24 +10,25 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using DAL;
 using DAL.Model;
+using Business_Layer.Services;
 
 namespace Gym_Application.Controllers
 {
     public class ClassSchedulesController : ApiController
     {
-        private GymDBContext db = new GymDBContext();
-
+        private ClassScheduleServices service = new ClassScheduleServices();
+        
         // GET: api/ClassSchedules
-        public IQueryable<ClassSchedule> GetClassSchedule()
+        public IEnumerable<ClassSchedule> GetClassSchedule()
         {
-            return db.ClassSchedule;
+            return service.findAll();
         }
 
         // GET: api/ClassSchedules/5
         [ResponseType( typeof( ClassSchedule ) )]
         public IHttpActionResult GetClassSchedule( int id )
         {
-            ClassSchedule classSchedule = db.ClassSchedule.Find( id );
+            ClassSchedule classSchedule = service.findOne( id );
             if( classSchedule == null )
             {
                 return NotFound();
@@ -38,18 +39,16 @@ namespace Gym_Application.Controllers
 
         // GET: api/ClassSchedules/5/participants
         [ResponseType( typeof( IEnumerable<IdContainer> ) )]
-        [Route( "api/{controller}/{id}/participants" )]
+        [Route( "api/ClassSchedules/{id}/participants" )]
         public IHttpActionResult GetClassScheduleParticipants( int id )
         {
-            ClassSchedule classSchedule = db.ClassSchedule.Find( id );
+            ClassSchedule classSchedule = service.findOne( id );
             if( classSchedule == null )
             {
                 return NotFound();
             }
-            IEnumerable<IdContainer> CIds;
-
-            CIds = from sch in classSchedule.ClassParticipants
-                   select new IdContainer( sch.Id );
+            IEnumerable<IdContainer> CIds = from sch in classSchedule.ClassParticipants
+                                            select new IdContainer( sch.Id );
 
             return Ok( CIds );
         }
@@ -58,71 +57,84 @@ namespace Gym_Application.Controllers
         [ResponseType( typeof( void ) )]
         public IHttpActionResult PutClassSchedule( int id, ClassSchedule classSchedule )
         {
-            if( !validateClassSchedule( classSchedule ) )
-            {
-                return InternalServerError( new Exception( "Invalid fields in object!" ) );
-            }
             if( !ModelState.IsValid )
             {
                 return BadRequest( ModelState );
             }
 
-            if( id != classSchedule.Id )
-            {
-                return BadRequest();
-            }
-
-            db.Entry( classSchedule ).State = EntityState.Modified;
-
             try
             {
-                db.SaveChanges();
+                service.update( id, classSchedule );
             }
-            catch( DbUpdateConcurrencyException )
+            catch (Exception e)
             {
-                if( !ClassScheduleExists( id ) )
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return new System.Web.Http.Results.BadRequestErrorMessageResult( e.Message, this );
             }
 
             return StatusCode( HttpStatusCode.NoContent );
+        }
+
+        // POST: api/ClassSchedules/{id}/participants/{id_user}   -   sign up for class schedule
+        [ResponseType( typeof( void ) )]
+        [Route( "api/ClassSchedules/{id_class_schedule}/participants/{id_user}" )]
+        public IHttpActionResult PostClassScheduleParticipants( int id_class_schedule, int id_user )
+        {
+            if( !ModelState.IsValid )
+            {
+                return BadRequest( ModelState );
+            }
+
+            try
+            {
+                service.enrollUser( id_user, id_class_schedule );
+                return StatusCode( HttpStatusCode.Created );
+            }
+            catch( Exception e )
+            {
+                return new System.Web.Http.Results.BadRequestErrorMessageResult( e.Message, this );
+            }
+
+        }
+
+        // DELETE: api/ClassSchedules/{id}/participants/{id_user}   -   unenroll from class schedule
+        [ResponseType( typeof( void ) )]
+        [Route( "api/ClassSchedules/{id_class_schedule}/participants/{id_user}" )]
+        public IHttpActionResult DeleteClassScheduleParticipants( int id_class_schedule, int id_user )
+        {
+            if( !ModelState.IsValid )
+            {
+                return BadRequest( ModelState );
+            }
+
+            try
+            {
+                service.unenrollUser( id_user, id_class_schedule );
+                return StatusCode( HttpStatusCode.NoContent );
+            }
+            catch( Exception e )
+            {
+                return new System.Web.Http.Results.BadRequestErrorMessageResult( e.Message, this );
+            }
+
         }
 
         // POST: api/ClassSchedules
         [ResponseType( typeof( ClassSchedule ) )]
         public IHttpActionResult PostClassSchedule( ClassSchedule classSchedule )
         {
-            if( !validateClassSchedule( classSchedule ) )
-            {
-                return InternalServerError( new Exception( "Invalid fields in object!" ) );
-            }
 
             if( !ModelState.IsValid )
             {
                 return BadRequest( ModelState );
             }
 
-            db.ClassSchedule.Add( classSchedule );
-
             try
             {
-                db.SaveChanges();
+                classSchedule = service.add( classSchedule );
             }
-            catch( DbUpdateException )
+            catch(Exception e)
             {
-                if( ClassScheduleExists( classSchedule.Id ) )
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
+                return new System.Web.Http.Results.BadRequestErrorMessageResult( e.Message, this );
             }
 
             return CreatedAtRoute( "DefaultApi", new
@@ -132,41 +144,25 @@ namespace Gym_Application.Controllers
         }
 
         // DELETE: api/ClassSchedules/5
-        [ResponseType( typeof( ClassSchedule ) )]
+        [ResponseType( typeof( void ) )]
         public IHttpActionResult DeleteClassSchedule( int id )
         {
-            ClassSchedule classSchedule = db.ClassSchedule.Find( id );
-            if( classSchedule == null )
-            {
-                return NotFound();
-            }
-
-            db.ClassSchedule.Remove( classSchedule );
-            db.SaveChanges();
-
-            return Ok( classSchedule );
+            service.delete( id );
+            return Ok();
         }
 
         protected override void Dispose( bool disposing )
         {
             if( disposing )
             {
-                db.Dispose();
+                service.Dispose();
             }
             base.Dispose( disposing );
         }
 
         private bool ClassScheduleExists( int id )
         {
-            return db.ClassSchedule.Count( e => e.Id == id ) > 0;
-        }
-
-        private bool validateClassSchedule(ClassSchedule cs)
-        {
-            bool valid = true;
-            valid = valid && ( db.Class.Find( cs.ClassId ) != null );
-            valid = valid && ( ( db.Users.Find( cs.TrainerId ) != null ) && ( db.Users.Find( cs.TrainerId ).Role == Role.TRAINER ) );
-            return valid;
+            return ( service.findOne( id ) != null );
         }
     }
 

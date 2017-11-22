@@ -1,0 +1,143 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DAL.Repository;
+using DAL.Model;
+
+namespace Business_Layer.Services
+{
+    public class ClassScheduleServices
+    {
+        private UnitOfWork UoW = new UnitOfWork();
+
+        private bool validateClassSchedule( ClassSchedule cs )
+        {
+            bool valid = true;
+            IRepository<Class> Crepo = UoW.Repository<Class>();
+            IRepository<User> Urepo = UoW.Repository<User>();
+
+            valid = valid && ( Crepo.GetById( cs.ClassId ) != null );
+            valid = valid && ( ( Urepo.GetById( cs.TrainerId ) != null ) && ( Urepo.GetById( cs.TrainerId ).Role == Role.TRAINER ) );
+            valid = valid && ( cs.Capacity > 0 );
+
+            return valid;
+        }
+
+        public ClassScheduleServices()
+        {
+        }
+
+        public ClassSchedule add( ClassSchedule cs )
+        {
+            if( !validateClassSchedule( cs ) )
+            {
+                throw new InvalidOperationException( "The object is not in a valid state." );
+            }
+            IRepository<ClassSchedule> repo = UoW.Repository<ClassSchedule>();
+            repo.Save( cs );
+            UoW.Save();
+            return cs;
+        }
+
+        public ClassSchedule update( int id, ClassSchedule cs )
+        {
+            if( !validateClassSchedule( cs ) )
+            {
+                throw new InvalidOperationException( "The object is not in a valid state." );
+            }
+            if( cs.Id != id )
+            {
+                throw new InvalidOperationException( "The IDs of the new object and the old one's are not the same" );
+            }
+            IRepository<ClassSchedule> repo = UoW.Repository<ClassSchedule>();
+            repo.Update( cs );
+            UoW.Save();
+            return cs;
+        }
+
+        public IEnumerable<ClassSchedule> findAll()
+        {
+            IRepository<ClassSchedule> repo = UoW.Repository<ClassSchedule>();
+            var ret = repo.findAll();
+            return ret;
+        }
+
+        public ClassSchedule findOne( int id )
+        {
+            IRepository<ClassSchedule> repo = UoW.Repository<ClassSchedule>();
+            var ret = repo.GetById( id );
+            return ret;
+        }
+
+        public void enrollUser( int user_id, int cs_id )
+        {
+            IRepository<ClassSchedule> CSrepo = UoW.Repository<ClassSchedule>();
+            IRepository<User> Urepo = UoW.Repository<User>();
+
+            ClassSchedule classSchedule = CSrepo.GetById( cs_id );
+            User user = Urepo.GetById( user_id );
+
+            if( ( user == null ) || ( classSchedule == null ) )
+            {
+                throw new InvalidOperationException( "User or ClassSchedule id is not valid." );
+            }
+
+            if( user.Role != Role.USER )
+            {
+                throw new InvalidOperationException( "User must have role of regular user, not trainer/admin." );
+            }
+
+            if( classSchedule.ClassParticipants.Count < classSchedule.Capacity )
+            {
+                classSchedule.ClassParticipants.Add( user );
+                CSrepo.Update( classSchedule );
+                UoW.Save();
+            }
+            else
+            {
+                throw new InvalidOperationException( "All positions are filled." );
+            }
+        }
+
+        public void unenrollUser( int user_id, int cs_id )
+        {
+            IRepository<ClassSchedule> CSrepo = UoW.Repository<ClassSchedule>();
+            IRepository<User> Urepo = UoW.Repository<User>();
+
+            ClassSchedule classSchedule = CSrepo.GetById( cs_id );
+            User user = Urepo.GetById( user_id );
+
+            if( ( user == null ) || ( classSchedule == null ) )
+            {
+                throw new InvalidOperationException( "User or ClassSchedule id is not valid." );
+            }
+
+            if( user.Role != Role.USER )
+            {
+                throw new InvalidOperationException( "User must have role of regular user, not trainer/admin." );
+            }
+
+            classSchedule.ClassParticipants.Remove( user );
+            CSrepo.Update( classSchedule );
+            UoW.Save();
+            
+        }
+
+        public void delete( int id )
+        {
+            IRepository<ClassSchedule> repo = UoW.Repository<ClassSchedule>();
+            if( repo.GetById( id ) != null )
+            {
+                repo.Delete( repo.GetById( id ) );
+                UoW.Save();
+            }
+        }
+
+        public void Dispose()
+        {
+            UoW.Dispose();
+        }
+    }
+}
