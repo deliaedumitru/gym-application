@@ -26,6 +26,7 @@ namespace Business_Layer.Mappers
             model.Id = user.Id;
             model.Username = user.Username;
             model.Name = user.Name;
+            model.Role = Convert.ToInt32(user.Role);
             return model;
         }
     }
