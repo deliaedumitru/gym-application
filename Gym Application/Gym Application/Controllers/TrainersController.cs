@@ -23,7 +23,7 @@ namespace Gym_Application.Controllers
             bool found = found_user != null,
                 is_trainer = found && found_user.Role == Role.TRAINER;
 
-            if(found && found_user.Role == Role.TRAINER)
+            if( is_trainer )
             {
                 // what can we edit?
                 // we'll see later, I guess
@@ -48,7 +48,7 @@ namespace Gym_Application.Controllers
 
             // If we found the user, mark him as a trainer
             // Do this only if it is a normal user. We do not want people demoting admins
-            if(found && found_user.Role == Role.USER)
+            if( is_normal_user )
             {
                 found_user.Role = Role.TRAINER;
                 user_repo.Update(found_user);
@@ -57,7 +57,7 @@ namespace Gym_Application.Controllers
 
             transaction_manager.Dispose();
 
-            if (found && is_normal_user)
+            if( is_normal_user )
                 return Ok();
 
             return NotFound();
@@ -74,7 +74,7 @@ namespace Gym_Application.Controllers
 
             // If we found the user, mark him as a normal user
             // Do this only if it is a trainer. We do not want people demoting admins
-            if(found && found_user.Role == Role.TRAINER)
+            if( is_trainer )
             {
                 found_user.Role = Role.USER;
                 user_repo.Update(found_user);
@@ -83,7 +83,7 @@ namespace Gym_Application.Controllers
 
             transaction_manager.Dispose();
 
-            if (found && is_trainer)
+            if( is_trainer )
                 return Ok();
 
             return NotFound();
