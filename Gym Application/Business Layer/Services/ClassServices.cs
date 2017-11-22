@@ -26,19 +26,12 @@ namespace Business_Layer.Services
             }
         }
 
-        public BaseClassModelView deleteClass(ClassModelView classModel)
+        public BaseClassModelView deleteClass( int id )
         {
             using (var uow = new UnitOfWork())
             {
-                IEnumerable<Class> classes = uow.Repository<Class>().findAll();
-                Class delClass=null;
-                foreach (Class c in classes)
-                {
-                    if (c.Name.Equals(classModel.Name))
-                    {
-                        delClass = c;
-                    }
-                }
+                Class delClass = uow.Repository<Class>().GetById( id );
+             
                 if (delClass != null)
                 {
                     uow.Repository<Class>().Delete(delClass);
@@ -64,6 +57,22 @@ namespace Business_Layer.Services
                     qClasses.Add(new ClassMapper().ClassToBaseClassMV(c));
                 }
                 return qClasses.AsQueryable();
+            }
+        }
+
+        public BaseClassModelView getByID( int id )
+        {
+            using( var uow = new UnitOfWork() )
+            {
+                Class _class = uow.Repository<Class>().GetById( id );
+                if( _class != null )
+                {
+                    return new ClassMapper().ClassToBaseClassMV( _class );
+                }
+                else
+                {
+                    throw ( new Exception( "Class not found" ) );
+                }
             }
         }
     }

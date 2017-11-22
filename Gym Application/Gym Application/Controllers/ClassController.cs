@@ -12,7 +12,7 @@ namespace Gym_Application.Controllers
 {
     public class ClassController : ApiController
     {
-        // POST: api/Classes
+        // POST: api/Class
         public IHttpActionResult PostClass([FromBody]ClassModelView classModel)
         {
             if (!ModelState.IsValid)
@@ -25,13 +25,13 @@ namespace Gym_Application.Controllers
             return Ok(model);
         }
 
-        // DELETE: api/Classes/5
-        public IHttpActionResult DeleteClass([FromBody]ClassModelView classModel)
+        // DELETE: api/Class/5
+        public IHttpActionResult DeleteClass( int id )
         {
             var service = new ClassServices();
             try
             {
-                BaseClassModelView model = service.deleteClass(classModel);
+                BaseClassModelView model = service.deleteClass( id );
                 return Ok(model);
             }
             catch (Exception e){
@@ -43,6 +43,12 @@ namespace Gym_Application.Controllers
         {
             var service = new ClassServices();
             return service.getAllClasses();
+        }
+
+        public BaseClassModelView GetClass( int id )
+        {
+            var service = new ClassServices();
+            return service.getByID( id );
         }
 
     }
