@@ -18,7 +18,7 @@ class SignUp extends Component {
           <br/>
           <input type="password" id="passwordConfirmInput" placeholder="Confirm Password..."/>
           <br/>
-          <input type="submit" id="loginButton" value="Register"/>
+          <input type="submit" id="signUpButton" value="Register"/>
         </form>
       </div>
     );
@@ -30,24 +30,26 @@ class SignUp extends Component {
     let username = document.getElementById('userNameInput').value;
     let name = document.getElementById('nameInput').value;
     let email = document.getElementById('emailInput').value;
-    console.log(username);
     fetch('http://localhost:63288/api/users', {
       method: 'POST',
-      body: {
-        'username': username,
-        'name': name,
-        'email': email,
-        'password': document.getElementById('passwordInput').value,
-        'role': '2'
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
       },
-      mode: 'no-cors'
-    });
+      body: JSON.stringify({
+        username: username,
+        name: name,
+        email: email,
+        password: document.getElementById('passwordInput').value,
+        role: '2'
+      })
+    })
   }
 
 
 
 componentDidMount() {
-  document.getElementById("loginButton").addEventListener("click", this.signUp); 
+  document.getElementById("signUpButton").addEventListener("click", this.signUp); 
 }
 
 }

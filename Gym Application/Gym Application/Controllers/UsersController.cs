@@ -7,12 +7,14 @@ using System.Web.Http;
 
 using Business_Layer.DTO;
 using Business_Layer.Services;
+using System.Web.Http.Cors;
 
 namespace Gym_Application.Controllers
 {
     public class UsersController : ApiController
     {
         //creeaza si salveaza un nou account
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult Post([FromBody]RegistrationModelView account)
         {
             try
@@ -33,7 +35,8 @@ namespace Gym_Application.Controllers
         }
 
         //returns the user with username & password BaseAccountModelView
-        [Route("api/{controller}/login")]
+        [Route("api/users/login")]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
         public IHttpActionResult Login([FromBody]LoginModelView model)
         {
