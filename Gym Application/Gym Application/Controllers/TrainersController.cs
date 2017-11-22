@@ -15,7 +15,7 @@ namespace Gym_Application.Controllers
         private UnitOfWork transaction_manager = new UnitOfWork();
 
         [HttpPut]
-        [Route("/api/{controller}/{id}")]
+        [Route("api/trainers/{id}")]
         public IHttpActionResult EditTrainer(int id)
         {
             IRepository<User> user_repo = transaction_manager.Repository<User>();
@@ -38,7 +38,7 @@ namespace Gym_Application.Controllers
         }
 
         [HttpPost]
-        [Route("/api/{controller}/{id}")]
+        [Route("api/trainers/{id}")]
         public IHttpActionResult AddTrainer(int id)
         {
             IRepository<User> user_repo = transaction_manager.Repository<User>();
@@ -66,7 +66,7 @@ namespace Gym_Application.Controllers
         }
 
         [HttpDelete]
-        [Route("/api/{controller}/{id}")]
+        [Route("api/trainers/{id}")]
         public IHttpActionResult DeleteTrainer(int id)
         {
             IRepository<User> user_repo = transaction_manager.Repository<User>();
