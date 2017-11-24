@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
-
+using System.Web.Http.Cors;
 using DAL.Repository;
 using DAL.Model;
 
@@ -14,6 +14,23 @@ namespace Gym_Application.Controllers
     {
         private UnitOfWork transaction_manager = new UnitOfWork();
 
+
+        [HttpGet]
+        [Route("api/trainers")]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IEnumerable<User> getTrainers()
+        {
+            IRepository<User> user_repo = transaction_manager.Repository<User>();
+            IEnumerable<User> users = user_repo.findAll();
+            List<User> trainers = new List<User>();
+            foreach(User user in users)
+            {
+                if (user.Role == Role.TRAINER)
+                    trainers.Add(user);
+            }
+
+            return trainers;
+        }
         [HttpPut]
         [Route("api/trainers/{id}")]
         public IHttpActionResult EditTrainer(int id)
