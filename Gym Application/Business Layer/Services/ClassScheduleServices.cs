@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using DAL.Repository;
 using DAL.Model;
+using Business_Layer.DTO;
+using Business_Layer.Mappers;
 
 namespace Business_Layer.Services
 {
@@ -62,6 +64,23 @@ namespace Business_Layer.Services
             IRepository<ClassSchedule> repo = UoW.Repository<ClassSchedule>();
             var ret = repo.findAll();
             return ret;
+        }
+
+
+        public IEnumerable<ScheduleDetailsModelView> findAllFrom(DateTime start, DateTime end)
+        {
+            ClassScheduleMapper mapper = new ClassScheduleMapper();
+            IEnumerable<ClassSchedule> all = UoW.Repository<ClassSchedule>().findAll();
+            List<ScheduleDetailsModelView> result = new List<ScheduleDetailsModelView>();
+            foreach( ClassSchedule schedule in all )
+            {
+                if( start <= schedule.Date && schedule.Date <= end )
+                {
+                    result.Add( mapper.ScheduleToScheduleDetails( schedule ) );
+                }
+            }
+            return result;
+            
         }
 
         public ClassSchedule findOne( int id )
