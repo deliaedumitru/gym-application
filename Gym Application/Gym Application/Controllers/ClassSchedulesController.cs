@@ -11,6 +11,7 @@ using System.Web.Http.Description;
 using DAL;
 using DAL.Model;
 using Business_Layer.Services;
+using System.Web.Http.Cors;
 
 namespace Gym_Application.Controllers
 {
@@ -120,6 +121,7 @@ namespace Gym_Application.Controllers
 
         // POST: api/ClassSchedules
         [ResponseType( typeof( ClassSchedule ) )]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult PostClassSchedule( ClassSchedule classSchedule )
         {
 
