@@ -8,7 +8,6 @@ import App from "./App";
 import LogIn from "./LogIn";
 import SignUp from "./SignUp";
 import Schedule from "./Schedule/Schedule";
-import ClassSchedule from "./ClassSchedule";
 
 class Main extends Component {
   render() {
