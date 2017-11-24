@@ -28,7 +28,7 @@ namespace Gym_Application.Controllers
                 else
                     return BadRequest();
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return NotFound();
             }
@@ -45,6 +45,23 @@ namespace Gym_Application.Controllers
                 var service = new UserServices();
                 BaseUserModelView account = service.GetOneAccountWithPassword(model);
                 return Ok(account);
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+        }
+
+        //returns the user with username & password BaseAccountModelView
+        [Route("api/users/{id_user}/enrolledClasses")]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpGet]
+        public IHttpActionResult EnrolledClasses(int id_user)
+        {
+            try
+            {
+                var service = new UserServices();
+                return Ok(service.EnrolledClassesIds(id_user));
             }
             catch (Exception)
             {

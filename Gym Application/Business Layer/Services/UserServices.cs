@@ -61,5 +61,19 @@ namespace Business_Layer.Services
                 return result;
             }
         }
+
+        public List<int> EnrolledClassesIds(int userId)
+        {
+            using(var uow = new UnitOfWork())
+            {
+                List<int> ids = new List<int>();
+                var user = uow.Repository<User>().GetById(userId);
+                foreach(ClassSchedule classSchedule in user.ClassScheduleForParticipant)
+                {
+                    ids.Add(classSchedule.Id);
+                }
+                return ids;
+            }
+        }
     }
 }

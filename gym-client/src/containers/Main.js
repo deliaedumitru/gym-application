@@ -7,6 +7,7 @@ import {
 import App from "./App";
 import LogIn from "./LogIn";
 import SignUp from "./SignUp";
+import Schedule from "./Schedule/Schedule";
 
 class Main extends Component {
   render() {
@@ -17,6 +18,7 @@ class Main extends Component {
             <ul className="logoul"><li>Gym App</li></ul>
             <ul className="header">
               <li className="home"><NavLink exact to="/">Home</NavLink></li>
+              <li><NavLink to="/Schedule/Schedule">Schedule</NavLink></li>  
               <li><NavLink to="/LogIn">Log In</NavLink></li>
               <li><NavLink to="/SignUp">Sign Up</NavLink></li>
             </ul>
@@ -25,6 +27,7 @@ class Main extends Component {
             <Route exact path="/" component={App}/>
             <Route path="/LogIn" component={LogIn}/>
             <Route path="/SignUp" component={SignUp}/>
+            <Route path="/Schedule/Schedule" component={Schedule}/>
           </div>
         </div>
       </HashRouter>
