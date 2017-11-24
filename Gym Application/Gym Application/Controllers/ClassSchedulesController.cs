@@ -61,13 +61,13 @@ namespace Gym_Application.Controllers
 
             } catch (Exception e)
             {
-                return InternalServerError();
+                return new System.Web.Http.Results.BadRequestErrorMessageResult( e.Message, this );
             }
         }
 
         // GET: api/ClassSchedules/5/participants
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        [ResponseType( typeof( IEnumerable<IdContainer> ) )]
+        [ResponseType( typeof( IEnumerable<int> ) )]
         [Route( "api/ClassSchedules/{id}/participants" )]
         public IHttpActionResult GetClassScheduleParticipants( int id )
         {
@@ -76,8 +76,8 @@ namespace Gym_Application.Controllers
             {
                 return NotFound();
             }
-            IEnumerable<IdContainer> CIds = from sch in classSchedule.ClassParticipants
-                                            select new IdContainer( sch.Id );
+            IEnumerable<int> CIds = from sch in classSchedule.ClassParticipants
+                                    select sch.Id;
 
             return Ok( CIds );
         }
@@ -198,15 +198,6 @@ namespace Gym_Application.Controllers
         private bool ClassScheduleExists( int id )
         {
             return ( service.findOne( id ) != null );
-        }
-    }
-
-    class IdContainer
-    {
-        public int Id { get; set; }
-        public IdContainer( int id )
-        {
-            Id = id;
         }
     }
 }

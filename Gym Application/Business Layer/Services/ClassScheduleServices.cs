@@ -69,21 +69,18 @@ namespace Business_Layer.Services
 
         public IEnumerable<ScheduleDetailsModelView> findAllFrom(DateTime start, DateTime end)
         {
-            using (var uow = new UnitOfWork())
+            ClassScheduleMapper mapper = new ClassScheduleMapper();
+            IEnumerable<ClassSchedule> all = UoW.Repository<ClassSchedule>().findAll();
+            List<ScheduleDetailsModelView> result = new List<ScheduleDetailsModelView>();
+            foreach( ClassSchedule schedule in all )
             {
-                ClassScheduleMapper mapper = new ClassScheduleMapper();
-
-                IEnumerable<ClassSchedule> all = uow.Repository<ClassSchedule>().findAll();
-                List<ScheduleDetailsModelView> result = new List<ScheduleDetailsModelView>();
-                foreach(ClassSchedule schedule in all)
+                if( start <= schedule.Date && schedule.Date <= end )
                 {
-                    if(start <= schedule.Date && schedule.Date <= end)
-                    {
-                        result.Add(mapper.ScheduleToScheduleDetails(schedule));
-                    }
+                    result.Add( mapper.ScheduleToScheduleDetails( schedule ) );
                 }
-                return result;
             }
+            return result;
+            
         }
 
         public ClassSchedule findOne( int id )
