@@ -7,6 +7,7 @@ import {
 import App from "./App";
 import LogIn from "./LogIn";
 import SignUp from "./SignUp";
+import {ClassSchedule} from "./AddClassShedule/index";
 
 class Main extends Component {
   render() {
@@ -19,12 +20,14 @@ class Main extends Component {
               <li className="home"><NavLink exact to="/">Home</NavLink></li>
               <li><NavLink to="/LogIn">Log In</NavLink></li>
               <li><NavLink to="/SignUp">Sign Up</NavLink></li>
+              <li><NavLink to="/Schedule">Schedule</NavLink></li>
             </ul>
           </div>
           <div className="content">
             <Route exact path="/" component={App}/>
             <Route path="/LogIn" component={LogIn}/>
             <Route path="/SignUp" component={SignUp}/>
+            <Route path="/Schedule" component={ClassSchedule}/>
           </div>
         </div>
       </HashRouter>
