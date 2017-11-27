@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Http.Cors;
 
 namespace Gym_Application.Controllers
 {
@@ -39,6 +40,10 @@ namespace Gym_Application.Controllers
             }
         }
 
+
+        [Route("api/classes")]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpGet]
         public IQueryable<BaseClassModelView> GetClass()
         {
             var service = new ClassServices();
