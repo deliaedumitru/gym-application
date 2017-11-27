@@ -7,12 +7,14 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.Http.Cors;
 
 namespace Gym_Application.Controllers
 {
     public class ClassController : ApiController
     {
         // POST: api/Class
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult PostClass([FromBody]ClassModelView classModel)
         {
             if (!ModelState.IsValid)
@@ -26,30 +28,48 @@ namespace Gym_Application.Controllers
         }
 
         // DELETE: api/Class/5
-        public IHttpActionResult DeleteClass( int id )
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IHttpActionResult DeleteClass(int id)
         {
             var service = new ClassServices();
             try
             {
-                BaseClassModelView model = service.deleteClass( id );
+                BaseClassModelView model = service.deleteClass(id);
                 return Ok(model);
             }
-            catch (Exception e){
+            catch (Exception e)
+            {
                 return NotFound();
             }
         }
 
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpGet]
         public IQueryable<BaseClassModelView> GetClass()
         {
             var service = new ClassServices();
             return service.getAllClasses();
         }
 
-        public BaseClassModelView GetClass( int id )
+        public BaseClassModelView GetClass(int id)
         {
             var service = new ClassServices();
-            return service.getByID( id );
+            return service.getByID(id);
         }
 
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPut]
+        [Route("api/Class/{id}")]
+        public IHttpActionResult PutClass([FromBody]ClassModelView classModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var service = new ClassServices();
+            BaseClassModelView model = service.editClass(classModel);
+            return Ok(model);
+        }
     }
 }

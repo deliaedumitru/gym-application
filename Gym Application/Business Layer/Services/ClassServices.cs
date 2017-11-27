@@ -14,7 +14,7 @@ namespace Business_Layer.Services
     {
         public BaseClassModelView addClass(ClassModelView classModel)
         {
-            using (var uow=new UnitOfWork())
+            using (var uow = new UnitOfWork())
             {
                 Class newclass = new ClassMapper().ClassMVToClass(classModel);
                 newclass.Name = classModel.Name;
@@ -26,12 +26,12 @@ namespace Business_Layer.Services
             }
         }
 
-        public BaseClassModelView deleteClass( int id )
+        public BaseClassModelView deleteClass(int id)
         {
             using (var uow = new UnitOfWork())
             {
-                Class delClass = uow.Repository<Class>().GetById( id );
-             
+                Class delClass = uow.Repository<Class>().GetById(id);
+
                 if (delClass != null)
                 {
                     uow.Repository<Class>().Delete(delClass);
@@ -42,7 +42,7 @@ namespace Business_Layer.Services
                 {
                     throw (new Exception("Class not found"));
                 }
-                
+
             }
         }
 
@@ -60,19 +60,33 @@ namespace Business_Layer.Services
             }
         }
 
-        public BaseClassModelView getByID( int id )
+        public BaseClassModelView getByID(int id)
         {
-            using( var uow = new UnitOfWork() )
+            using (var uow = new UnitOfWork())
             {
-                Class _class = uow.Repository<Class>().GetById( id );
-                if( _class != null )
+                Class _class = uow.Repository<Class>().GetById(id);
+                if (_class != null)
                 {
-                    return new ClassMapper().ClassToBaseClassMV( _class );
+                    return new ClassMapper().ClassToBaseClassMV(_class);
                 }
                 else
                 {
-                    throw ( new Exception( "Class not found" ) );
+                    throw (new Exception("Class not found"));
                 }
+            }
+        }
+
+        public BaseClassModelView editClass(ClassModelView classModel)
+        {
+            using (var uow = new UnitOfWork())
+            {
+                Class newclass = new ClassMapper().ClassMVToClass(classModel);
+                newclass.Name = classModel.Name;
+
+                uow.Repository<Class>().Update(newclass);
+                uow.Save();
+
+                return new ClassMapper().ClassToBaseClassMV(newclass);
             }
         }
     }

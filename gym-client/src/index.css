@@ -59,3 +59,23 @@ form {
 	overflow: hidden;
 	width: 100%;
 }
+
+table {
+  width: 100%;
+}
+
+th,
+td {
+  width: 100px;
+}
+
+thead>tr {
+  position: relative;
+  display: block;
+}
+
+tbody {
+  display: block;
+  height: 450px;
+  overflow: auto;
+}

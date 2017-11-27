@@ -30,19 +30,21 @@ class SignUp extends Component {
     let username = document.getElementById('userNameInput').value;
     let name = document.getElementById('nameInput').value;
     let email = document.getElementById('emailInput').value;
-    fetch('http://localhost:63288/api/users', {
+    fetch('http://localhost:63288/api/users/', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        username: username,
-        name: name,
-        email: email,
-        password: document.getElementById('passwordInput').value,
-        role: '2'
+        Username: username,
+        Name: name,
+        Role: '2',
+        Email: email,
+        Password: document.getElementById('passwordInput').value
       })
+    }).catch((err) => {
+        console.log(err + 'fuck you very muuuuuuuuuuch');
     })
   }
 
