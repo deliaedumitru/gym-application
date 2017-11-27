@@ -5,7 +5,7 @@ import ClassSchedule from './ClassSchedule.js'
 import 'whatwg-fetch';
 
 class Schedule extends Component {
-
+	
   constructor(props) {
     super(props);
     this.getMonday = this.getMonday.bind(this);
@@ -16,6 +16,7 @@ class Schedule extends Component {
         classes: [],
         loggedUserEnrolled: []
     }
+	this.userId = 3;
   }
 
   render() {
@@ -48,9 +49,8 @@ class Schedule extends Component {
     enrollToClassSchedule(e) {
         var scheduleId = e.target.id;
         //TODO: CHANGE WITH USER ID FROM LOCALSTORAGE!
-        var userId = 5;
-
-        let classSchedulesUrl = 'http://localhost:63288/api/ClassSchedules/' + scheduleId + '/participants/' + userId;
+        
+        let classSchedulesUrl = 'http://localhost:63288/api/ClassSchedules/' + scheduleId + '/participants/' + this.userId;
 
          fetch(classSchedulesUrl, { 
             method: 'POST',
@@ -69,7 +69,7 @@ class Schedule extends Component {
 
   componentDidMount() {
       let classSchedulesUrl = 'http://localhost:63288/api/classSchedules/details';
-      let userEnrolledUrl = 'http://localhost:63288/api/users/' + 5 + '/enrolledClasses';
+      let userEnrolledUrl = 'http://localhost:63288/api/users/' + this.userId + '/enrolledClasses';
 
       let monday = this.getMonday(new Date());
       let sunday = this.getSunday(monday);

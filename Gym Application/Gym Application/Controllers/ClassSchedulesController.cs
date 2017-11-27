@@ -43,7 +43,7 @@ namespace Gym_Application.Controllers
             return Ok( classSchedule );
         }
 
-        // GET: api/ClassSchedules/details
+        // POST: api/ClassSchedules/details
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [Route("api/ClassSchedules/details")]
         [HttpPost]
