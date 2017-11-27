@@ -21,7 +21,6 @@ class Main extends Component {
               <li><NavLink to="/Schedule/Schedule">Schedule</NavLink></li>  
               <li><NavLink to="/LogIn">Log In</NavLink></li>
               <li><NavLink to="/SignUp">Sign Up</NavLink></li>
-              <li><NavLink to="/ClassSchedule">Class Schedule</NavLink></li>
             </ul>
           </div>
           <div className="content">
@@ -29,7 +28,6 @@ class Main extends Component {
             <Route path="/LogIn" component={LogIn}/>
             <Route path="/SignUp" component={SignUp}/>
             <Route path="/Schedule/Schedule" component={Schedule}/>
-            <Route path="/ClassSchedule" component={ClassSchedule}/>
           </div>
         </div>
       </HashRouter>
