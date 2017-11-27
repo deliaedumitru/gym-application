@@ -8,7 +8,6 @@ import App from "./App";
 import LogIn from "./LogIn";
 import SignUp from "./SignUp";
 import Schedule from "./Schedule/Schedule";
-import {ClassSchedule} from "./AddClassShedule/index";
 
 class Main extends Component {
   render() {
@@ -22,7 +21,6 @@ class Main extends Component {
               <li><NavLink to="/Schedule/Schedule">Schedule</NavLink></li>  
               <li><NavLink to="/LogIn">Log In</NavLink></li>
               <li><NavLink to="/SignUp">Sign Up</NavLink></li>
-              <li><NavLink to="/Schedule">Schedule</NavLink></li>
             </ul>
           </div>
           <div className="content">
@@ -30,7 +28,6 @@ class Main extends Component {
             <Route path="/LogIn" component={LogIn}/>
             <Route path="/SignUp" component={SignUp}/>
             <Route path="/Schedule/Schedule" component={Schedule}/>
-            <Route path="/Schedule" component={ClassSchedule}/>
           </div>
         </div>
       </HashRouter>
