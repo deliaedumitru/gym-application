@@ -19,4 +19,24 @@ namespace Business_Layer.DTO
         public String Difficulty { get; set; }
         public String Room { get; set; }
     }
+
+    public class ScheduleListPerDays
+    {
+        public List<ScheduleDetailsModelView> Monday { get; set; }
+        public List<ScheduleDetailsModelView> Tuesday { get; set; }
+        public List<ScheduleDetailsModelView> Wednesday { get; set; }
+        public List<ScheduleDetailsModelView> Thursday { get; set; }
+        public List<ScheduleDetailsModelView> Friday { get; set; }
+        public List<ScheduleDetailsModelView> Saturday { get; set; }
+        
+        public ScheduleListPerDays()
+        {
+            Monday = new List<ScheduleDetailsModelView>();
+            Tuesday = new List<ScheduleDetailsModelView>();
+            Wednesday = new List<ScheduleDetailsModelView>();
+            Thursday = new List<ScheduleDetailsModelView>();
+            Friday = new List<ScheduleDetailsModelView>();
+            Saturday = new List<ScheduleDetailsModelView>();
+        }
+    }
 }

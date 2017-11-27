@@ -53,7 +53,7 @@ namespace Gym_Application.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    IEnumerable<ScheduleDetailsModelView> result = service.findAllFrom(dateSpan.StartDate, dateSpan.EndDate);
+                    ScheduleListPerDays result = service.findAllFrom(dateSpan.StartDate, dateSpan.EndDate);
                     return Ok(result);
                 }
                 else
