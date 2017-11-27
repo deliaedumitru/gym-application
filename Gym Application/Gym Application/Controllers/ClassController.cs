@@ -29,6 +29,8 @@ namespace Gym_Application.Controllers
 
         // DELETE: api/Class/5
         [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [Route( "api/Class/{id}" )]
+        [HttpDelete]
         public IHttpActionResult DeleteClass(int id)
         {
             var service = new ClassServices();
@@ -51,16 +53,26 @@ namespace Gym_Application.Controllers
             return service.getAllClasses();
         }
 
-        public BaseClassModelView GetClass(int id)
+        [EnableCors( origins: "*", headers: "*", methods: "*" )]
+        [HttpGet]
+        [Route( "api/Class/{id}" )]
+        public IHttpActionResult GetClass( int id )
         {
             var service = new ClassServices();
-            return service.getByID(id);
+            try
+            {
+                return Ok( service.getByID( id ) );
+            }
+            catch
+            {
+                return NotFound();
+            }
         }
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPut]
         [Route("api/Class/{id}")]
-        public IHttpActionResult PutClass([FromBody]ClassModelView classModel)
+        public IHttpActionResult PutClass(int id, [FromBody]ClassModelView classModel)
         {
             if (!ModelState.IsValid)
             {
@@ -68,8 +80,18 @@ namespace Gym_Application.Controllers
             }
 
             var service = new ClassServices();
-            BaseClassModelView model = service.editClass(classModel);
-            return Ok(model);
+            BaseClassModelView basemodel = new BaseClassModelView();
+            basemodel.Name = classModel.Name;
+            basemodel.Id = id;
+            try
+            {
+                BaseClassModelView model = service.editClass( basemodel );
+                return Ok( model );
+            }
+            catch (Exception e)
+            {
+                return NotFound();
+            }
         }
     }
 }

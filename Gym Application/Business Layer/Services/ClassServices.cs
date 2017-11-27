@@ -17,7 +17,6 @@ namespace Business_Layer.Services
             using (var uow = new UnitOfWork())
             {
                 Class newclass = new ClassMapper().ClassMVToClass(classModel);
-                newclass.Name = classModel.Name;
 
                 uow.Repository<Class>().Save(newclass);
                 uow.Save();
@@ -76,14 +75,14 @@ namespace Business_Layer.Services
             }
         }
 
-        public BaseClassModelView editClass(ClassModelView classModel)
+        public BaseClassModelView editClass( BaseClassModelView classModel )
         {
             using (var uow = new UnitOfWork())
             {
-                Class newclass = new ClassMapper().ClassMVToClass(classModel);
-                newclass.Name = classModel.Name;
+                Class newclass = new ClassMapper().ClassBMVToClass( classModel );
+                var repo = uow.Repository<Class>();
 
-                uow.Repository<Class>().Update(newclass);
+                repo.Update( newclass );
                 uow.Save();
 
                 return new ClassMapper().ClassToBaseClassMV(newclass);
