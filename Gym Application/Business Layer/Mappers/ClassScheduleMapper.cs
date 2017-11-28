@@ -14,6 +14,7 @@ namespace Business_Layer.Mappers
         {
             ScheduleDetailsModelView model = new ScheduleDetailsModelView();
             model.Capacity = schedule.Capacity;
+            model.AvailableCapacity = schedule.AvailableCapacity;
             model.ClassId = schedule.ClassId;
             model.ClassName = schedule.Class.Name;
             model.Date = schedule.Date;

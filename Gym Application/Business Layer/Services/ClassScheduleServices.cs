@@ -79,6 +79,7 @@ namespace Business_Layer.Services
                     result.Add(mapper.ScheduleToScheduleDetails(schedule));
                 }
             }
+            result = result.OrderBy(x => x.Date).ToList();
             return result;
             
         }

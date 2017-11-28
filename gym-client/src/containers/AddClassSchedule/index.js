@@ -8,7 +8,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 import 'react-datepicker/dist/react-datepicker-cssmodules.css'
 
 
-export class ClassSchedule extends React.Component {
+class ClassSchedule extends React.Component {
     constructor(props) {
         super(props);
         this.handleChangeDate = this.handleChangeDate.bind(this);
@@ -248,3 +248,6 @@ export class ClassSchedule extends React.Component {
         );
     }
 }
+
+
+export default ClassSchedule

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import logo from '../../images/logo.svg';
-import ClassSchedule from './ClassSchedule';
+import ClassScheduleItem from './ClassScheduleItem';
 import moment from 'moment';
 
 import 'whatwg-fetch';
@@ -22,7 +22,8 @@ class Schedule extends Component {
         }
         
         //TODO: CHANGE WITH USER ID FROM LOCALSTORAGE!
-        this.userId = 7;
+
+        this.userId = JSON.parse(localStorage.getItem("user")).id;
     }
 
     render() {
@@ -33,24 +34,23 @@ class Schedule extends Component {
         let fridayClasses = [];
         let saturdayClasses = [];   
 
-        console.log(this.state.loggedUserEnrolled);
-
         for(var i = 0; i < this.state.classes.length; i++) {
             let classSchedule = this.state.classes[i];
             let element = null;
+            
             if(this.containsElement(classSchedule.Id) === false) {
                 element = (
                     <div className="classItem"  key={classSchedule.Id}>
-                        <ClassSchedule scheduleId={classSchedule.Id} name={classSchedule.ClassName} room={classSchedule.Room} 
-                        capacity={classSchedule.Capacity} date={classSchedule.Date}/>
+                        <ClassScheduleItem scheduleId={classSchedule.Id} name={classSchedule.ClassName} room={classSchedule.Room} 
+                        capacity={classSchedule.AvailableCapacity} date={classSchedule.Date}/>
                         <button id={classSchedule.Id} type="button" className="btn" onClick={this.enrollToClassSchedule}>Enroll</button>
                     </div>
                 );
             } else {
                  element = (
                     <div className="classItem" key={classSchedule.Id}>
-                        <ClassSchedule scheduleId={classSchedule.Id} name={classSchedule.ClassName} room={classSchedule.Room} 
-                        capacity={classSchedule.Capacity} date={classSchedule.Date}/>
+                        <ClassScheduleItem scheduleId={classSchedule.Id} name={classSchedule.ClassName} room={classSchedule.Room} 
+                        capacity={classSchedule.AvailableCapacity} date={classSchedule.Date}/>
                         <button id={classSchedule.Id} type="button" className="btn" onClick={this.unenrollToClassSchedule}>Unenroll</button>
                     </div>
                 );
@@ -81,7 +81,7 @@ class Schedule extends Component {
         if(this.state && this.state.classes && this.state.loggedUserEnrolled) {
             return (
                 <div className="schedule">
-                    <table>
+                    <table className="center">
                         <thead>
                             <tr>
                                 <th>Monday</th>
@@ -129,7 +129,13 @@ class Schedule extends Component {
                     </table>
                 </div>
             );
-        } else return <p>Loading...</p>
+        } else
+        //fa fa-spinner fa-spin needs bootstrap
+         return (
+            <div className="loading">
+                <i className="fa fa-spinner fa-spin"></i> 
+                <span>Loading...</span>
+            </div>)
     }
 
 
@@ -146,6 +152,12 @@ class Schedule extends Component {
         })
         .then()
         .then(responseData => {
+            for(var i = 0; i < this.state.classes.length; i++) {
+                if(this.state.classes[i].Id == scheduleId) {
+                    this.state.classes[i].AvailableCapacity = this.state.classes[i].AvailableCapacity - 1;
+                }
+            }
+            this.forceUpdate();
             this.loadEnrolledClasses();
         })
         .catch((error) => {
@@ -165,6 +177,12 @@ class Schedule extends Component {
         })
         .then()
         .then(responseData => {
+            for(var i = 0; i < this.state.classes.length; i++) {
+                if(this.state.classes[i].Id == scheduleId) {
+                    this.state.classes[i].AvailableCapacity = this.state.classes[i].AvailableCapacity + 1;
+                }
+            }
+            this.forceUpdate();
             this.loadEnrolledClasses();
         })
         .catch((error) => {
@@ -242,7 +260,7 @@ class Schedule extends Component {
     containsElement(e) {
         var found = false;
         for(var i = 0; i < this.state.loggedUserEnrolled.length; i++) {
-            if (this.state.loggedUserEnrolled[i] == e) {
+            if (this.state.loggedUserEnrolled[i] === e) {
                 found = true;
                 break;
             }
