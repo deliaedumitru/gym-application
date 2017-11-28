@@ -18,5 +18,6 @@ namespace Business_Layer.DTO
         public int? Capacity { get; set; }
         public String Difficulty { get; set; }
         public String Room { get; set; }
+        public String DayOfWeek { get; set; }
     }
 }

@@ -30,7 +30,7 @@ namespace Gym_Application.Controllers
             }
             catch (Exception e)
             {
-                return NotFound();
+                return ResponseMessage(Request.CreateErrorResponse(HttpStatusCode.NotAcceptable, e.Message));
             }
         }
 
@@ -52,7 +52,7 @@ namespace Gym_Application.Controllers
             }
         }
 
-        //returns the user with username & password BaseAccountModelView
+        //returns the classes for which the user is enrolled
         [Route("api/users/{id_user}/enrolledClasses")]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]

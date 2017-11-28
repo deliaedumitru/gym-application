@@ -25,6 +25,7 @@ namespace DAL.Model
 
         [Required]
         [StringLength(40)]
+        [Index(IsUnique = true)]
         public string Username { get; set; }
 
         public Role Role { get; set; }

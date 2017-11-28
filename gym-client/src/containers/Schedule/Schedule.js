@@ -20,8 +20,9 @@ class Schedule extends Component {
             classes: [],
             loggedUserEnrolled: null
         }
-
-        this.userId = 5;
+        
+        //TODO: CHANGE WITH USER ID FROM LOCALSTORAGE!
+        this.userId = 7;
     }
 
     render() {
@@ -69,6 +70,13 @@ class Schedule extends Component {
                 saturdayClasses.push(element);
             }
         } 
+
+        if(mondayClasses.length === 0) mondayClasses = <p>No classes this day!</p>
+        if(tuesdayClasses.length === 0) tuesdayClasses = <p>No classes this day!</p>
+        if(wednesdayClasses.length === 0) wednesdayClasses = <p>No classes this day!</p>
+        if(thursdayClasses.length === 0) thursdayClasses = <p>No classes this day!</p>
+        if(fridayClasses.length === 0) fridayClasses = <p>No classes this day!</p>
+        if(saturdayClasses.length === 0) saturdayClasses = <p>No classes this day!</p>
 
         if(this.state && this.state.classes && this.state.loggedUserEnrolled) {
             return (
@@ -127,8 +135,7 @@ class Schedule extends Component {
 
     enrollToClassSchedule(e) {
         var scheduleId = e.target.id;
-        //TODO: CHANGE WITH USER ID FROM LOCALSTORAGE!
-        
+
         let enrollUserUrl = 'http://localhost:63288/api/ClassSchedules/' + scheduleId + '/participants/' + this.userId;
 
         fetch(enrollUserUrl, { 
@@ -139,9 +146,7 @@ class Schedule extends Component {
         })
         .then()
         .then(responseData => {
-            let enrolledClasses = this.state.loggedUserEnrolled;
-            enrolledClasses.push(scheduleId);
-            this.setState({ loggedUserEnrolled: enrolledClasses });
+            this.loadEnrolledClasses();
         })
         .catch((error) => {
             console.error(error); 
@@ -150,7 +155,6 @@ class Schedule extends Component {
 
     unenrollToClassSchedule(e) {
         var scheduleId = e.target.id;
-        //TODO: CHANGE WITH USER ID FROM LOCALSTORAGE!
 
         let unenrollUserUrl = 'http://localhost:63288/api/ClassSchedules/' + scheduleId + '/participants/' + this.userId;
         fetch(unenrollUserUrl, { 
@@ -161,9 +165,7 @@ class Schedule extends Component {
         })
         .then()
         .then(responseData => {
-            let enrolledClasses = this.state.loggedUserEnrolled;
-            enrolledClasses.pop(scheduleId);
-            this.setState({ loggedUserEnrolled: enrolledClasses });
+            this.loadEnrolledClasses();
         })
         .catch((error) => {
             console.error(error); 

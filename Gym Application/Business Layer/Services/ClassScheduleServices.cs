@@ -111,6 +111,7 @@ namespace Business_Layer.Services
             if( classSchedule.ClassParticipants.Count < classSchedule.Capacity )
             {
                 classSchedule.ClassParticipants.Add( user );
+                classSchedule.AvailableCapacity = classSchedule.AvailableCapacity - 1;
                 CSrepo.Update( classSchedule );
                 UoW.Save();
             }
@@ -139,7 +140,9 @@ namespace Business_Layer.Services
             }
 
             classSchedule.ClassParticipants.Remove( user );
+            classSchedule.AvailableCapacity = classSchedule.AvailableCapacity + 1;
             CSrepo.Update( classSchedule );
+
             UoW.Save();
             
         }
