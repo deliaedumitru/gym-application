@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import logo from '../../images/logo.svg';
+import ClassSchedule from './ClassSchedule';
+import moment from 'moment';
+
 import 'whatwg-fetch';
+import './Schedule.css'
 
 class Schedule extends Component {
 	
@@ -13,126 +17,111 @@ class Schedule extends Component {
         this.containsElement = this.containsElement.bind(this);
 
         this.state = {
-            mondayClasses: [],
-            tuesdayClasses: [],
-            wednesdayClasses: [],
-            thursdayClasses: [],
-            fridayClasses: [],
-            saturdayClasses: [],
-
-            loggedUserEnrolled: []
+            classes: [],
+            loggedUserEnrolled: null
         }
 
         this.userId = 5;
-
-        this.loadSchedule();
-        this.loadEnrolledClasses();
     }
 
     render() {
+        let mondayClasses = [];
+        let tuesdayClasses = [];
+        let wednesdayClasses = [];
+        let thursdayClasses = [];    
+        let fridayClasses = [];
+        let saturdayClasses = [];   
+
         console.log(this.state.loggedUserEnrolled);
-        // let button = null;
-        // if(classSchedule.Id === 2) {
-        //     button = <button id={classSchedule.Id} type="button" className="btn" onClick={this.enrollToClassSchedule}>Enroll</button>
-        // } else {
-        //     button = <button id={classSchedule.Id} type="button" className="btn" onClick={this.unenrollToClassSchedule}>Unenroll</button>
-        // }
-        // const listItems = this.state.classes.Monday.map(classesPerDay =>
-        //     <p></p>
-        //     // console.log(classesPerDay)
-        // );
 
-        const mondayClasses = (
-            this.state.mondayClasses.map((classSchedule) => {
-                return this.containsElement(classSchedule.Id) === true ?
-                    <div className="classScheduleItem" key={classSchedule.Id}>
-                        <p>{classSchedule.Id}</p>
-                        <p>{classSchedule.ClassName}</p>
-                        <button id={classSchedule.Id} type="button" className="btn" onClick={this.unenrollToClassSchedule}>Unenroll</button>
-                    </div>
-                : <div className="classScheduleItem" key={classSchedule.Id}>
-                        <p>{classSchedule.Id}</p>
-                        <p>{classSchedule.ClassName}</p>
+        for(var i = 0; i < this.state.classes.length; i++) {
+            let classSchedule = this.state.classes[i];
+            let element = null;
+            if(this.containsElement(classSchedule.Id) === false) {
+                element = (
+                    <div className="classItem"  key={classSchedule.Id}>
+                        <ClassSchedule scheduleId={classSchedule.Id} name={classSchedule.ClassName} room={classSchedule.Room} 
+                        capacity={classSchedule.Capacity} date={classSchedule.Date}/>
                         <button id={classSchedule.Id} type="button" className="btn" onClick={this.enrollToClassSchedule}>Enroll</button>
                     </div>
-            })
-        );
-
-        const tuesdayClasses = (
-            this.state.tuesdayClasses.map((classSchedule) =>{
-                 return this.containsElement(classSchedule.Id) === true 
-                    ?
-                    <div className="classScheduleItem" key={classSchedule.Id}>
-                        <p>{classSchedule.Id}</p>
-                        <p>{classSchedule.ClassName}</p>
+                );
+            } else {
+                 element = (
+                    <div className="classItem" key={classSchedule.Id}>
+                        <ClassSchedule scheduleId={classSchedule.Id} name={classSchedule.ClassName} room={classSchedule.Room} 
+                        capacity={classSchedule.Capacity} date={classSchedule.Date}/>
                         <button id={classSchedule.Id} type="button" className="btn" onClick={this.unenrollToClassSchedule}>Unenroll</button>
                     </div>
-                    : 
-                    <div className="classScheduleItem" key={classSchedule.Id}>
-                        <p>{classSchedule.Id}</p>
-                        <p>{classSchedule.ClassName}</p>
-                        <button id={classSchedule.Id} type="button" className="btn" onClick={this.enrollToClassSchedule}>Enroll</button>
-                    </div>
-            })
-        );
+                );
+            }
 
-        const wednesdayClasses = (
-            this.state.wednesdayClasses.map((classSchedule) => {
-                 return this.containsElement(classSchedule.Id) === true 
-                    ?
-                    <div className="classScheduleItem" key={classSchedule.Id}>
-                        <p>{classSchedule.Id}</p>
-                        <p>{classSchedule.ClassName}</p>
-                        <button id={classSchedule.Id} type="button" className="btn" onClick={this.unenrollToClassSchedule}>Unenroll</button>
-                    </div>
-                    : 
-                    <div className="classScheduleItem" key={classSchedule.Id}>
-                        <p>{classSchedule.Id}</p>
-                        <p>{classSchedule.ClassName}</p>
-                        <button id={classSchedule.Id} type="button" className="btn" onClick={this.enrollToClassSchedule}>Enroll</button>
-                    </div>
-            })
-        );
+            if(classSchedule.DayOfWeek === 'Monday') {
+                mondayClasses.push(element);
+            } else if (classSchedule.DayOfWeek === 'Tuesday') {
+                tuesdayClasses.push(element);
+            } else if (classSchedule.DayOfWeek === 'Wednesday') {
+                wednesdayClasses.push(element);
+            } else if (classSchedule.DayOfWeek === 'Thursday') {
+                thursdayClasses.push(element);
+            } else if (classSchedule.DayOfWeek === 'Friday') {
+                fridayClasses.push(element);
+            } else if (classSchedule.DayOfWeek === 'Saturday') {
+                saturdayClasses.push(element);
+            }
+        } 
 
-
-        return (
-            <div className="schedule">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Monday</th>
-                            <th>Tuesday</th> 
-                            <th>Wednesday</th>
-                            <th>Thursday</th>
-                            <th>Friday</th>
-                            <th>Saturday</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td id="monday">
-                                <div className="scheduleDayList">
-                                    {mondayClasses}
-                                </div>
-                            </td>
-                            <td id="tuesday">
-                                <div className="scheduleDayList">
-                                    {tuesdayClasses}
-                                </div>
-                            </td>
-                            <td id="wednesday">
-                                <div className="scheduleDayList">
-                                    {wednesdayClasses}
-                                </div>
-                            </td>
-                            <td id="thursday">Jill</td>
-                            <td id="friday">Jill</td>
-                            <td id="saturday">Jill</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        );
+        if(this.state && this.state.classes && this.state.loggedUserEnrolled) {
+            return (
+                <div className="schedule">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Monday</th>
+                                <th>Tuesday</th> 
+                                <th>Wednesday</th>
+                                <th>Thursday</th>
+                                <th>Friday</th>
+                                <th>Saturday</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div className="listOfClassItems">
+                                        {mondayClasses}
+                                    </div>
+                                </td>
+                                <td>
+                                    <div className="listOfClassItems">
+                                        {tuesdayClasses}
+                                    </div>
+                                </td>
+                                <td>
+                                    <div className="listOfClassItems">
+                                        {wednesdayClasses}
+                                    </div>
+                                </td>
+                                <td>
+                                    <div className="listOfClassItems">
+                                        {thursdayClasses}
+                                    </div>
+                                </td>
+                                <td>
+                                    <div className="listOfClassItems">
+                                        {fridayClasses}
+                                    </div>
+                                </td>
+                                <td>
+                                    <div className="listOfClassItems">
+                                        {saturdayClasses}
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            );
+        } else return <p>Loading...</p>
     }
 
 
@@ -140,23 +129,45 @@ class Schedule extends Component {
         var scheduleId = e.target.id;
         //TODO: CHANGE WITH USER ID FROM LOCALSTORAGE!
         
-        let classSchedulesUrl = 'http://localhost:63288/api/ClassSchedules/' + scheduleId + '/participants/' + this.userId;
+        let enrollUserUrl = 'http://localhost:63288/api/ClassSchedules/' + scheduleId + '/participants/' + this.userId;
 
-        fetch(classSchedulesUrl, { 
+        fetch(enrollUserUrl, { 
             method: 'POST',
             headers: {
                 'Accept': 'application/json'
             }
-            })
+        })
         .then()
-        .then()
+        .then(responseData => {
+            let enrolledClasses = this.state.loggedUserEnrolled;
+            enrolledClasses.push(scheduleId);
+            this.setState({ loggedUserEnrolled: enrolledClasses });
+        })
         .catch((error) => {
             console.error(error); 
         });
     }
 
     unenrollToClassSchedule(e) {
-            console.log("unenroll");
+        var scheduleId = e.target.id;
+        //TODO: CHANGE WITH USER ID FROM LOCALSTORAGE!
+
+        let unenrollUserUrl = 'http://localhost:63288/api/ClassSchedules/' + scheduleId + '/participants/' + this.userId;
+        fetch(unenrollUserUrl, { 
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json'
+            }
+        })
+        .then()
+        .then(responseData => {
+            let enrolledClasses = this.state.loggedUserEnrolled;
+            enrolledClasses.pop(scheduleId);
+            this.setState({ loggedUserEnrolled: enrolledClasses });
+        })
+        .catch((error) => {
+            console.error(error); 
+        });
     }
   
     loadEnrolledClasses() {
@@ -193,12 +204,7 @@ class Schedule extends Component {
             })})
         .then(response => response.json())
         .then(responseData => {
-            this.setState({ mondayClasses: responseData.Monday });
-            this.setState({ tuesdayClasses: responseData.Tuesday });
-            this.setState({ wednesdayClasses: responseData.Wednesday });
-            this.setState({ thursdayClasses: responseData.Thursday });
-            this.setState({ fridayClasses: responseData.Friday });
-            this.setState({ saturdayClasses: responseData.Saturday });
+            this.setState({ classes: responseData });
         })
         .catch((error) => {
             console.error(error); 
@@ -209,20 +215,32 @@ class Schedule extends Component {
         d = new Date(d);
         var day = d.getDay(),
             diff = d.getDate() - day + (day === 0 ? - 6:1); // adjust when day is sunday
-        return new Date(d.setDate(diff));
+        d.setDate(diff)
+        var m = moment(d);
+        m.set('hour', 0);
+        m.set('minute', 0);
+        m.set('second', 0);
+        m.set('millisecond', 0);
+        return m;
     }
 
     getSunday(d) {
         d = new Date(d);
         var day = d.getDay(),
             diff = d.getDate() - day + 7; // adjust when day is sunday
-        return new Date(d.setDate(diff));
+        d.setDate(diff)
+        var m = moment(d);
+        m.set('hour', 23);
+        m.set('minute', 59);
+        m.set('second', 59);
+        m.set('millisecond', 0);
+        return m;
     }
 
-    containsElement(id) {
+    containsElement(e) {
         var found = false;
         for(var i = 0; i < this.state.loggedUserEnrolled.length; i++) {
-            if (this.state.loggedUserEnrolled[i] == id) {
+            if (this.state.loggedUserEnrolled[i] == e) {
                 found = true;
                 break;
             }
@@ -231,6 +249,8 @@ class Schedule extends Component {
     }
 
     componentDidMount() {
+        this.loadSchedule();
+        this.loadEnrolledClasses();
     }
   
 }

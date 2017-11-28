@@ -1,18 +1,16 @@
 import React from 'react';
-import './ClassSchedule.css';
 
-const ClassSchedule = props => {
-    
-
-    return(
-        <li key={props.scheduleId}>
-            <h3>{props.name}</h3>
-            <p>{props.date}</p>
-            <p>Room {props.room} <br/>
-            {props.capacity} places left</p>
-            <button type="button" className="btn" onClick={props.click}>Sign up</button>
-        </li>
-    );
+class ClassSchedule extends React.Component {
+    render() {
+        return(
+            <div>
+                <h3>{this.props.name}</h3>
+                <p>{this.props.date}</p>
+                <p>Room {this.props.room} <br/>
+                {this.props.capacity} places left</p>
+            </div>
+        );
+    }
 }
 
 export default ClassSchedule

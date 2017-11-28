@@ -22,6 +22,7 @@ namespace Business_Layer.Mappers
             model.TrainerId = schedule.TrainerId;
             model.TrainerName = schedule.Trainer.Name;
             model.Room = schedule.Room;
+            model.DayOfWeek = schedule.Date.DayOfWeek.ToString();
             return model;
         }
     }

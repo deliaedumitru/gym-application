@@ -67,28 +67,16 @@ namespace Business_Layer.Services
         }
 
 
-        public ScheduleListPerDays findAllFrom(DateTime start, DateTime end)
+        public List<ScheduleDetailsModelView> findAllFrom(DateTime start, DateTime end)
         {
             ClassScheduleMapper mapper = new ClassScheduleMapper();
             IEnumerable<ClassSchedule> all = UoW.Repository<ClassSchedule>().findAll();
-            ScheduleListPerDays result = new ScheduleListPerDays();
+            List<ScheduleDetailsModelView> result = new List<ScheduleDetailsModelView>();
             foreach(ClassSchedule schedule in all )
             {
                 if( start <= schedule.Date && schedule.Date <= end )
                 {
-                    ScheduleDetailsModelView model = mapper.ScheduleToScheduleDetails(schedule);
-                    if (model.Date.DayOfWeek == DayOfWeek.Monday)
-                        result.Monday.Add(model);
-                    if (model.Date.DayOfWeek == DayOfWeek.Tuesday)
-                        result.Tuesday.Add(model);
-                    if (model.Date.DayOfWeek == DayOfWeek.Wednesday)
-                        result.Wednesday.Add(model);
-                    if (model.Date.DayOfWeek == DayOfWeek.Thursday)
-                        result.Thursday.Add(model);
-                    if (model.Date.DayOfWeek == DayOfWeek.Friday)
-                        result.Friday.Add(model);
-                    if (model.Date.DayOfWeek == DayOfWeek.Saturday)
-                        result.Saturday.Add(model);
+                    result.Add(mapper.ScheduleToScheduleDetails(schedule));
                 }
             }
             return result;
