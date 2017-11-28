@@ -3,6 +3,10 @@ table.center {
     margin-right:auto;
   }
 
+p.center {
+    text-align: center;
+}
+
 table {
     border-collapse: collapse;
 }

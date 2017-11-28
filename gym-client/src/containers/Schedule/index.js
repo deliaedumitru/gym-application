@@ -15,15 +15,18 @@ class Schedule extends Component {
         this.enrollToClassSchedule = this.enrollToClassSchedule.bind(this);
         this.unenrollToClassSchedule = this.unenrollToClassSchedule.bind(this);
         this.containsElement = this.containsElement.bind(this);
+        this.loadCurrentWeek = this.loadCurrentWeek.bind(this);
+        this.loadNextWeek = this.loadNextWeek.bind(this);
 
         this.state = {
             classes: [],
             loggedUserEnrolled: null
         }
-        
-        //TODO: CHANGE WITH USER ID FROM LOCALSTORAGE!
-
-        this.userId = JSON.parse(localStorage.getItem("user")).id;
+        if(JSON.parse(localStorage.getItem("user"))) {
+            this.userId = JSON.parse(localStorage.getItem("user")).id;
+        } else {
+            this.userId = null;
+        }
     }
 
     render() {
@@ -78,9 +81,10 @@ class Schedule extends Component {
         if(fridayClasses.length === 0) fridayClasses = <p>No classes this day!</p>
         if(saturdayClasses.length === 0) saturdayClasses = <p>No classes this day!</p>
 
-        if(this.state && this.state.classes && this.state.loggedUserEnrolled) {
+        if(this.state && this.state.classes) {
             return (
                 <div className="schedule">
+                    <p className="center"><button onClick={this.loadCurrentWeek}>Current week</button>  |  <button onClick={this.loadNextWeek}>Next week</button></p>
                     <table className="center">
                         <thead>
                             <tr>
@@ -140,78 +144,82 @@ class Schedule extends Component {
 
 
     enrollToClassSchedule(e) {
-        var scheduleId = e.target.id;
+        if(this.userId) {
+            var scheduleId = e.target.id;
 
-        let enrollUserUrl = 'http://localhost:63288/api/ClassSchedules/' + scheduleId + '/participants/' + this.userId;
+            let enrollUserUrl = 'http://localhost:63288/api/ClassSchedules/' + scheduleId + '/participants/' + this.userId;
 
-        fetch(enrollUserUrl, { 
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json'
-            }
-        })
-        .then()
-        .then(responseData => {
-            for(var i = 0; i < this.state.classes.length; i++) {
-                if(this.state.classes[i].Id == scheduleId) {
-                    this.state.classes[i].AvailableCapacity = this.state.classes[i].AvailableCapacity - 1;
+            fetch(enrollUserUrl, { 
+                method: 'POST',
+                headers: {
+                    'Accept': 'application/json'
                 }
-            }
-            this.forceUpdate();
-            this.loadEnrolledClasses();
-        })
-        .catch((error) => {
-            console.error(error); 
-        });
+            })
+            .then()
+            .then(responseData => {
+                for(var i = 0; i < this.state.classes.length; i++) {
+                    if(this.state.classes[i].Id == scheduleId) {
+                        this.state.classes[i].AvailableCapacity = this.state.classes[i].AvailableCapacity - 1;
+                    }
+                }
+                this.forceUpdate();
+                this.loadEnrolledClasses();
+            })
+            .catch((error) => {
+                console.error(error); 
+            });
+        } //SHOW ERROR MESSAGE: NOT LOGGED IN!
     }
 
     unenrollToClassSchedule(e) {
-        var scheduleId = e.target.id;
+        if(this.userId) {
+            var scheduleId = e.target.id;
 
-        let unenrollUserUrl = 'http://localhost:63288/api/ClassSchedules/' + scheduleId + '/participants/' + this.userId;
-        fetch(unenrollUserUrl, { 
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json'
-            }
-        })
-        .then()
-        .then(responseData => {
-            for(var i = 0; i < this.state.classes.length; i++) {
-                if(this.state.classes[i].Id == scheduleId) {
-                    this.state.classes[i].AvailableCapacity = this.state.classes[i].AvailableCapacity + 1;
+            let unenrollUserUrl = 'http://localhost:63288/api/ClassSchedules/' + scheduleId + '/participants/' + this.userId;
+            fetch(unenrollUserUrl, { 
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json'
                 }
-            }
-            this.forceUpdate();
-            this.loadEnrolledClasses();
-        })
-        .catch((error) => {
-            console.error(error); 
-        });
+            })
+            .then()
+            .then(responseData => {
+                for(var i = 0; i < this.state.classes.length; i++) {
+                    if(this.state.classes[i].Id == scheduleId) {
+                        this.state.classes[i].AvailableCapacity = this.state.classes[i].AvailableCapacity + 1;
+                    }
+                }
+                this.forceUpdate();
+                this.loadEnrolledClasses();
+            })
+            .catch((error) => {
+                console.error(error); 
+            });
+        }
     }
   
     loadEnrolledClasses() {
-        let userEnrolledUrl = 'http://localhost:63288/api/users/' + this.userId + '/enrolledClasses';
+        if(this.userId) {
+            let userEnrolledUrl = 'http://localhost:63288/api/users/' + this.userId + '/enrolledClasses';
 
-        fetch(userEnrolledUrl, { 
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json'
-            }
-            }) 
-        .then(response => response.json())
-        .then(responseData => {
-            this.setState({ loggedUserEnrolled: responseData });
-        })
-        .catch((error) => {
-            console.error(error); 
-        });
+            fetch(userEnrolledUrl, { 
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json'
+                }
+                }) 
+            .then(response => response.json())
+            .then(responseData => {
+                this.setState({ loggedUserEnrolled: responseData });
+            })
+            .catch((error) => {
+                console.error(error); 
+            });
+        }
     }
 
-    loadSchedule() {
+    loadSchedule(monday, sunday) {
         let classSchedulesUrl = 'http://localhost:63288/api/classSchedules/details';
-        let monday = this.getMonday(new Date());
-        let sunday = this.getSunday(monday);
 
         fetch(classSchedulesUrl, { 
             method: 'POST',
@@ -258,6 +266,7 @@ class Schedule extends Component {
     }
 
     containsElement(e) {
+        if(!this.state.loggedUserEnrolled) return false;
         var found = false;
         for(var i = 0; i < this.state.loggedUserEnrolled.length; i++) {
             if (this.state.loggedUserEnrolled[i] === e) {
@@ -268,8 +277,25 @@ class Schedule extends Component {
         return found;
     }
 
+    loadCurrentWeek() {
+        let monday = this.getMonday(new Date());
+        let sunday = this.getSunday(monday);
+        this.loadSchedule(monday, sunday);
+        this.loadEnrolledClasses();
+    }
+
+    loadNextWeek() {
+        let monday = this.getMonday(new Date()).add(7, "day");
+        let sunday = this.getSunday(monday).add(7, "day");
+        this.loadSchedule(monday, sunday);
+        this.loadEnrolledClasses();
+    }
+
+
     componentDidMount() {
-        this.loadSchedule();
+        let monday = this.getMonday(new Date());
+        let sunday = this.getSunday(monday);
+        this.loadSchedule(monday, sunday);
         this.loadEnrolledClasses();
     }
   
