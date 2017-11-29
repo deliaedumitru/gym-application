@@ -16,7 +16,9 @@ namespace Business_Layer.DTO
         public String TrainerName { get; set; }
         public DateTime Date { get; set; }
         public int? Capacity { get; set; }
+        public int? AvailableCapacity { get; set; }
         public String Difficulty { get; set; }
         public String Room { get; set; }
+        public String DayOfWeek { get; set; }
     }
 }

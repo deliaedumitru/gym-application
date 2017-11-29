@@ -3,7 +3,7 @@ namespace DAL.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class Initial : DbMigration
+    public partial class Initialmigration : DbMigration
     {
         public override void Up()
         {
@@ -24,6 +24,7 @@ namespace DAL.Migrations
                         ClassId = c.Int(nullable: false),
                         Date = c.DateTime(nullable: false),
                         Capacity = c.Int(),
+                        AvailableCapacity = c.Int(),
                         Room = c.String(maxLength: 50),
                         Difficulty = c.Int(nullable: false),
                         TrainerId = c.Int(nullable: false),
@@ -42,21 +43,24 @@ namespace DAL.Migrations
                         Username = c.String(nullable: false, maxLength: 40),
                         Role = c.Int(nullable: false),
                         Name = c.String(maxLength: 200),
-                        Password = c.String(nullable: false, maxLength: 40),
+                        PasswordSalt = c.Binary(nullable: false),
+                        PasswordHash = c.Binary(nullable: false),
                         Email = c.String(nullable: false, maxLength: 255),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.Id)
+                .Index(t => t.Username, unique: true);
             
             CreateTable(
                 "dbo.Feedback",
                 c => new
                     {
+                        Id = c.Int(nullable: false, identity: true),
                         TrainerId = c.Int(nullable: false),
                         UserId = c.Int(nullable: false),
                         Text = c.String(nullable: false, maxLength: 1500),
                         Rating = c.Short(nullable: false),
                     })
-                .PrimaryKey(t => new { t.TrainerId, t.UserId })
+                .PrimaryKey(t => t.Id)
                 .ForeignKey("dbo.Users", t => t.TrainerId)
                 .ForeignKey("dbo.Users", t => t.UserId)
                 .Index(t => t.TrainerId)
@@ -156,6 +160,7 @@ namespace DAL.Migrations
             DropIndex("dbo.PersonalSchedule", new[] { "ParticipantId" });
             DropIndex("dbo.Feedback", new[] { "UserId" });
             DropIndex("dbo.Feedback", new[] { "TrainerId" });
+            DropIndex("dbo.Users", new[] { "Username" });
             DropIndex("dbo.ClassSchedule", new[] { "TrainerId" });
             DropIndex("dbo.ClassSchedule", new[] { "ClassId" });
             DropTable("dbo.ClassTrainer");

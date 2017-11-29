@@ -31,6 +31,9 @@ namespace DAL.Model
         public int? Capacity { get; set; }
 
         [DataMember]
+        public int? AvailableCapacity { get; set; }
+
+        [DataMember]
         [StringLength(50)]
         public string Room { get; set; }
 

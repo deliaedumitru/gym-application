@@ -5,10 +5,10 @@ import {
   HashRouter
 } from "react-router-dom";
 import App from "./App";
-import LogIn from "./LogIn";
-import SignUp from "./SignUp";
-import Schedule from "./Schedule/Schedule";
-import ClassSchedule from "./AddClassShedule/index";
+import LogIn from "./LogIn/LogIn";
+import SignUp from "./SignUp/SignUp";
+import Schedule from "./Schedule/index.js";
+import ClassSchedule from "./AddClassSchedule/index.js"
 
 class Main extends Component {
   render() {
@@ -19,8 +19,8 @@ class Main extends Component {
             <ul className="logoul"><li>Gym App</li></ul>
             <ul className="header">
               <li className="home"><NavLink exact to="/">Home</NavLink></li>
-              <li><NavLink to="/Schedule/Schedule">Schedule</NavLink></li> 
-              <li><NavLink to="/AddClassShedule/">Class Schedule</NavLink></li>  
+              <li><NavLink to="/Schedule">Schedule</NavLink></li>  
+              <li><NavLink to="/AddSchedule">Add schedule</NavLink></li>  
               <li><NavLink to="/LogIn">Log In</NavLink></li>
               <li><NavLink to="/SignUp">Sign Up</NavLink></li>
             </ul>
@@ -29,8 +29,8 @@ class Main extends Component {
             <Route exact path="/" component={App}/>
             <Route path="/LogIn" component={LogIn}/>
             <Route path="/SignUp" component={SignUp}/>
-            <Route path="/Schedule/Schedule" component={Schedule}/>
-            <Route path="/AddClassShedule/" component={ClassSchedule}/>
+            <Route path="/Schedule" component={Schedule}/>
+            <Route path="/AddSchedule" component={ClassSchedule}/>
           </div>
         </div>
       </HashRouter>

@@ -53,7 +53,7 @@ namespace Gym_Application.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    IEnumerable<ScheduleDetailsModelView> result = service.findAllFrom(dateSpan.StartDate, dateSpan.EndDate);
+                    List<ScheduleDetailsModelView> result = service.findAllFrom(dateSpan.StartDate, dateSpan.EndDate);
                     return Ok(result);
                 }
                 else
@@ -131,6 +131,7 @@ namespace Gym_Application.Controllers
         // DELETE: api/ClassSchedules/{id}/participants/{id_user}   -   unenroll from class schedule
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [ResponseType( typeof( void ) )]
+        [HttpGet]
         [Route( "api/ClassSchedules/{id_class_schedule}/participants/{id_user}" )]
         public IHttpActionResult DeleteClassScheduleParticipants( int id_class_schedule, int id_user )
         {
