@@ -8,8 +8,8 @@ namespace DAL.Model
 {
     public enum Role
     {
-        ADMIN,
-        TRAINER,
-        USER
+        ADMIN = 0,
+        TRAINER = 1,
+        USER = 2
     }
 }

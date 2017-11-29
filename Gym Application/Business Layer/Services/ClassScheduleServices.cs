@@ -23,6 +23,7 @@ namespace Business_Layer.Services
             valid = valid && ( Crepo.GetById( cs.ClassId ) != null );
             valid = valid && ( ( Urepo.GetById( cs.TrainerId ) != null ) && ( Urepo.GetById( cs.TrainerId ).Role == Role.TRAINER ) );
             valid = valid && ( cs.Capacity > 0 );
+            valid = valid && ( cs.AvailableCapacity >= 0 );
 
             return valid;
         }
@@ -33,6 +34,7 @@ namespace Business_Layer.Services
 
         public ClassSchedule add( ClassSchedule cs )
         {
+            cs.AvailableCapacity = cs.Capacity;
             if( !validateClassSchedule( cs ) )
             {
                 throw new InvalidOperationException( "The object is not in a valid state." );
@@ -45,16 +47,33 @@ namespace Business_Layer.Services
 
         public ClassSchedule update( int id, ClassSchedule cs )
         {
-            if( !validateClassSchedule( cs ) )
-            {
-                throw new InvalidOperationException( "The object is not in a valid state." );
-            }
             if( cs.Id != id )
             {
                 throw new InvalidOperationException( "The IDs of the new object and the old one's are not the same" );
             }
             IRepository<ClassSchedule> repo = UoW.Repository<ClassSchedule>();
-            repo.Update( cs );
+            ClassSchedule old = repo.GetById( id );
+            if( old == null )
+            {
+                throw new InvalidOperationException( "The given ID doesn't have an entry in the DB" );
+            }
+            if( old.Capacity - old.AvailableCapacity > cs.Capacity )
+            {
+                throw new InvalidOperationException( "The new capacity is less that the current number of enrolled users" );
+            }
+
+            old.AvailableCapacity = cs.Capacity - ( old.Capacity - old.AvailableCapacity );
+            old.Capacity = cs.Capacity;
+            old.Date = cs.Date;
+            old.Difficulty = cs.Difficulty;
+            old.Room = cs.Room;
+            old.TrainerId = cs.TrainerId;
+            old.Trainer = UoW.Repository<User>().GetById( cs.TrainerId );
+            if( !validateClassSchedule( old ) )
+            {
+                throw new InvalidOperationException( "The object is not in a valid state." );
+            }
+            repo.Update( old );
             UoW.Save();
             return cs;
         }
