@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 
 using Business_Layer.DTO;
 using Business_Layer.Services;
 using System.Web.Http.Cors;
+using Gym_Application.Authentication;
 
 namespace Gym_Application.Controllers
 {
@@ -44,6 +46,7 @@ namespace Gym_Application.Controllers
             {
                 var service = new UserServices();
                 BaseUserModelView account = service.GetOneAccountWithPassword(model);
+                HttpContext.Current.Response.AppendHeader("Authorization", "Bearer " + JwtManager.GenerateToken(model.Username));
                 return Ok(account);
             }
             catch (Exception)
@@ -56,8 +59,10 @@ namespace Gym_Application.Controllers
         [Route("api/users/{id_user}/enrolledClasses")]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
+        [JwtAuthentication]
         public IHttpActionResult EnrolledClasses(int id_user)
         {
+            var user = Utils.GetCurrentUser(); // this is just a demo
             try
             {
                 var service = new UserServices();

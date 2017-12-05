@@ -62,6 +62,22 @@ namespace Business_Layer.Services
             }
         }
 
+        /// <summary>
+        /// Returns the user object associated with this username
+        /// Null otherwise
+        /// </summary>
+        /// <param name="username"></param>
+        /// <returns></returns>
+        public static User GetAccountByUsername(string username)
+        {
+            using (var uow = new UnitOfWork())
+            {
+                // just fetch the corresponding user or null
+                User user = uow.Repository<User>().findAll().FirstOrDefault(u => u.Username == username);
+                return user;
+            }
+        }
+
         public List<int> EnrolledClassesIds(int userId)
         {
             using(var uow = new UnitOfWork())
