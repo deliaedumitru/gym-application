@@ -55,14 +55,36 @@ namespace Gym_Application.Controllers
             }
         }
 
+        
+        /// <summary>
+        /// Endpoint to check your current identity
+        /// Useful for checking validity of authentication token
+        /// </summary>
+        /// <returns></returns>
+        [Route("api/users/me")]
+        [JwtAuthentication]
+        [HttpGet]
+        public IHttpActionResult GetSelf()
+        {
+            var user = Utils.GetCurrentUser(); // this is just a demo
+            if(user == null)
+                return NotFound(); // return 404 if not logged in
+
+            // otherwise return the current user
+            return Ok(new BaseUserModelView {
+                Id = user.Id,
+                Username = user.Username,
+                Name = user.Name,
+                Role = (int) user.Role
+            });
+        }
+
         //returns the classes for which the user is enrolled
         [Route("api/users/{id_user}/enrolledClasses")]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
-        [JwtAuthentication]
         public IHttpActionResult EnrolledClasses(int id_user)
         {
-            var user = Utils.GetCurrentUser(); // this is just a demo
             try
             {
                 var service = new UserServices();
