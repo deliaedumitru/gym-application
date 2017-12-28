@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2006
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gym Application", "Gym Application\Gym Application.csproj", "{15D4F4FE-C5ED-4507-82B3-EE145469A5C0}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gym Application", "Gym Appl
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "DAL\DAL.csproj", "{1F8C5C15-5E67-43E5-867E-3E041A5A3131}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Business Layer", "Business Layer\Business Layer.csproj", "{7CC5C9AF-3031-4167-BF7F-0DB0845D316F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -24,8 +26,15 @@ Global
 		{1F8C5C15-5E67-43E5-867E-3E041A5A3131}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1F8C5C15-5E67-43E5-867E-3E041A5A3131}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1F8C5C15-5E67-43E5-867E-3E041A5A3131}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CC5C9AF-3031-4167-BF7F-0DB0845D316F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CC5C9AF-3031-4167-BF7F-0DB0845D316F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CC5C9AF-3031-4167-BF7F-0DB0845D316F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CC5C9AF-3031-4167-BF7F-0DB0845D316F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F1E791F2-5C6E-409B-9E90-0B2FC028273F}
 	EndGlobalSection
 EndGlobal

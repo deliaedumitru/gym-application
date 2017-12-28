@@ -29,15 +29,15 @@ namespace DAL
                 .HasForeignKey(e => e.ClassId)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<ClassSchedule>()
-                .HasMany(e => e.ClassParticipants)
-                .WithMany(e => e.ClassScheduleForTrainer)
-                .Map(m => m.ToTable("ClassParticipant").MapLeftKey("ClassScheduleId").MapRightKey("ParticipantId"));
+            modelBuilder.Entity<Class>()
+                .HasMany( e => e.ClassTrainers )
+                .WithMany( e => e.ClassForTrainer )
+                .Map( m => m.ToTable( "ClassTrainer" ).MapLeftKey( "ClassId" ).MapRightKey( "TrainerId" ) );
 
             modelBuilder.Entity<ClassSchedule>()
                 .HasMany(e => e.ClassParticipants)
                 .WithMany(e => e.ClassScheduleForParticipant)
-                .Map(m => m.ToTable("ClassTrainer").MapLeftKey("ClassScheduleId").MapRightKey("TrainerId"));
+                .Map(m => m.ToTable("ClassScheduleParticipant").MapLeftKey("ClassScheduleId").MapRightKey("ParticipantId"));
 
             modelBuilder.Entity<SubscriptionType>()
                 .HasMany(e => e.Subcriptions)
@@ -74,6 +74,13 @@ namespace DAL
                 .WithRequired(e => e.Participant)
                 .HasForeignKey(e => e.ParticipantId)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<User>()
+                .HasMany( e => e.ClassScheduleForTrainer )
+                .WithRequired( e => e.Trainer )
+                .HasForeignKey( e => e.TrainerId )
+                .WillCascadeOnDelete( false );
+
         }
     }
 }

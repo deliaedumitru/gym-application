@@ -7,7 +7,7 @@ namespace DAL.Model
     using System.Data.Entity.Spatial;
 
     [Table("SubscriptionType")]
-    public partial class SubscriptionType
+    public partial class SubscriptionType : BaseModel
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public SubscriptionType()
@@ -15,7 +15,7 @@ namespace DAL.Model
             Subcriptions = new HashSet<Subcription>();
         }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
         [Required]

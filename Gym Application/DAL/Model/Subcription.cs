@@ -5,20 +5,27 @@ namespace DAL.Model
     using System.ComponentModel.DataAnnotations;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
+    using System.Runtime.Serialization;
 
     [Table("Subcription")]
-    public partial class Subcription
+    [DataContract]
+    public partial class Subcription : BaseModel
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        [DataMember]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
+        [DataMember]
         public int UserId { get; set; }
 
+        [DataMember]
         public int TypeId { get; set; }
 
+        [DataMember]
         [Column(TypeName = "date")]
         public DateTime StartDate { get; set; }
 
+        [DataMember]
         [Column(TypeName = "date")]
         public DateTime EndDate { get; set; }
 

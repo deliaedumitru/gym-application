@@ -10,6 +10,8 @@ namespace Gym_Application
     {
         public static void Register(HttpConfiguration config)
         {
+
+            config.EnableCors();
             // Web API configuration and services
 
             // Web API routes
@@ -21,7 +23,8 @@ namespace Gym_Application
                 defaults: new { id = RouteParameter.Optional }
             );
 
-            config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
+            config.Formatters.JsonFormatter.SupportedMediaTypes.Add( new MediaTypeHeaderValue( "text/plain" ) );
+            //config.Formatters.JsonFormatter.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore;
         }
     }
 }

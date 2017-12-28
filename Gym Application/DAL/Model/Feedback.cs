@@ -7,16 +7,15 @@ namespace DAL.Model
     using System.Data.Entity.Spatial;
 
     [Table("Feedback")]
-    public partial class Feedback
+    public partial class Feedback : BaseModel
     {
-        [Key]
-        [Column(Order = 0)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int TrainerId { get; set; }
-
-        [Key]
-        [Column(Order = 1)]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        
+        [DatabaseGenerated( DatabaseGeneratedOption.None )]
         public int UserId { get; set; }
 
         [Required]
