@@ -102,6 +102,25 @@ namespace Business_Layer.Services
             return result;
             
         }
+        
+        public List<ScheduleDetailsModelView> findAllFromTrainer(DateTime start, DateTime end,int TrainerId)
+        {
+            ClassScheduleMapper mapper = new ClassScheduleMapper();
+            IEnumerable<ClassSchedule> all = UoW.Repository<ClassSchedule>().findAll();
+            List<ScheduleDetailsModelView> result = new List<ScheduleDetailsModelView>();
+            foreach (ClassSchedule schedule in all)
+            {
+                if (start <= schedule.Date && schedule.Date <= end) {
+                    if (TrainerId == schedule.TrainerId)
+                    {
+                        result.Add(mapper.ScheduleToScheduleDetails(schedule));
+                    }
+                }
+            }
+            result = result.OrderBy(x => x.Date).ToList();
+            return result;
+
+        }
 
         public ClassSchedule findOne( int id )
         {
