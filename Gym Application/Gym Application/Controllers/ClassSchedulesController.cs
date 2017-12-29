@@ -64,6 +64,29 @@ namespace Gym_Application.Controllers
                 return new System.Web.Http.Results.BadRequestErrorMessageResult( e.Message, this );
             }
         }
+        
+        // POST: api/ClassSchedules/trainers/{id}
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [Route("api/ClassSchedules/trainers/{id}")]
+        [HttpPost]
+        public IHttpActionResult GetTrainerScheduleDetails([FromBody] DateSpan dateSpan,int id)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    List<ScheduleDetailsModelView> result = service.findAllFromTrainer(dateSpan.StartDate, dateSpan.EndDate,id);
+                    return Ok(result);
+                }
+                else
+                    return BadRequest();
+
+            }
+            catch (Exception e)
+            {
+                return new System.Web.Http.Results.BadRequestErrorMessageResult(e.Message, this);
+            }
+        }
 
         // GET: api/ClassSchedules/5/participants
         [EnableCors(origins: "*", headers: "*", methods: "*")]
