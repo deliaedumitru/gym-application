@@ -11,22 +11,31 @@ using DAL.Model;
 using Business_Layer.DTO;
 using Business_Layer.Services;
 using Gym_Application.Models;
+using Business_Layer.Mappers;
+using System.Web.Http.Results;
 
 namespace Gym_Application.Controllers
 {
-    [EnableCors(origins: "*", headers: "*", methods: "*")]   
+
     public class PersonalScheduleController : ApiController
     {
         private PersonalScheduleService service = new PersonalScheduleService();
+        
         //merge 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [Route("api/PersonalSchedules/")]
         [HttpGet]
         //[ResponseType(typeof(PersonalSchedule))]
-        public IEnumerable<PersonalSchedule> GetPersonalSchedule()
+        public IEnumerable<PersonalScheduleView> GetPersonalSchedule()
         {
-            return service.FindAll();
+            List<PersonalScheduleView> list = new List<PersonalScheduleView>();
+            foreach( var s in service.FindAll() )
+            {
+                list.Add( PersonalScheduleMapper.ScheduleToScheduleDetails( s ) );
+            }
+            return list;
         }
+
         //merge 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [ResponseType(typeof(PersonalScheduleView))]
@@ -39,10 +48,9 @@ namespace Gym_Application.Controllers
             {
                 return NotFound();
             }
-
-            return Ok(personalSchedule);
+            return Ok( PersonalScheduleMapper.ScheduleToScheduleDetails( personalSchedule ) );
         }
-        //merge
+        
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [Route("api/PersonalSchedules/details")]
         [ResponseType(typeof(IEnumerable<PersonalScheduleView>))]
@@ -62,13 +70,13 @@ namespace Gym_Application.Controllers
             }
             catch (Exception e)
             {
-                return new System.Web.Http.Results.BadRequestErrorMessageResult(e.Message, this);
+                return new BadRequestErrorMessageResult(e.Message, this);
             }
-            return StatusCode(HttpStatusCode.NoContent);
         }
-        //merge
+        
+        
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        [Route("api/PersonalSchedules/update")]
+        [Route("api/PersonalSchedules/{id}")]
         [HttpPut]
         [ResponseType(typeof(void))]
         public IHttpActionResult PutPersonalSchedule(int id, PersonalSchedule personalSchedule)
@@ -80,20 +88,21 @@ namespace Gym_Application.Controllers
 
             try
             {
-                service.Update(id, personalSchedule);
+                service.Update( id, personalSchedule );
             }
             catch (Exception e)
             {
-                return new System.Web.Http.Results.BadRequestErrorMessageResult(e.Message, this);
+                return new BadRequestErrorMessageResult(e.Message, this);
             }
 
             return StatusCode(HttpStatusCode.NoContent);
         }
+        
         //merge
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        [Route("api/PersonalSchedules/add")]
+        [Route("api/PersonalSchedules")]
         [HttpPost]
-        [ResponseType(typeof(PersonalSchedule))]
+        [ResponseType(typeof(PersonalScheduleView))]
         public IHttpActionResult PostPersonalSchedule(PersonalSchedule personalSchedule)
         {
 
@@ -113,18 +122,16 @@ namespace Gym_Application.Controllers
             }
             catch (Exception e)
             {
-                return new System.Web.Http.Results.BadRequestErrorMessageResult(e.Message, this);
+                return new BadRequestErrorMessageResult(e.Message, this);
             }
 
-           return CreatedAtRoute("DefaultApi", new
-            {
-                id = personalSchedule.Id
-            }, personalSchedule);
+            return Ok( PersonalScheduleMapper.ScheduleToScheduleDetails( personalSchedule ) );
         }
-        //merge
+        
+        
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [ResponseType(typeof(void))]
-        [Route("api/PersonalSchedules/delete/{id}")]
+        [Route("api/PersonalSchedules/{id}")]
         [HttpDelete]
         public IHttpActionResult DeletePersonalSchedule(int id)
         {

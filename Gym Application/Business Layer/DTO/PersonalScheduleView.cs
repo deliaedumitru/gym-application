@@ -10,5 +10,8 @@ namespace Business_Layer.DTO
     {
         public DateTime Date { get; set; }
         public string Room { get; set; }
+        public int ParticipantId { get; set; }
+        public int TrainerId { get; set; }
+        public int Id { get; set; }
     }
 }

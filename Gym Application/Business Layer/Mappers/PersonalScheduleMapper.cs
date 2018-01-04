@@ -10,12 +10,16 @@ namespace Business_Layer.Mappers
 {
     public class PersonalScheduleMapper
     {
-        public PersonalScheduleView ScheduleToScheduleDetails(PersonalSchedule schedule)
+        public static PersonalScheduleView ScheduleToScheduleDetails( PersonalSchedule schedule )
         {
             PersonalScheduleView model = new PersonalScheduleView();
             model.Date = schedule.Date;
             model.Room = schedule.Room;
+            model.ParticipantId = schedule.ParticipantId;
+            model.TrainerId = schedule.TrainerId;
+            model.Id = schedule.Id;
             return model;
         }
+
     }
 }

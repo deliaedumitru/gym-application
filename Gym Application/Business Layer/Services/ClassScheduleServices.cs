@@ -88,14 +88,13 @@ namespace Business_Layer.Services
 
         public List<ScheduleDetailsModelView> findAllFrom(DateTime start, DateTime end)
         {
-            ClassScheduleMapper mapper = new ClassScheduleMapper();
             IEnumerable<ClassSchedule> all = UoW.Repository<ClassSchedule>().findAll();
             List<ScheduleDetailsModelView> result = new List<ScheduleDetailsModelView>();
             foreach(ClassSchedule schedule in all )
             {
                 if( start <= schedule.Date && schedule.Date <= end )
                 {
-                    result.Add(mapper.ScheduleToScheduleDetails(schedule));
+                    result.Add( ClassScheduleMapper.ScheduleToScheduleDetails(schedule));
                 }
             }
             result = result.OrderBy(x => x.Date).ToList();

@@ -61,6 +61,10 @@ namespace Business_Layer.Services
                 repository.Update(old);
                 UoW.Save();
             }
+            else
+            {
+                throw new InvalidOperationException( "The requested Id is not valid" );
+            }
             return ps;
         }
 
@@ -87,7 +91,6 @@ namespace Business_Layer.Services
 
         public List<PersonalScheduleView> FindAllFromRoom(String room)
         {
-            PersonalScheduleMapper mapper = new PersonalScheduleMapper();
             IRepository<PersonalSchedule> repository = UoW.Repository<PersonalSchedule>();
             IEnumerable<PersonalSchedule> all = repository.findAll();
             List<PersonalScheduleView> res = new List<PersonalScheduleView>();
@@ -95,7 +98,7 @@ namespace Business_Layer.Services
             {
                 if (ps.Room.Equals(room))
                 {
-                    res.Add(mapper.ScheduleToScheduleDetails(ps));
+                    res.Add(PersonalScheduleMapper.ScheduleToScheduleDetails(ps));
                 }
             }
             res = res.OrderBy(x => x.Date).ToList();
@@ -104,7 +107,6 @@ namespace Business_Layer.Services
 
         public List<PersonalScheduleView> FindAllFromDate(DateTime date)
         {
-            PersonalScheduleMapper mapper = new PersonalScheduleMapper();
             IRepository<PersonalSchedule> repository = UoW.Repository<PersonalSchedule>();
             IEnumerable<PersonalSchedule> all = repository.findAll();
             List<PersonalScheduleView> res = new List<PersonalScheduleView>();
@@ -112,7 +114,7 @@ namespace Business_Layer.Services
             {
                 if (ps.Date.Equals(date))
                 {
-                    res.Add(mapper.ScheduleToScheduleDetails(ps));
+                    res.Add(PersonalScheduleMapper.ScheduleToScheduleDetails(ps));
                 }
             }
             res = res.OrderBy(x => x.Room).ToList();
@@ -121,7 +123,6 @@ namespace Business_Layer.Services
 
         public List<PersonalScheduleView> FindAllFromDate(DateTime startDate, DateTime stopDate)
         {
-            PersonalScheduleMapper mapper = new PersonalScheduleMapper();
             IRepository<PersonalSchedule> repository = UoW.Repository<PersonalSchedule>();
             IEnumerable<PersonalSchedule> all = repository.findAll();
             List<PersonalScheduleView> res = new List<PersonalScheduleView>();
@@ -129,7 +130,7 @@ namespace Business_Layer.Services
             {
                 if (ps.Date >= startDate && ps.Date <= stopDate)
                 {
-                    res.Add(mapper.ScheduleToScheduleDetails(ps));
+                    res.Add(PersonalScheduleMapper.ScheduleToScheduleDetails(ps));
                 }
             }
             res = res.OrderBy(x => x.Date).ToList();
@@ -138,7 +139,6 @@ namespace Business_Layer.Services
 
         public List<PersonalScheduleView> FindAllFrom(int userId)
         {
-            PersonalScheduleMapper mapper = new PersonalScheduleMapper();
             IEnumerable<PersonalSchedule> all = UoW.Repository<PersonalSchedule>().findAll();
             List<PersonalScheduleView> result = new List<PersonalScheduleView>();
             User user = new User();
@@ -147,7 +147,7 @@ namespace Business_Layer.Services
             {
                 if (schedule.Participant.Id == userId)
                 {
-                    result.Add(mapper.ScheduleToScheduleDetails(schedule));
+                    result.Add(PersonalScheduleMapper.ScheduleToScheduleDetails(schedule));
                 }
             }
             result = result.OrderBy(x => x.Date).ToList();
@@ -157,7 +157,6 @@ namespace Business_Layer.Services
 
         public List<PersonalScheduleView> FindAllFrom(int userId, DateTime start, DateTime end)
         {
-            PersonalScheduleMapper mapper = new PersonalScheduleMapper();
             IEnumerable<PersonalSchedule> all = UoW.Repository<PersonalSchedule>().findAll();
             List<PersonalScheduleView> result = new List<PersonalScheduleView>();
             User user = new User();
@@ -166,7 +165,7 @@ namespace Business_Layer.Services
             {
                 if (start <= schedule.Date && schedule.Date <= end && schedule.Participant.Id == userId)
                 {
-                    result.Add(mapper.ScheduleToScheduleDetails(schedule));
+                    result.Add(PersonalScheduleMapper.ScheduleToScheduleDetails(schedule));
                 }
             }
             result = result.OrderBy(x => x.Date).ToList();
