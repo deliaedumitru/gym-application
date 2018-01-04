@@ -10,7 +10,7 @@ namespace Business_Layer.Mappers
 {
     class ClassScheduleMapper
     {
-        public ScheduleDetailsModelView ScheduleToScheduleDetails(ClassSchedule schedule)
+        public static ScheduleDetailsModelView ScheduleToScheduleDetails(ClassSchedule schedule)
         {
             ScheduleDetailsModelView model = new ScheduleDetailsModelView();
             model.Capacity = schedule.Capacity;

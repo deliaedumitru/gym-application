@@ -44,14 +44,17 @@
   <ItemGroup>
     <Compile Include="DTO\ClassModelView.cs" />
     <Compile Include="DTO\ClassScheduleModelView.cs" />
+    <Compile Include="DTO\PersonalScheduleView.cs" />
     <Compile Include="DTO\UserModelViews.cs" />
     <Compile Include="Mappers\ClassMapper.cs" />
     <Compile Include="Mappers\ClassScheduleMapper.cs" />
+    <Compile Include="Mappers\PersonalScheduleMapper.cs" />
     <Compile Include="Mappers\UserMapper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\ClassScheduleServices.cs" />
     <Compile Include="Services\ClassServices.cs" />
+    <Compile Include="Services\PersonalScheduleService.cs" />
     <Compile Include="Services\UserServices.cs" />
   </ItemGroup>
   <ItemGroup>

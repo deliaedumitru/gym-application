@@ -8,6 +8,7 @@ using DAL.Repository;
 using DAL.Model;
 using Business_Layer.Mappers;
 using System.Security.Cryptography;
+using System.Diagnostics;
 
 namespace Business_Layer.Services
 {
@@ -24,7 +25,6 @@ namespace Business_Layer.Services
                 rfc2898DeriveBytes.IterationCount = 10000;
                 user.PasswordHash = rfc2898DeriveBytes.GetBytes(20);
                 user.PasswordSalt = rfc2898DeriveBytes.Salt;
-
                 uow.Repository<User>().Save(user);
                 uow.Save();
 
