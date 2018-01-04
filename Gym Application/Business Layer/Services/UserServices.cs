@@ -18,7 +18,7 @@ namespace Business_Layer.Services
         {
             using (var uow = new UnitOfWork())
             {
-                User user = new UserMapper().RegistrationMVToUser(model);
+                User user = UserMapper.RegistrationMVToUser(model);
 
                 Rfc2898DeriveBytes rfc2898DeriveBytes = new Rfc2898DeriveBytes(model.Password, 32);
                 rfc2898DeriveBytes.IterationCount = 10000;
@@ -28,7 +28,7 @@ namespace Business_Layer.Services
                 uow.Repository<User>().Save(user);
                 uow.Save();
 
-                return new UserMapper().UserToBaseUserMV(user);
+                return UserMapper.UserToBaseUserMV(user);
             }
         }
 
@@ -51,7 +51,7 @@ namespace Business_Layer.Services
 
                         if (passwordHash.SequenceEqual(user.PasswordHash))
                         {
-                            result = new UserMapper().UserToBaseUserMV(user);
+                            result = UserMapper.UserToBaseUserMV(user);
                             break;
                         }
                     }

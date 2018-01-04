@@ -7,6 +7,8 @@ using System.Web.Http;
 using System.Web.Http.Cors;
 using DAL.Repository;
 using DAL.Model;
+using Business_Layer.DTO;
+using Business_Layer.Mappers;
 
 namespace Gym_Application.Controllers
 {
@@ -18,15 +20,15 @@ namespace Gym_Application.Controllers
         [HttpGet]
         [Route("api/trainers")]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        public IEnumerable<User> getTrainers()
+        public IEnumerable<BaseUserModelView> getTrainers()
         {
             IRepository<User> user_repo = transaction_manager.Repository<User>();
             IEnumerable<User> users = user_repo.findAll();
-            List<User> trainers = new List<User>();
+            List<BaseUserModelView> trainers = new List<BaseUserModelView>();
             foreach(User user in users)
             {
-                if (user.Role == Role.TRAINER)
-                    trainers.Add(user);
+                if( user.Role == Role.TRAINER )
+                    trainers.Add( UserMapper.UserToBaseUserMV( user ) );
             }
 
             return trainers;

@@ -16,13 +16,13 @@ namespace Business_Layer.Services
         {
             using (var uow=new UnitOfWork())
             {
-                Class newclass = new ClassMapper().ClassMVToClass(classModel);
+                Class newclass = ClassMapper.ClassMVToClass(classModel);
                 newclass.Name = classModel.Name;
 
                 uow.Repository<Class>().Save(newclass);
                 uow.Save();
 
-                return new ClassMapper().ClassToBaseClassMV(newclass);
+                return ClassMapper.ClassToBaseClassMV(newclass);
             }
         }
 
@@ -36,7 +36,7 @@ namespace Business_Layer.Services
                 {
                     uow.Repository<Class>().Delete(delClass);
                     uow.Save();
-                    return new ClassMapper().ClassToBaseClassMV(delClass);
+                    return ClassMapper.ClassToBaseClassMV(delClass);
                 }
                 else
                 {
@@ -54,7 +54,7 @@ namespace Business_Layer.Services
                 IEnumerable<Class> classes = uow.Repository<Class>().findAll();
                 foreach (Class c in classes)
                 {
-                    qClasses.Add(new ClassMapper().ClassToBaseClassMV(c));
+                    qClasses.Add(ClassMapper.ClassToBaseClassMV(c));
                 }
                 return qClasses.AsQueryable();
             }
@@ -67,7 +67,7 @@ namespace Business_Layer.Services
                 Class _class = uow.Repository<Class>().GetById( id );
                 if( _class != null )
                 {
-                    return new ClassMapper().ClassToBaseClassMV( _class );
+                    return ClassMapper.ClassToBaseClassMV( _class );
                 }
                 else
                 {
