@@ -14,10 +14,9 @@ namespace Business_Layer.Services
     {
         public BaseClassModelView addClass(ClassModelView classModel)
         {
-            using (var uow=new UnitOfWork())
+            using (var uow = new UnitOfWork())
             {
                 Class newclass = ClassMapper.ClassMVToClass(classModel);
-                newclass.Name = classModel.Name;
 
                 uow.Repository<Class>().Save(newclass);
                 uow.Save();
@@ -73,6 +72,20 @@ namespace Business_Layer.Services
                 {
                     throw ( new Exception( "Class not found" ) );
                 }
+            }
+        }
+
+        public BaseClassModelView editClass( BaseClassModelView classModel )
+        {
+            using (var uow = new UnitOfWork())
+            {
+                Class newclass = new ClassMapper().ClassBMVToClass( classModel );
+                var repo = uow.Repository<Class>();
+
+                repo.Update( newclass );
+                uow.Save();
+
+                return ClassMapper.ClassToBaseClassMV(newclass);
             }
         }
     }

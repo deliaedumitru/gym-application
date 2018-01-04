@@ -11,7 +11,7 @@ import Schedule from "./ScheduleUser/index.js";
 import ClassSchedule from "./ScheduleAdmin/index.js"
 import Image from "react-bootstrap/es/Image";
 import background from '../images/background.jpg';
-
+import Class from "./Class";
 export default class Main extends Component {
     render() {
         return (
@@ -27,6 +27,7 @@ export default class Main extends Component {
                             <li className="pages"><NavLink to="/AddSchedule">CRUD Schedule</NavLink></li>
                             <li className="pages"><NavLink to="/LogIn">LOG IN</NavLink></li>
                             <li className="pages"><NavLink to="/SignUp">SIGN UP</NavLink></li>
+                            <li className="pages"><NavLink to="/Class">Class</NavLink></li>
                         </ul>
                     </div>
                     <div className="content">
@@ -35,6 +36,7 @@ export default class Main extends Component {
                         <Route path="/SignUp" component={SignUp}/>
                         <Route path="/Schedule" component={Schedule}/>
                         <Route path="/AddSchedule" component={ClassSchedule}/>
+                        <Route path="/Class" component={Class}/>
                     </div>
                     <Image className="background" src={background} alt="background"/>
                 </div>

@@ -13,6 +13,15 @@ namespace Business_Layer.Mappers
         public static Class ClassMVToClass( ClassModelView model )
         {
             Class classM = new Class();
+            classM.Id = 0;
+            classM.Name = model.Name;
+            return classM;
+        }
+
+        public Class ClassBMVToClass( BaseClassModelView model )
+        {
+            Class classM = new Class();
+            classM.Id = model.Id;
             classM.Name = model.Name;
             return classM;
         }

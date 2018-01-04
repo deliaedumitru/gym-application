@@ -16,6 +16,12 @@ body {
     height: 8%;
 }
 
+.nabar > ul {
+	margin-left: 10%;
+	display: inline;
+	float: left;
+}
+
 .logoul {
     width: 10%;
     float: left;
@@ -58,7 +64,28 @@ form {
     width: 100%;
 }
 
+table {
+  width: 100%;
+}
+
+th,
+td {
+  width: 100px;
+}
+
+thead>tr {
+  position: relative;
+  display: block;
+}
+
+tbody {
+  display: block;
+  height: 450px;
+  overflow: auto;
+}
+
 .background {
     width: 100%;
     height: 100%;
+  overflow: auto;
 }
