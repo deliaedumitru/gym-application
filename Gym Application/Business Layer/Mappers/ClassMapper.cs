@@ -10,14 +10,14 @@ namespace Business_Layer.Mappers
 {
     public class ClassMapper
     {
-        public Class ClassMVToClass(ClassModelView model)
+        public static Class ClassMVToClass( ClassModelView model )
         {
             Class classM = new Class();
             classM.Name = model.Name;
             return classM;
         }
 
-        public BaseClassModelView ClassToBaseClassMV(Class classM)
+        public static BaseClassModelView ClassToBaseClassMV( Class classM )
         {
             BaseClassModelView model = new BaseClassModelView();
             model.Id = classM.Id;

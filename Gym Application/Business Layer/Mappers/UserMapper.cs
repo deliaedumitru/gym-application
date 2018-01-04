@@ -10,7 +10,7 @@ namespace Business_Layer.Mappers
 {
     public class UserMapper
     {
-        public User RegistrationMVToUser(RegistrationModelView model)
+        public static User RegistrationMVToUser(RegistrationModelView model)
         {
             User user = new User();
             user.Username = model.Username;
@@ -20,7 +20,7 @@ namespace Business_Layer.Mappers
             return user;
         }
 
-        public BaseUserModelView UserToBaseUserMV(User user)
+        public static BaseUserModelView UserToBaseUserMV( User user )
         {
             BaseUserModelView model = new BaseUserModelView();
             model.Id = user.Id;
