@@ -41,7 +41,7 @@ class SignUp extends Component {
         name: name,
         email: email,
         password: document.getElementById('passwordInput').value,
-        role: '2'
+        role: '2',
       })
     })
   }

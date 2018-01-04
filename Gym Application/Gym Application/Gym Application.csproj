@@ -133,7 +133,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
     <Folder Include="Views\Default\" />
   </ItemGroup>
   <ItemGroup>
@@ -158,6 +157,7 @@
     <Compile Include="Controllers\ClassController.cs" />
     <Compile Include="Controllers\ClassSchedulesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\PersonalScheduleController.cs" />
     <Compile Include="Controllers\TrainersController.cs" />
     <Compile Include="Controllers\SubscriptionController.cs" />
     <Compile Include="Controllers\UsersController.cs" />

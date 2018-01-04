@@ -14,11 +14,13 @@ namespace Gym_Application.Controllers
     public class UsersController : ApiController
     {
         //creeaza si salveaza un nou account
+        [Route("api/users")]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPost]
         public IHttpActionResult Post([FromBody]RegistrationModelView account)
         {
             try
-            {
+            {                
                 if (ModelState.IsValid)
                 {
                     var service = new UserServices();
