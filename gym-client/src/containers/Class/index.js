@@ -123,7 +123,8 @@ class Class extends Component {
   }
 
   componentDidMount() {
-    window.addEventListener('DOMContentLoaded', this.getFromDB);
+    //window.addEventListener('DOMContentLoaded', this.getFromDB);
+	this.getFromDB();
     document.getElementById('addBtn').addEventListener('click', this.addClass, false);
   }
 }
