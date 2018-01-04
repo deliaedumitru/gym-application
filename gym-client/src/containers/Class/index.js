@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import logo from '../images/logo.svg';
+import logo from '../..//images/logo.svg';
+import {CLASSES, SERVER} from "../../api/gym";
 import 'whatwg-fetch';
 
 class Class extends Component {
@@ -43,7 +44,7 @@ class Class extends Component {
   addClass() {
     let id = 0;
     var name = document.getElementById('classNameField').value;
-    fetch('http://localhost:63288/api/Class', {
+    fetch( SERVER + CLASSES , {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -68,7 +69,7 @@ class Class extends Component {
     let name = document.getElementById('classNameField').value;
     console.log(id);
     console.log(name);
-    fetch('http://localhost:63288/api/Class/' + encodeURIComponent(id), {
+    fetch( SERVER + CLASSES + '/' + encodeURIComponent(id), {
       method: 'PUT',
       headers: {
         'Accept': 'application/json',
@@ -89,7 +90,7 @@ class Class extends Component {
   deleteClass(event) {
     console.log('jhsbfkdjsldfjslnd48655');
     let id = event.target.parentElement.parentElement.childNodes[0].innerHTML;
-    fetch('http://localhost:63288/api/Class/' + encodeURIComponent(id), {
+    fetch( SERVER + CLASSES +'/' + encodeURIComponent(id), {
       method: 'DELETE',
       headers: {
         'Accept': 'application/json',
@@ -106,7 +107,7 @@ class Class extends Component {
   getFromDB() {
     let username = document.getElementById('classretrieve');
     let tbody = document.getElementById('tableClasses');
-    fetch('http://localhost:63288/api/Class', {
+    fetch( SERVER + CLASSES, {
       method: 'GET',
       headers: {
         'Access-Control-Allow-Origin': '*',

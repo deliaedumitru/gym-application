@@ -11,7 +11,7 @@ import Schedule from "./ScheduleUser/index.js";
 import ClassSchedule from "./ScheduleAdmin/index.js"
 import Image from "react-bootstrap/es/Image";
 import background from '../images/background.jpg';
-import Class from "./Class";
+import Class from "./Class/";
 export default class Main extends Component {
     render() {
         return (

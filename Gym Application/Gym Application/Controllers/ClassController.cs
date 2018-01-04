@@ -14,6 +14,7 @@ namespace Gym_Application.Controllers
     public class ClassController : ApiController
     {
         // POST: api/Class
+        [Route( "api/Class" )]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult PostClass([FromBody]ClassModelView classModel)
         {
@@ -46,7 +47,7 @@ namespace Gym_Application.Controllers
         }
 
 
-        [Route("api/classes")]
+        [Route( "api/Class" )]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
         public IQueryable<BaseClassModelView> GetClass()
