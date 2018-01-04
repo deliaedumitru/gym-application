@@ -18,13 +18,14 @@ export default class ClassScheduleItem extends Component {
         const endDate = moment(date).add(1, 'hour');
         const start = moment(date).tz("Europe/Bucharest").format("HH:mm");
         const end = moment(endDate).tz("Europe/Bucharest").format("HH:mm");
+		const cap_left = ( capacity == 1 ) ? capacity + ' place left' : capacity + ' places left';
         return (
             <div className="class-schedule" style={{backgroundColor: colors[difficulty], borderRadius: 10, textAlign: 'center', fontSize: 14}}>
                 <h3>{name}</h3>
                 <p>
                     Room {room}
                     <br/>
-                    {capacity} places left
+                    {cap_left}
                     <br/>
                     {trainerName}
                     <br/>
