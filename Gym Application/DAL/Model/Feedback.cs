@@ -12,10 +12,8 @@ namespace DAL.Model
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int TrainerId { get; set; }
         
-        [DatabaseGenerated( DatabaseGeneratedOption.None )]
         public int UserId { get; set; }
 
         [Required]
