@@ -35,7 +35,6 @@ export default class ScheduleTrainer extends Component {
         let monday = getMonday(new Date());
         let sunday = getSunday(monday);
         this.loadSchedule(monday, sunday);
-        this.loadEnrolledClasses();
     }
 
     loadSchedule(monday, sunday) {
