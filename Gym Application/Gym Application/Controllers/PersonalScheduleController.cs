@@ -52,16 +52,16 @@ namespace Gym_Application.Controllers
         }
         
         [EnableCors(origins: "*", headers: "*", methods: "*")]
-        [Route("api/PersonalSchedules/details")]
+        [Route( "api/PersonalSchedules/{id}/details" )]
         [ResponseType(typeof(IEnumerable<PersonalScheduleView>))]
         [HttpPost]
-        public IHttpActionResult GetPersonalSchedulesDetails([FromBody] DateSpan dateSpan)
+        public IHttpActionResult GetPersonalSchedulesDetails([FromBody] DateSpan dateSpan, int id )
         {
             try
             {
                 if (ModelState.IsValid)
                 {
-                    List<PersonalScheduleView> result = service.FindAllFromDate(dateSpan.StartDate, dateSpan.EndDate);
+                    List<PersonalScheduleView> result = service.FindFromDateAndTrainerId( id, dateSpan.StartDate, dateSpan.EndDate );
                     return Ok(result);
                 }
                 else

@@ -38,7 +38,7 @@ export default class ScheduleTrainer extends Component {
     }
 
     loadSchedule(monday, sunday) {
-        let trainerUrl = SERVER + SCHEDULE_TRAINERS + '/' + this.userId;
+        let trainerUrl = SERVER + SCHEDULE_TRAINERS + '/' + this.userId + '/details';
         fetch(trainerUrl, {
             method: 'POST',
             headers: {

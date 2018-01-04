@@ -121,14 +121,14 @@ namespace Business_Layer.Services
             return res;
         }
 
-        public List<PersonalScheduleView> FindAllFromDate(DateTime startDate, DateTime stopDate)
+        public List<PersonalScheduleView> FindFromDateAndTrainerId( int trainerId, DateTime startDate, DateTime stopDate )
         {
             IRepository<PersonalSchedule> repository = UoW.Repository<PersonalSchedule>();
             IEnumerable<PersonalSchedule> all = repository.findAll();
             List<PersonalScheduleView> res = new List<PersonalScheduleView>();
             foreach (PersonalSchedule ps in all)
             {
-                if (ps.Date >= startDate && ps.Date <= stopDate)
+                if( ps.TrainerId == trainerId && ps.Date >= startDate && ps.Date <= stopDate )
                 {
                     res.Add(PersonalScheduleMapper.ScheduleToScheduleDetails(ps));
                 }
