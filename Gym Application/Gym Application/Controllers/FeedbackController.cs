@@ -12,7 +12,9 @@ namespace Gym_Application.Controllers
 {
     public class FeedbackController : ApiController
     {
-        // POST: api/Feedback
+        [Route( "api/feedbacks/" )]
+        [EnableCors( origins: "*", headers: "*", methods: "*" )]
+        [HttpPost]
         public IHttpActionResult PostFeedack([FromBody]FeedbackModelView feedbackModel)
         {
             if (!ModelState.IsValid)

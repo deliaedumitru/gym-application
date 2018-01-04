@@ -16,16 +16,12 @@ namespace Business_Layer.Services
         {
             using (var uow = new UnitOfWork())
             {
-                Feedback newFeedback = new FeedbackMapper().FeedbackMVToFeedback(feedbackModel);
-                newFeedback.Text = feedbackModel.Text;
-                newFeedback.TrainerId = feedbackModel.TrainerId;
-                newFeedback.UserId = feedbackModel.UserId;
-                newFeedback.Rating = feedbackModel.Rating;
+                Feedback newFeedback = FeedbackMapper.FeedbackMVToFeedback(feedbackModel);
 
                 uow.Repository<Feedback>().Save(newFeedback);
                 uow.Save();
 
-                return new FeedbackMapper().FeedbackToBaseFeedbackMV(newFeedback);
+                return FeedbackMapper.FeedbackToBaseFeedbackMV(newFeedback);
             }
         }
 
@@ -39,7 +35,7 @@ namespace Business_Layer.Services
                 {
                     if (f.TrainerId == TrainerId)
                     {
-                        qFeedbacks.Add(new FeedbackMapper().FeedbackToBaseFeedbackMV(f));
+                        qFeedbacks.Add(FeedbackMapper.FeedbackToBaseFeedbackMV(f));
                     }
                 }
                 return qFeedbacks.AsQueryable();

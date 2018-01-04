@@ -10,7 +10,7 @@ namespace Business_Layer.Mappers
 {
     public class FeedbackMapper
     {
-        public Feedback FeedbackMVToFeedback(FeedbackModelView model)
+        public static Feedback FeedbackMVToFeedback(FeedbackModelView model)
         {
             Feedback feedbackM = new Feedback();
             feedbackM.Text = model.Text;
@@ -20,7 +20,7 @@ namespace Business_Layer.Mappers
             return feedbackM;
         }
 
-        public BaseFeedbackModelView FeedbackToBaseFeedbackMV(Feedback feedbackM)
+        public static BaseFeedbackModelView FeedbackToBaseFeedbackMV(Feedback feedbackM)
         {
             BaseFeedbackModelView model = new BaseFeedbackModelView();
             model.Id = feedbackM.Id;

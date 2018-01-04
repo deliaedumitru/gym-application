@@ -13,8 +13,6 @@ namespace Business_Layer.DTO
 
         public int UserId { get; set; }
 
-        [Required]
-        [StringLength(1500)]
         public string Text { get; set; }
 
         public short Rating { get; set; }
@@ -27,11 +25,8 @@ namespace Business_Layer.DTO
 
             public int UserId { get; set; }
 
-            [Required]
-            [StringLength(1500)]
             public string Text { get; set; }
 
             public short Rating { get; set; }
-    
         }
 }
