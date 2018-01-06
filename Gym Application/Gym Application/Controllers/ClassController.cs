@@ -14,6 +14,8 @@ namespace Gym_Application.Controllers
     public class ClassController : ApiController
     {
         // POST: api/Class
+        [Route( "api/Class" )]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult PostClass([FromBody]ClassModelView classModel)
         {
             if (!ModelState.IsValid)
@@ -27,21 +29,25 @@ namespace Gym_Application.Controllers
         }
 
         // DELETE: api/Class/5
-        public IHttpActionResult DeleteClass( int id )
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [Route( "api/Class/{id}" )]
+        [HttpDelete]
+        public IHttpActionResult DeleteClass(int id)
         {
             var service = new ClassServices();
             try
             {
-                BaseClassModelView model = service.deleteClass( id );
+                BaseClassModelView model = service.deleteClass(id);
                 return Ok(model);
             }
-            catch (Exception e){
+            catch (Exception e)
+            {
                 return NotFound();
             }
         }
 
 
-        [Route("api/classes")]
+        [Route( "api/Class" )]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
         public IQueryable<BaseClassModelView> GetClass()
@@ -50,11 +56,45 @@ namespace Gym_Application.Controllers
             return service.getAllClasses();
         }
 
-        public BaseClassModelView GetClass( int id )
+        [EnableCors( origins: "*", headers: "*", methods: "*" )]
+        [HttpGet]
+        [Route( "api/Class/{id}" )]
+        public IHttpActionResult GetClass( int id )
         {
             var service = new ClassServices();
-            return service.getByID( id );
+            try
+            {
+                return Ok( service.getByID( id ) );
+            }
+            catch
+            {
+                return NotFound();
+            }
         }
 
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPut]
+        [Route("api/Class/{id}")]
+        public IHttpActionResult PutClass(int id, [FromBody]ClassModelView classModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var service = new ClassServices();
+            BaseClassModelView basemodel = new BaseClassModelView();
+            basemodel.Name = classModel.Name;
+            basemodel.Id = id;
+            try
+            {
+                BaseClassModelView model = service.editClass( basemodel );
+                return Ok( model );
+            }
+            catch (Exception e)
+            {
+                return NotFound();
+            }
+        }
     }
 }
