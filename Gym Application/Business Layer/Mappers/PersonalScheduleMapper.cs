@@ -18,6 +18,8 @@ namespace Business_Layer.Mappers
             model.ParticipantId = schedule.ParticipantId;
             model.TrainerId = schedule.TrainerId;
             model.Id = schedule.Id;
+            model.DayOfWeek = schedule.Date.DayOfWeek.ToString();
+            model.numeParticipant = schedule.Participant.Name;
             return model;
         }
 

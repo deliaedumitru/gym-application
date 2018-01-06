@@ -13,5 +13,7 @@ namespace Business_Layer.DTO
         public int ParticipantId { get; set; }
         public int TrainerId { get; set; }
         public int Id { get; set; }
+        public String DayOfWeek { get; set; }
+        public String numeParticipant { get; set; }
     }
 }
