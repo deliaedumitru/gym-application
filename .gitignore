@@ -297,5 +297,10 @@ __pycache__/
 # By default, sensitive information, such as encrypted password
 # should be stored in the .pubxml.user file.
 
-/Gym Application/DAL/App.config
-/Gym Application/Gym Application/Web.config
+**/[Aa]pp.config
+**/[Ww]eb.config
+**/[Aa]pp.Debug.config
+**/[Ww]eb.Release.config
+**/[Aa]pp.Release.config
+**/[Ww]eb.Debug.config
+

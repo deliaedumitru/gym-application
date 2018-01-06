@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 
 using Business_Layer.DTO;
 using Business_Layer.Services;
 using System.Web.Http.Cors;
+using Gym_Application.Authentication;
 
 namespace Gym_Application.Controllers
 {
@@ -44,12 +46,37 @@ namespace Gym_Application.Controllers
             {
                 var service = new UserServices();
                 BaseUserModelView account = service.GetOneAccountWithPassword(model);
+                HttpContext.Current.Response.AppendHeader("Authorization", "Bearer " + JwtManager.GenerateToken(model.Username));
                 return Ok(account);
             }
             catch (Exception)
             {
                 return NotFound();
             }
+        }
+
+        
+        /// <summary>
+        /// Endpoint to check your current identity
+        /// Useful for checking validity of authentication token
+        /// </summary>
+        /// <returns></returns>
+        [Route("api/users/me")]
+        [JwtAuthentication]
+        [HttpGet]
+        public IHttpActionResult GetSelf()
+        {
+            var user = Utils.GetCurrentUser(); // this is just a demo
+            if(user == null)
+                return NotFound(); // return 404 if not logged in
+
+            // otherwise return the current user
+            return Ok(new BaseUserModelView {
+                Id = user.Id,
+                Username = user.Username,
+                Name = user.Name,
+                Role = (int) user.Role
+            });
         }
 
         //returns the classes for which the user is enrolled
