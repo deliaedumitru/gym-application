@@ -24,6 +24,8 @@ namespace Gym_Application.Controllers
 
         // GET: api/ClassSchedules
         [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [Route("api/ClassSchedules")]
+        [HttpGet]
         public IEnumerable<ClassSchedule> GetClassSchedule()
         {
             return service.findAll();

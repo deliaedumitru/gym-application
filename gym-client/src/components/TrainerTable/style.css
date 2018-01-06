@@ -1,0 +1,28 @@
+div .center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+table {
+    border-collapse: collapse;
+}
+
+table, th, td {
+    vertical-align: top;
+    padding: 3px;
+}
+
+.responsive-table {
+    width: 80%;
+}
+
+.schedule-table {
+    width: 100%;
+    background-color: rgba(250, 250, 250, 0.5);
+}
+
+.table-header th {
+    line-height: 40px;
+    width: 17%;
+    color: white;
+}

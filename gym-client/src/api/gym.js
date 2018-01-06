@@ -5,3 +5,4 @@ export const TRAINERS = 'trainers';
 export const CLASSES = 'classes';
 export const SCHEDULE = 'ClassSchedules';
 export const SCHEDULE_DETAILS = 'classSchedules/details';
+export const SCHEDULE_TRAINERS = 'PersonalSchedules';
