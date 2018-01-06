@@ -26,7 +26,13 @@ namespace Gym_Application.Authentication
     public class JwtAuthenticationAttribute : Attribute, IAuthenticationFilter
     {
         public string Realm { get; set; }
-        public bool AllowMultiple => false;
+        public bool AllowMultiple
+        {
+            get
+            {
+                return false;
+            }
+        }
 
         public async Task AuthenticateAsync(HttpAuthenticationContext context, CancellationToken cancellationToken)
         {
@@ -56,7 +62,7 @@ namespace Gym_Application.Authentication
         {
             var simplePrinciple = JwtManager.GetPrincipal(token);
 
-            if (simplePrinciple?.Identity == null)
+            if( ( simplePrinciple == null ) || ( simplePrinciple.Identity == null ) )
                 return null; // no token or expired
 
             var identity = simplePrinciple.Identity as ClaimsIdentity;
@@ -64,7 +70,7 @@ namespace Gym_Application.Authentication
                 return null; // not a user
 
             var usernameClaim = identity.FindFirst(ClaimTypes.Name);
-            var username = usernameClaim?.Value;
+            var username = usernameClaim == null ? null : usernameClaim.Value;
 
             if (string.IsNullOrEmpty(username))
                 return null; // username is null
