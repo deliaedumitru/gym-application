@@ -15,8 +15,14 @@ using System.Web.Http.Cors;
 using Gym_Application.Models;
 using Business_Layer.DTO;
 
+using System.Net.Mail;
+
 namespace Gym_Application.Controllers
 {
+
+    using DAL.Repository;
+
+
     [EnableCors(origins: "*", headers: "*", methods: "*")]
     public class ClassSchedulesController : ApiController
     {
@@ -143,14 +149,18 @@ namespace Gym_Application.Controllers
 
             try
             {
-                service.enrollUser( id_user, id_class_schedule );
-                return StatusCode( HttpStatusCode.Created );
+                Console.WriteLine("enrolling");
+                service.enrollUser(id_user, id_class_schedule);
+                return StatusCode(HttpStatusCode.Created);
             }
-            catch( Exception e )
+            catch (Exception e)
             {
-                return new System.Web.Http.Results.BadRequestErrorMessageResult( e.Message, this );
-            }
+                var trace = e.StackTrace;
+                Console.WriteLine(trace);
 
+                var result = new System.Web.Http.Results.BadRequestErrorMessageResult(e.Message, this);
+                return result;
+            }
         }
 
         // DELETE: api/ClassSchedules/{id}/participants/{id_user}   -   unenroll from class schedule
@@ -180,6 +190,7 @@ namespace Gym_Application.Controllers
         // POST: api/ClassSchedules
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [ResponseType( typeof( ClassSchedule ) )]
+        [Route("api/ClassSchedules")]
         public IHttpActionResult PostClassSchedule( ClassSchedule classSchedule )
         {
 

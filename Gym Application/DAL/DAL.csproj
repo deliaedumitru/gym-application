@@ -86,10 +86,15 @@
     <Compile Include="Migrations\201711281613260_Initial-migration.Designer.cs">
       <DependentUpon>201711281613260_Initial-migration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801111803290_created-waiting-q.cs" />
+    <Compile Include="Migrations\201801111803290_created-waiting-q.Designer.cs">
+      <DependentUpon>201801111803290_created-waiting-q.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\BaseModel.cs" />
     <Compile Include="Model\Class.cs" />
     <Compile Include="Model\ClassSchedule.cs" />
+    <Compile Include="Model\WaitingQueue.cs" />
     <Compile Include="Model\Difficulty.cs" />
     <Compile Include="Model\Feedback.cs" />
     <Compile Include="GymDBContext.cs" />
@@ -110,6 +115,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201711281613260_Initial-migration.resx">
       <DependentUpon>201711281613260_Initial-migration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801111803290_created-waiting-q.resx">
+      <DependentUpon>201801111803290_created-waiting-q.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
