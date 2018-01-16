@@ -50,5 +50,9 @@ namespace DAL.Model
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<User> ClassParticipants { get; set; }
 
+
+        [InverseProperty("ClassSchedule")]
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<WaitingQueue> UsersOnHold { get; set; }
     }
 }

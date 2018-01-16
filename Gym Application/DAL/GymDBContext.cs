@@ -39,6 +39,12 @@ namespace DAL
                 .WithMany(e => e.ClassScheduleForParticipant)
                 .Map(m => m.ToTable("ClassScheduleParticipant").MapLeftKey("ClassScheduleId").MapRightKey("ParticipantId"));
 
+            modelBuilder.Entity<ClassSchedule>()
+                .HasMany(e => e.UsersOnHold)
+                .WithRequired(e => e.ClassSchedule)
+                .HasForeignKey(e => e.ClassScheduleId)
+                .WillCascadeOnDelete(true);
+
             modelBuilder.Entity<SubscriptionType>()
                 .HasMany(e => e.Subcriptions)
                 .WithRequired(e => e.SubscriptionType)
@@ -81,6 +87,11 @@ namespace DAL
                 .HasForeignKey( e => e.TrainerId )
                 .WillCascadeOnDelete( false );
 
+            modelBuilder.Entity<User>()
+                .HasMany(e => e.ClassSchedulesOnWait)
+                .WithRequired(e => e.User)
+                .HasForeignKey(e => e.UserId)
+                .WillCascadeOnDelete(true);
         }
     }
 }

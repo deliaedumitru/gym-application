@@ -13,6 +13,7 @@ namespace Business_Layer.Services
     public class ClassScheduleServices
     {
         private UnitOfWork UoW = new UnitOfWork();
+        private WaitingQueueService wqService = new WaitingQueueService(); // Dependency injection plz
 
         private bool validateClassSchedule( ClassSchedule cs )
         {
@@ -62,7 +63,9 @@ namespace Business_Layer.Services
                 throw new InvalidOperationException( "The new capacity is less that the current number of enrolled users" );
             }
 
-            old.AvailableCapacity = cs.Capacity - ( old.Capacity - old.AvailableCapacity );
+            int? newCap = cs.Capacity - (old.Capacity - old.AvailableCapacity);
+
+            old.AvailableCapacity = newCap;
             old.Capacity = cs.Capacity;
             old.Date = cs.Date;
             old.Difficulty = cs.Difficulty;
@@ -74,6 +77,12 @@ namespace Business_Layer.Services
                 throw new InvalidOperationException( "The object is not in a valid state." );
             }
             repo.Update( old );
+            
+            if(old.AvailableCapacity > 0)
+            {
+                wqService.clearAndNotify(id);
+            }
+
             UoW.Save();
             return cs;
         }
@@ -154,7 +163,9 @@ namespace Business_Layer.Services
             }
             else
             {
-                throw new InvalidOperationException( "All positions are filled." );
+                // notify the user by e-mail?
+                wqService.addToQueue(cs_id, user_id);
+                //throw new InvalidOperationException( "All positions are filled." );
             }
         }
 
@@ -179,9 +190,9 @@ namespace Business_Layer.Services
             classSchedule.ClassParticipants.Remove( user );
             classSchedule.AvailableCapacity = classSchedule.AvailableCapacity + 1;
             CSrepo.Update( classSchedule );
+            wqService.clearAndNotify(cs_id);
 
             UoW.Save();
-            
         }
 
         public void delete( int id )
