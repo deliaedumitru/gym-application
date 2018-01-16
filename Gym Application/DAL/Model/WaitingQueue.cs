@@ -12,25 +12,25 @@ namespace DAL.Model
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    [Table("WaitingQueue")]
+    [Table( "WaitingQueue" )]
     public partial class WaitingQueue : BaseModel
     {
         public WaitingQueue()
         {
 
         }
-    
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+
+        [DatabaseGenerated( DatabaseGeneratedOption.Identity )]
         public int Id { get; set; }
 
-        [Required]
-        public ClassSchedule ClassSchedule { get; set; }
+        public virtual ClassSchedule ClassSchedule { get; set; }
 
+        [Required]
         public int ClassScheduleId { get; set; }
 
-        [Required]
-        public User User { get; set; }
+        public virtual User User { get; set; }
 
+        [Required]
         public int UserId { get; set; }
     }
 }

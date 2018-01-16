@@ -82,13 +82,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Migrations\201711281613260_Initial-migration.cs" />
-    <Compile Include="Migrations\201711281613260_Initial-migration.Designer.cs">
-      <DependentUpon>201711281613260_Initial-migration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201801111803290_created-waiting-q.cs" />
-    <Compile Include="Migrations\201801111803290_created-waiting-q.Designer.cs">
-      <DependentUpon>201801111803290_created-waiting-q.cs</DependentUpon>
+    <Compile Include="Migrations\201801162145485_default_migration.cs" />
+    <Compile Include="Migrations\201801162145485_default_migration.Designer.cs">
+      <DependentUpon>201801162145485_default_migration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\BaseModel.cs" />
@@ -113,11 +109,8 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201711281613260_Initial-migration.resx">
-      <DependentUpon>201711281613260_Initial-migration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201801111803290_created-waiting-q.resx">
-      <DependentUpon>201801111803290_created-waiting-q.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201801162145485_default_migration.resx">
+      <DependentUpon>201801162145485_default_migration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -69,12 +69,11 @@ namespace Business_Layer.Services
                 {
                     WaitingQueue wqU = wqList[i];
 
-
-                    wqU.User = uow.Repository<User>().GetById(wqU.UserId);
+                    //wqU.User = uow.Repository<User>().GetById(wqU.UserId);
                     if (wqU.User != null)
                     {
                         // send mail
-                        MailMessage msg = new MailMessage(inEmail, wqU.User.Email, "EMAIL!", "YOU'VE GOT MAIL!\n\n...\n\nWHY AM I SCREAMING?");
+                        MailMessage msg = new MailMessage( inEmail, wqU.User.Email, "Positions empty for the " + csC.Class.Name + " course!", wqU.User.Name + ", there are empty positions for the " + csC.Class.Name + " class on " + csC.Date + ". You can go to our page an try to enroll again!" );
                         smtpClient.Send(msg);
                     }
                     // delete from queue
