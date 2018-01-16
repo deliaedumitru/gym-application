@@ -3,7 +3,7 @@ namespace DAL.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class default_migration : DbMigration
+    public partial class Initialmigration : DbMigration
     {
         public override void Up()
         {
@@ -49,20 +49,6 @@ namespace DAL.Migrations
                     })
                 .PrimaryKey(t => t.Id)
                 .Index(t => t.Username, unique: true);
-            
-            CreateTable(
-                "dbo.WaitingQueue",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        ClassScheduleId = c.Int(nullable: false),
-                        UserId = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Users", t => t.UserId, cascadeDelete: true)
-                .ForeignKey("dbo.ClassSchedule", t => t.ClassScheduleId, cascadeDelete: true)
-                .Index(t => t.ClassScheduleId)
-                .Index(t => t.UserId);
             
             CreateTable(
                 "dbo.Feedback",
@@ -155,7 +141,6 @@ namespace DAL.Migrations
             DropForeignKey("dbo.ClassTrainer", "TrainerId", "dbo.Users");
             DropForeignKey("dbo.ClassTrainer", "ClassId", "dbo.Class");
             DropForeignKey("dbo.ClassSchedule", "ClassId", "dbo.Class");
-            DropForeignKey("dbo.WaitingQueue", "ClassScheduleId", "dbo.ClassSchedule");
             DropForeignKey("dbo.ClassScheduleParticipant", "ParticipantId", "dbo.Users");
             DropForeignKey("dbo.ClassScheduleParticipant", "ClassScheduleId", "dbo.ClassSchedule");
             DropForeignKey("dbo.Subcription", "UserId", "dbo.Users");
@@ -164,7 +149,6 @@ namespace DAL.Migrations
             DropForeignKey("dbo.PersonalSchedule", "ParticipantId", "dbo.Users");
             DropForeignKey("dbo.Feedback", "UserId", "dbo.Users");
             DropForeignKey("dbo.Feedback", "TrainerId", "dbo.Users");
-            DropForeignKey("dbo.WaitingQueue", "UserId", "dbo.Users");
             DropForeignKey("dbo.ClassSchedule", "TrainerId", "dbo.Users");
             DropIndex("dbo.ClassTrainer", new[] { "TrainerId" });
             DropIndex("dbo.ClassTrainer", new[] { "ClassId" });
@@ -176,8 +160,6 @@ namespace DAL.Migrations
             DropIndex("dbo.PersonalSchedule", new[] { "ParticipantId" });
             DropIndex("dbo.Feedback", new[] { "UserId" });
             DropIndex("dbo.Feedback", new[] { "TrainerId" });
-            DropIndex("dbo.WaitingQueue", new[] { "UserId" });
-            DropIndex("dbo.WaitingQueue", new[] { "ClassScheduleId" });
             DropIndex("dbo.Users", new[] { "Username" });
             DropIndex("dbo.ClassSchedule", new[] { "TrainerId" });
             DropIndex("dbo.ClassSchedule", new[] { "ClassId" });
@@ -187,7 +169,6 @@ namespace DAL.Migrations
             DropTable("dbo.Subcription");
             DropTable("dbo.PersonalSchedule");
             DropTable("dbo.Feedback");
-            DropTable("dbo.WaitingQueue");
             DropTable("dbo.Users");
             DropTable("dbo.ClassSchedule");
             DropTable("dbo.Class");
