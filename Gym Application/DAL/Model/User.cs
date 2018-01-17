@@ -33,6 +33,16 @@ namespace DAL.Model
         [StringLength(200)]
         public string Name { get; set; }
 
+        public string AvatarPath { get; set; }
+
+        public string About { get; set; }
+
+        public string FacebookHandle { get; set; }
+
+        public string InstagramHandle { get; set; }
+
+        public string TwitterHandle { get; set; }
+
         [Required]
         public byte[] PasswordSalt { get; set; }
 

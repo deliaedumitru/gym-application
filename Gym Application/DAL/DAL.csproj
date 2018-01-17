@@ -87,6 +87,10 @@
     <Compile Include="Migrations\201801162224011_email_notifications.Designer.cs">
       <DependentUpon>201801162224011_email_notifications.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201801171241475_User-feedback-subscription-update.cs" />
+    <Compile Include="Migrations\201801171241475_User-feedback-subscription-update.Designer.cs">
+      <DependentUpon>201801171241475_User-feedback-subscription-update.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\BaseModel.cs" />
     <Compile Include="Model\Class.cs" />
@@ -116,6 +120,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201801162224011_email_notifications.resx">
       <DependentUpon>201801162224011_email_notifications.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201801171241475_User-feedback-subscription-update.resx">
+      <DependentUpon>201801171241475_User-feedback-subscription-update.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
