@@ -42,7 +42,6 @@ export default class Main extends Component {
                         <Route path="/Class" component={Class}/>
                         <Route path="/ScheduleTrainer" component={ScheduleTrainer}/>
                     </div>
-                    <Image className="background" src={background} alt="background"/>
                 </div>
             </HashRouter>
         );
