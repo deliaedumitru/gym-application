@@ -37,6 +37,45 @@ namespace Gym_Application.Controllers
             return service.getFeedbacksForTrainer(id);
         }
 
+        [Route("api/feedbacks/{id}")]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpPut]
+        public IHttpActionResult UpdateFeedback(int id, [FromBody]FeedbackModelView feedbackModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var service = new FeedbackServices();
+            try
+            {
+                return Ok(service.updateFeedback(id, feedbackModel));
+            } catch(Exception e)
+            {
+                return InternalServerError(e);
+            }
+        }
+
+        [Route("api/feedbacks/trainer/{trainerId}/user/{userId}/")]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpGet]
+        public IHttpActionResult getFeedback(int trainerId, int userId)
+        {
+            var service = new FeedbackServices();
+            try
+            {
+                BaseFeedbackModelView f = service.getFeedbackForTrainerFromUser(trainerId, userId);
+                if (f == null)
+                    return NotFound();
+                else
+                    return Ok(f);
+            }
+            catch (Exception e)
+            {
+                return InternalServerError(e);
+            }
+        }
+
     }
 }
 

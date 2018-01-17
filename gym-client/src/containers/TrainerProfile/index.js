@@ -15,11 +15,14 @@ export default class TrainerProfile extends Component {
         this.getTrainerDetails = this.getTrainerDetails.bind(this);
         this.getFeedbacks = this.getFeedbacks.bind(this);
         this.onStarClick = this.onStarClick.bind(this);
+        this.getFeedbackFromUser = this.getFeedbackFromUser.bind(this);
+        this.updateFeedback = this.updateFeedback.bind(this);
 
         this.state = {
             userInfo: null,
             rating: 0,
-            feedbacks: []
+            feedbacks: [],
+            feedbackFromUser: null
         };
 
         const user = JSON.parse(localStorage.getItem("user"));
@@ -35,11 +38,12 @@ export default class TrainerProfile extends Component {
     componentDidMount() {
         console.log("TrainerProfile: component did mount");
         this.getTrainerDetails();
+        this.getFeedbackFromUser();
         this.getFeedbacks();
     }
 
     getTrainerDetails() {
-            fetch(`${SERVER}${TRAINERS}/` + this.trainerId, {
+        fetch(`${SERVER}${TRAINERS}/` + this.trainerId, {
             method: 'GET',
             headers: {
                 'Accept': 'application/json'
@@ -78,41 +82,122 @@ export default class TrainerProfile extends Component {
         });
     }
 
-    giveFeedback(event) {
+    getFeedbackFromUser() {
         if (this.userId) {
-            event.preventDefault();
-            const form = event.target;
-            const data = new FormData(form);
+            fetch(`${SERVER}${FEEDBACK}/trainer/` + this.trainerId + `/user/` + this.userId, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json'
+                }
+            }).then(response =>{
+                if (!response.ok) {
+                    throw Error(response.statusText);
+                }
+                return response.json()
+            }).then(responseData => {
+                this.setState({feedbackFromUser: responseData});
+            }).catch((error) => {
+                console.error(error);
+            });
+        }
+    }
 
-            const comment = data.get('text');
-            
+    giveFeedback(event) {
+        event.preventDefault();
+        const form = event.target;
+        const data = new FormData(form);
+        
+        const { feedbackFromUser } = this.state;
+
+        if (this.userId) {
+            if(feedbackFromUser===null) {
+                //user-ul nu a mai dat feedback => POST
+                this.postFeedback(data);
+            } else {
+                //user-ul a mai dat feedback => PUT
+                this.updateFeedback(data);
+            }
+        } else {
+            //SHOW ERROR MESSAGE: NOT LOGGED IN!
+            console.log("not logged in!!")
+        }
+    }
+
+    postFeedback(data) {
+        const { feedbacks } = this.state;
+        const { feedbackFromUser } = this.state;
+        const { rating } = this.state; 
+        const comment = data.get('textPost');
+
+        if(comment != null && rating != 0) {
+            var bodyJson = JSON.stringify({
+                TrainerId: this.trainerId,
+                UserId: this.userId,
+                Text: comment,
+                Rating: rating
+            });
             fetch(`${SERVER}${FEEDBACK}/`, {
                 method: 'POST',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    TrainerId: this.trainerId,
-                    UserId: this.userId,
-                    Text: comment,
-                    Rating: this.state.rating
-                })
-            }).then(response =>{
-                if (!response.ok) {
-                    //TODO: REDIRECT TO NOT FOUND
-                    throw Error(response.statusText);
-                }
-                return response.json()
-            }).then(responseData => {
-                this.setState({userInfo: responseData});
-                console.log(this.state.userInfo);
+                body: bodyJson
+            }).then(response => response.json()
+            ).then(responseData => {
+                this.setState({feedbackFromUser: responseData});
+                this.setState((prevState)=>(
+                    prevState.feedbacks.push(responseData)
+                ))
             }).catch((error) => {
                 console.error(error);
             });
         } else {
-            //SHOW ERROR MESSAGE: NOT LOGGED IN!
-            console.log("not logged in!!")
+            //SHOW ERROR MESSAGE: INVALID FEEDBACK
+            console.log("invalid feedback!!")
+        }
+    }
+
+    updateFeedback(data) {
+        const { feedbacks } = this.state;
+        const { feedbackFromUser } = this.state;
+        const { rating } = this.state;
+        const comment = data.get('text');
+
+        if(comment != null && rating != 0) {
+            var bodyJson = JSON.stringify({
+                TrainerId: this.trainerId,
+                UserId: this.userId,
+                Text: comment,
+                Rating: rating
+            });
+            fetch(`${SERVER}${FEEDBACK}/` + feedbackFromUser.Id, {
+                method: 'PUT',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json',
+                },
+                body: bodyJson
+            }).then(response => response.json()
+            ).then(responseData => {
+                this.setState({feedbackFromUser: responseData});
+                const updatedFeedback = feedbacks.map((it) => {
+                    if (it.Id === feedbackFromUser.Id) {
+                        return {
+                            ...it,
+                            Text: responseData.Text,
+                            Rating: responseData.Rating
+                        }
+                    } else 
+                    return it;
+                }); 
+                this.setState({feedbacks: updatedFeedback});
+            }).catch((error) => {
+                console.error(error);
+            });
+        } else {
+            //SHOW ERROR MESSAGE: INVALID FEEDBACK
+            console.log("invalid feedback!!")
         }
     }
 
@@ -124,6 +209,7 @@ export default class TrainerProfile extends Component {
         const { userInfo } = this.state;
         const { rating } = this.state;
         const { feedbacks } = this.state;
+        const { feedbackFromUser } = this.state;
         console.log(feedbacks);
         return (
             <div>
@@ -137,7 +223,7 @@ export default class TrainerProfile extends Component {
                                         <p>Lorem ipsum ceva descriere.</p>
                                     </div>
                                 </div> 
-                                {this.userId ?
+                                {this.userId && feedbackFromUser === null ?
                                     <div className="feedback">
                                         <h2>Leave your feedback </h2>
                                         <div style={{fontSize: 26}}>
@@ -152,8 +238,29 @@ export default class TrainerProfile extends Component {
                                             />
                                         </div>
                                         <form onSubmit={this.giveFeedback}>
-                                            <textarea id="text" name="text" className="input" placeholder="Comment"></textarea>
+                                            <textarea id="textPost" name="textPost" className="input" placeholder="Comment"></textarea>
                                             <input type="submit" value="SUBMIT"/>
+                                        </form>
+                                    </div> : null
+                                }
+
+                                {this.userId && feedbackFromUser != null ?
+                                    <div className="feedback">
+                                        <h2>You already left a feedback on this, but you can modify it if you want to.</h2>
+                                        <div style={{fontSize: 26}}>
+                                            <StarRatingComponent 
+                                                name="rate1" 
+                                                starCount={5}
+                                                value={feedbackFromUser.Rating}
+                                                onStarClick={this.onStarClick}
+                                                starColor="#6267bb"
+                                                emptyStarColor="#acb2c9"
+                                                renderStarIcon={() => <span className="stararea">★</span>}
+                                            />
+                                        </div>
+                                        <form onSubmit={this.giveFeedback}>
+                                            <textarea id="text" name="text" className="input" placeholder="Comment" defaultValue={feedbackFromUser.Text}></textarea>
+                                            <input type="submit" value="UPDATE"/>
                                         </form>
                                     </div> : null
                                 }
@@ -195,3 +302,4 @@ export default class TrainerProfile extends Component {
         )
     }
 }
+
