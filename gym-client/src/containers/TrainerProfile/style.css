@@ -1,0 +1,136 @@
+.profile {
+    background-color: white;
+    width: 70%;
+    margin: 0 auto;
+    font-family: 'Poppins', sans-serif;
+    padding: 50px 0;
+    margin-bottom: 1000px;
+}
+
+.info {
+    display: block;
+    width: auto;
+    height: auto;
+    padding: 50px 0;
+    overflow: auto;
+}
+
+.info .profile-photo {
+    display: block;
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    background-color: #fff;
+    margin: 0 auto;
+    background-image: url("http://escunited.com/forum/image.php?u=15363&dateline=1497829587");
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+.info .profile-info {
+    display: block;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    text-align: center;
+}
+.info .profile-info h1 {
+    font-size: 2em;
+    font-weight: 600;
+    margin-top: 0.5em;
+}
+
+.feedback {
+    display: block;
+    width: 60%;
+    height: auto;
+    padding: 20px 0;
+    overflow: auto;
+    margin: 0 auto;
+}
+
+.feedback .input {
+    color:black;
+    /*font-family: Helvetica, Arial, sans-serif;*/
+    font-weight:500;
+    font-size: 1.5em;
+    border-radius: 5px;
+    background-color: transparent;
+    border:2px solid #95a2ce;
+    transition: all 0.3s;
+    padding: 13px;
+    margin-bottom: 15px;
+    width:100%;
+    box-sizing: border-box;
+    outline:0;
+    resize: none;
+}
+
+.feedback .input:focus { border:2px solid #6267bb; }
+
+[type="submit"] {
+  width: 100%;
+  background:#95a2ce;
+  border-radius:5px;
+  border:0;
+  cursor:pointer;
+  color:white;
+  font-size:1.8em;
+  padding-top:10px;
+  padding-bottom:10px;
+  transition: all 0.3s;
+  margin-top:-4px;
+  font-weight:550;
+}
+[type="submit"]:hover { background:#6267bb; }
+
+.feedback article {
+    position: relative;
+    border-bottom: solid 1px rgba(178, 179, 153, 0.125);
+    margin: 0 auto 50px auto;
+}
+
+.feedback article:last-child {
+  border: none;
+}
+
+.feedback article img {
+  position: absolute;
+  top: -10px;
+  left: -75px;
+  width: 50px;
+  height: 50px;
+  border-width: 0;
+  border-radius: 100%;
+}
+
+.feedback article h4 {
+  display: inline-block;
+  font-weight: 400;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  font-size: 1.2rem;
+}
+
+.feedback article h4 a {
+  color: #404040;
+  text-transform: lowercase;
+  text-decoration: none;
+}
+
+.feedback article time {
+  color: #545454;
+  margin-left: 1rem;
+  text-transform: lowercase;
+  font-size: 1rem;
+}
+
+.feedback article p {
+  margin-bottom: 40px;
+  font-size: 1.1rem;
+}
+
+.stararea{
+    width:100px;
+    height:100px;
+}

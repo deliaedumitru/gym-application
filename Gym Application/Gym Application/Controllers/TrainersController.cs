@@ -33,6 +33,7 @@ namespace Gym_Application.Controllers
 
             return trainers;
         }
+
         [HttpPut]
         [Route("api/trainers/{id}")]
         public IHttpActionResult EditTrainer(int id)
@@ -107,5 +108,23 @@ namespace Gym_Application.Controllers
 
             return NotFound();
         }
+
+        [HttpGet]
+        [Route("api/trainers/{id}")]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IHttpActionResult getTrainer(int id)
+        {
+            IRepository<User> user_repo = transaction_manager.Repository<User>();
+            User user = user_repo.GetById(id);
+            if (user!= null && user.Role == Role.TRAINER)
+            {
+                return Ok(UserMapper.UserToBaseUserMV(user));
+            } else
+            {
+                return NotFound();
+            }
+        }
     }
+
+
 }

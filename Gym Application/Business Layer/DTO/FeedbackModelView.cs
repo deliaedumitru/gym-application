@@ -25,6 +25,8 @@ namespace Business_Layer.DTO
 
             public int UserId { get; set; }
 
+            public string Username { get; set; }
+            public string NameOfUser { get; set; }
             public string Text { get; set; }
 
             public short Rating { get; set; }

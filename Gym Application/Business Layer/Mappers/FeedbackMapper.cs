@@ -28,6 +28,8 @@ namespace Business_Layer.Mappers
             model.TrainerId = feedbackM.TrainerId;
             model.Rating = feedbackM.Rating;
             model.Text = feedbackM.Text;
+            model.Username = feedbackM.User.Username;
+            model.NameOfUser = feedbackM.User.Name;
             return model;
         }
     }

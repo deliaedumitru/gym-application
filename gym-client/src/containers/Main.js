@@ -8,7 +8,8 @@ import App from "./App";
 import LogIn from "./LogIn/LogIn";
 import SignUp from "./SignUp/SignUp";
 import Schedule from "./ScheduleUser/index.js";
-import ClassSchedule from "./ScheduleAdmin/index.js"
+import ClassSchedule from "./ScheduleAdmin/index.js";
+import TrainerProfile from "./TrainerProfile/index.js";
 import Image from "react-bootstrap/es/Image";
 import background from '../images/background.jpg';
 import ScheduleTrainer from './TrainerSchedule/ScheduleTrainer';
@@ -41,6 +42,7 @@ export default class Main extends Component {
                         <Route path="/AddSchedule" component={ClassSchedule}/>
                         <Route path="/Class" component={Class}/>
                         <Route path="/ScheduleTrainer" component={ScheduleTrainer}/>
+                        <Route path="/trainers/:id" component={TrainerProfile}/> 
                     </div>
                 </div>
             </HashRouter>
