@@ -31,6 +31,19 @@ namespace Business_Layer.DTO
         public int Role { get; set; }
     }
 
+    public class DetailedTrainerModelView
+    {
+        public int Id { get; set; }
+        public string Username { get; set; }
+        public string Name { get; set; }
+        public int Role { get; set; }
+        public String About { get; set; }
+        public String InstagramHandle { get; set; }
+        public String FacebookHandle { get; set; }
+        public String TwitterHandle { get; set; }
+        public IList<String> Classes { get; set; }
+    }
+
     public class LoginModelView
     {
         [Required]

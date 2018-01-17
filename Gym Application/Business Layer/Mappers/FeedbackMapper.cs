@@ -30,6 +30,7 @@ namespace Business_Layer.Mappers
             model.Text = feedbackM.Text;
             model.Username = feedbackM.User.Username;
             model.NameOfUser = feedbackM.User.Name;
+            model.date = feedbackM.Date;
             return model;
         }
     }

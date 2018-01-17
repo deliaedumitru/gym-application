@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import StarRatingComponent from 'react-star-rating-component';
-import moment from 'moment';
+import Moment from 'moment';
 import { Grid, Row, Col } from "react-bootstrap";
 import 'whatwg-fetch';
 
@@ -96,6 +96,7 @@ export default class TrainerProfile extends Component {
                 return response.json()
             }).then(responseData => {
                 this.setState({feedbackFromUser: responseData});
+                this.setState({rating: responseData.Rating});
             }).catch((error) => {
                 console.error(error);
             });
@@ -210,6 +211,13 @@ export default class TrainerProfile extends Component {
         const { rating } = this.state;
         const { feedbacks } = this.state;
         const { feedbackFromUser } = this.state;
+        var info = '';
+        if(userInfo && userInfo.Classes) {
+            userInfo.Classes.forEach((elem) => {
+                info = info + elem + ' & '
+            }); 
+        }
+        info = info.substring(0, info.length-2);
         console.log(feedbacks);
         return (
             <div>
@@ -217,11 +225,17 @@ export default class TrainerProfile extends Component {
                         {userInfo ?
                             <div>
                                 <div className="info">
-                                    <div className="profile-photo"></div>
                                     <div className="profile-info">
                                         <h1>{userInfo.Name}</h1>
-                                        <p>Lorem ipsum ceva descriere.</p>
+                                        <p>Our <b>{info}</b> trainer.
+                                        </p>
                                     </div>
+                                    {userInfo.About ?
+                                        <div className="profile-about-me">
+                                        <h2>About me </h2>
+                                        <p>{userInfo.About}</p>
+                                        </div> : null
+                                    }
                                 </div> 
                                 {this.userId && feedbackFromUser === null ?
                                     <div className="feedback">
@@ -273,7 +287,7 @@ export default class TrainerProfile extends Component {
                                                 return(
                                                     <article key={elem.Id}>
                                                         <h4>{elem.Username}</h4>
-                                                        <time>date</time> <br/>
+                                                        <time>{Moment(elem.date).format('d MMM YYYY')}</time> <br/>
                                                         
                                                         <div style={{fontSize: 26}}>
                                                         <StarRatingComponent 

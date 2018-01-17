@@ -17,7 +17,8 @@ namespace Business_Layer.Services
             using (var uow = new UnitOfWork())
             {
                 Feedback newFeedback = FeedbackMapper.FeedbackMVToFeedback(feedbackModel);
-                
+                newFeedback.Date = DateTime.Now;
+
                 uow.Repository<Feedback>().Save(newFeedback);
                 uow.Save();
 
@@ -33,6 +34,7 @@ namespace Business_Layer.Services
             {
                 Feedback newFeedback = FeedbackMapper.FeedbackMVToFeedback(feedbackModel);
                 newFeedback.Id = id;
+                newFeedback.Date = DateTime.Now;
 
                 uow.Repository<Feedback>().Update(newFeedback);
                 uow.Save();

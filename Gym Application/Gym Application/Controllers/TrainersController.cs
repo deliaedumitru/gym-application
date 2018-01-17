@@ -118,7 +118,8 @@ namespace Gym_Application.Controllers
             User user = user_repo.GetById(id);
             if (user!= null && user.Role == Role.TRAINER)
             {
-                return Ok(UserMapper.UserToBaseUserMV(user));
+                user.ClassForTrainer = user.ClassForTrainer;
+                return Ok(UserMapper.UserToDetailedTrainerUserMV(user));
             } else
             {
                 return NotFound();
