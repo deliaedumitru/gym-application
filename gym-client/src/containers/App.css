@@ -26,3 +26,9 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+.container {
+    background: url(../images/background.jpg) no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
