@@ -27,6 +27,13 @@
   to { transform: rotate(360deg); }
 }
 
+<<<<<<< origin/fix/scrollbar
+=======
+.header {
+    display: flex;
+    justify-content: flex-end;
+}
+
 li.pages {
     display: inline;
     padding: 1%;
@@ -53,11 +60,14 @@ li.pages a {
   float: left;
 }
 
+>>>>>>> local
 .container {
     background: url(../images/background.jpg) no-repeat;
     background-size: cover;
     background-attachment: fixed;
 }
+<<<<<<< origin/fix/scrollbar
+=======
 
 .container {
     position: relative;
@@ -78,3 +88,4 @@ li.pages a {
 .content::-webkit-scrollbar {
   display: none;
 }
+>>>>>>> local

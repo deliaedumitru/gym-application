@@ -13,6 +13,7 @@ import Image from "react-bootstrap/es/Image";
 import background from '../images/background.jpg';
 import ScheduleTrainer from './TrainerSchedule/ScheduleTrainer';
 import Class from "./Class/";
+import UserDashboard from "./UserDashboard/UserDashboard";
 
 export default class Main extends Component {
     render() {
@@ -31,9 +32,13 @@ export default class Main extends Component {
                             <li className="pages"><NavLink to="/LogIn">LOG IN</NavLink></li>
                             <li className="pages"><NavLink to="/SignUp">SIGN UP</NavLink></li>
                             <li className="pages"><NavLink to="/Class">Class</NavLink></li>
+                            <li className="pages"><NavLink to="/UserDashboard">UserDashboard</NavLink></li>
                         </ul>
                     </div>
                     <div className="content">
+                        <p>&nbsp;</p>
+                        <p>&nbsp;</p>
+                        <p>&nbsp;</p>
                         <Route exact path="/" component={App}/>
                         <Route path="/LogIn" component={LogIn}/>
                         <Route path="/SignUp" component={SignUp}/>
@@ -41,6 +46,7 @@ export default class Main extends Component {
                         <Route path="/AddSchedule" component={ClassSchedule}/>
                         <Route path="/Class" component={Class}/>
                         <Route path="/ScheduleTrainer" component={ScheduleTrainer}/>
+                        <Route path="/UserDashboard" component={UserDashboard}/>
                     </div>
                 </div>
             </HashRouter>
