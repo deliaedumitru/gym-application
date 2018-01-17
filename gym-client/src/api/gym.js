@@ -6,3 +6,6 @@ export const CLASSES = 'class';
 export const SCHEDULE = 'ClassSchedules';
 export const SCHEDULE_DETAILS = 'classSchedules/details';
 export const SCHEDULE_TRAINERS = 'PersonalSchedules';
+export const SUBSCRIPTIONS = 'Subscriptions';
+export const PURCHASE_SUBSCRIPTION= 'Subscription/purchase';
+export const SUBSCRIPTION = 'Subscription';

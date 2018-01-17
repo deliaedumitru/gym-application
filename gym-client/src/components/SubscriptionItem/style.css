@@ -1,0 +1,50 @@
+div #subscription-container{
+    width: 20%;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(250, 250, 250, 0.8);
+    height: 200px;
+    border-radius: 10px;
+    margin: 20px;
+}
+
+div #name-container{
+    font-size: x-large;
+    text-align: center;
+}
+
+div #price-container{
+    font-size: small;
+    text-align: center;
+}
+div #details-container{
+    height: 50%;
+    font-size: medium;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+div #button-container{
+    display: flex;
+    justify-content: center;
+}
+
+#purchase-button{
+    width: 90%;
+    height: 40px;
+    background-image: linear-gradient(to right, #748ccc 0%, #98c2f1 51%, #748ccc 100%);
+    cursor:pointer;
+    overflow: hidden;
+    border-width: thin;
+    border-radius: 10px;
+    outline: none;
+
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+}
+
+#purchase-button:hover {
+    background-position: right center; /* change the direction of the change here */
+}
