@@ -8,6 +8,8 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using System.Web.Http.Cors;
+using DAL.Model;
+using Gym_Application.Authentication;
 
 namespace Gym_Application.Controllers
 {
@@ -15,9 +17,14 @@ namespace Gym_Application.Controllers
     {
         // POST: api/Class
         [Route( "api/Class" )]
+        [JwtAuthentication]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult PostClass([FromBody]ClassModelView classModel)
         {
+            // at least trainer
+            if (!Utils.CheckPermission(new List<Role> { Role.ADMIN, Role.TRAINER }))
+                return StatusCode(HttpStatusCode.Forbidden);
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -31,9 +38,14 @@ namespace Gym_Application.Controllers
         // DELETE: api/Class/5
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [Route( "api/Class/{id}" )]
+        [JwtAuthentication]
         [HttpDelete]
         public IHttpActionResult DeleteClass(int id)
         {
+            // at least trainer
+            if (!Utils.CheckPermission(new List<Role> { Role.ADMIN, Role.TRAINER }))
+                return StatusCode(HttpStatusCode.Forbidden);
+
             var service = new ClassServices();
             try
             {
@@ -48,6 +60,7 @@ namespace Gym_Application.Controllers
 
 
         [Route( "api/Class" )]
+        [JwtAuthentication]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
         public IQueryable<BaseClassModelView> GetClass()
@@ -59,6 +72,7 @@ namespace Gym_Application.Controllers
         [EnableCors( origins: "*", headers: "*", methods: "*" )]
         [HttpGet]
         [Route( "api/Class/{id}" )]
+        [JwtAuthentication]
         public IHttpActionResult GetClass( int id )
         {
             var service = new ClassServices();
@@ -74,9 +88,14 @@ namespace Gym_Application.Controllers
 
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPut]
+        [JwtAuthentication]
         [Route("api/Class/{id}")]
         public IHttpActionResult PutClass(int id, [FromBody]ClassModelView classModel)
         {
+            // at least trainer
+            if (!Utils.CheckPermission(new List<Role> { Role.ADMIN, Role.TRAINER }))
+                return StatusCode(HttpStatusCode.Forbidden);
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);

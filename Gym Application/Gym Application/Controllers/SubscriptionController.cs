@@ -13,6 +13,7 @@ using DAL.Model;
 using Business_Layer.Services;
 using System.Web.Http.Cors;
 using Business_Layer.DTO;
+using Gym_Application.Authentication;
 
 namespace Gym_Application.Controllers
 {
@@ -22,6 +23,7 @@ namespace Gym_Application.Controllers
         private SubscriptionService service = new SubscriptionService();
         // GET: api/Subscription
         [Route("api/Subscriptions")]
+        [JwtAuthentication]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IQueryable<SubscriptionModelView> GetSubcription()
         {
@@ -30,9 +32,13 @@ namespace Gym_Application.Controllers
 
         // POST api/Subscription/Purchase
         [Route("api/Subscription/purchase")]
+        [JwtAuthentication]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult PurchaseSubscription( SubscriptionUserModelView su)
         {
+            // users should not be able to perform destructive operations
+            if (!Utils.CheckPermission(new List<Role> { Role.USER, Role.ADMIN, Role.TRAINER }))
+                return StatusCode(HttpStatusCode.Forbidden);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -44,6 +50,7 @@ namespace Gym_Application.Controllers
 
         // GET: api/Subscription/5
         [ResponseType(typeof(Subcription))]
+        [JwtAuthentication]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult GetSubcription(int id)
         {
@@ -62,9 +69,12 @@ namespace Gym_Application.Controllers
 
         // PUT: api/Subscription/5
         [ResponseType(typeof(void))]
+        [JwtAuthentication]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult PutSubcription(int id, SubscriptionModelView subscription)
         {
+            if (!Utils.CheckPermission(new List<Role> { Role.USER, Role.ADMIN, Role.TRAINER }))
+                return StatusCode(HttpStatusCode.Forbidden);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -97,9 +107,12 @@ namespace Gym_Application.Controllers
 
         // POST: api/Subscription
         [ResponseType(typeof(SubscriptionModelView))]
+        [JwtAuthentication]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult PostSubcription(SubscriptionModelView subscription)
         {
+            if (!Utils.CheckPermission(new List<Role> { Role.USER, Role.ADMIN, Role.TRAINER }))
+                return StatusCode(HttpStatusCode.Forbidden);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -112,9 +125,13 @@ namespace Gym_Application.Controllers
 
         // DELETE: api/Subscription/5
         [ResponseType(typeof(SubscriptionModelView))]
+        [JwtAuthentication]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult DeleteSubcription(int id)
         {
+            if (!Utils.CheckPermission(new List<Role> { Role.USER, Role.ADMIN, Role.TRAINER }))
+                return StatusCode(HttpStatusCode.Forbidden);
+
             SubscriptionModelView subscription = service.getByID(id);
             if (subscription == null)
             {

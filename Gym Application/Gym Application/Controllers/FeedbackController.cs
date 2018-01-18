@@ -7,16 +7,23 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Cors;
+using DAL.Model;
+using Gym_Application.Authentication;
 
 namespace Gym_Application.Controllers
 {
     public class FeedbackController : ApiController
     {
         [Route( "api/feedbacks/" )]
+        [JwtAuthentication]
         [EnableCors( origins: "*", headers: "*", methods: "*" )]
         [HttpPost]
         public IHttpActionResult PostFeedack([FromBody]FeedbackModelView feedbackModel)
         {
+            // at least user
+            if (!Utils.CheckPermission(new List<Role> { Role.USER, Role.ADMIN, Role.TRAINER }))
+                return StatusCode(HttpStatusCode.Forbidden);
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -29,6 +36,7 @@ namespace Gym_Application.Controllers
 
 
         [Route("api/feedbacks/{id}")]
+        [JwtAuthentication]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
         public IQueryable<BaseFeedbackModelView> GetClass(int id)
@@ -38,10 +46,15 @@ namespace Gym_Application.Controllers
         }
 
         [Route("api/feedbacks/{id}")]
+        [JwtAuthentication]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPut]
         public IHttpActionResult UpdateFeedback(int id, [FromBody]FeedbackModelView feedbackModel)
         {
+            // at least user
+            if (!Utils.CheckPermission(new List<Role> { Role.USER, Role.ADMIN, Role.TRAINER }))
+                return StatusCode(HttpStatusCode.Forbidden);
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -57,6 +70,7 @@ namespace Gym_Application.Controllers
         }
 
         [Route("api/feedbacks/trainer/{trainerId}/user/{userId}/")]
+        [JwtAuthentication]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
         public IHttpActionResult getFeedback(int trainerId, int userId)

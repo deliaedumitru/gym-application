@@ -90,9 +90,6 @@ namespace Gym_Application.Controllers
         public IHttpActionResult EnrolledClasses(int id_user)
         {
             // check for permissions first thing
-            if (!Utils.CheckPermission())
-                return StatusCode(HttpStatusCode.Forbidden);
-
             try
             {
                 var service = new UserServices();
