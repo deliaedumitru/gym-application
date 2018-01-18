@@ -9,6 +9,7 @@ using System.Web.Http;
 using Business_Layer.DTO;
 using Business_Layer.Services;
 using System.Web.Http.Cors;
+using DAL.Model;
 using Gym_Application.Authentication;
 
 namespace Gym_Application.Controllers
@@ -49,7 +50,7 @@ namespace Gym_Application.Controllers
                 HttpContext.Current.Response.AppendHeader("Authorization", "Bearer " + JwtManager.GenerateToken(model.Username));
                 return Ok(account);
             }
-            catch (Exception)
+            catch (Exception e)
             {
                 return NotFound();
             }
@@ -66,9 +67,11 @@ namespace Gym_Application.Controllers
         [HttpGet]
         public IHttpActionResult GetSelf()
         {
+            // return forbidden if not logged in
+            if (!Utils.CheckPermission())
+                return StatusCode(HttpStatusCode.Forbidden);
+
             var user = Utils.GetCurrentUser(); // this is just a demo
-            if(user == null)
-                return NotFound(); // return 404 if not logged in
 
             // otherwise return the current user
             return Ok(new BaseUserModelView {
@@ -82,9 +85,14 @@ namespace Gym_Application.Controllers
         //returns the classes for which the user is enrolled
         [Route("api/users/{id_user}/enrolledClasses")]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [JwtAuthentication]
         [HttpGet]
         public IHttpActionResult EnrolledClasses(int id_user)
         {
+            // check for permissions first thing
+            if (!Utils.CheckPermission())
+                return StatusCode(HttpStatusCode.Forbidden);
+
             try
             {
                 var service = new UserServices();
