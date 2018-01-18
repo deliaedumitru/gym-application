@@ -36,6 +36,7 @@ thead>tr {
 
 tbody {
   display: block;
+    /* inaltimea tabelului o sa creasca in functie de cate elemente sunt in el */
   min-height: 450px;
   overflow: auto;
 }
