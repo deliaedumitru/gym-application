@@ -31,11 +31,13 @@ td {
 
 thead>tr {
   position: relative;
-  display: block;
+    /* pls don't touch dis ty
+  display: block; */
 }
 
 tbody {
-  display: block;
+    /* pls don't touch dis either ty
+  display: block; */
     /* inaltimea tabelului o sa creasca in functie de cate elemente sunt in el */
   min-height: 450px;
   overflow: auto;
