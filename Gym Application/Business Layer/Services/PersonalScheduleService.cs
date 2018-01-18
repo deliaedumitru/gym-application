@@ -128,7 +128,7 @@ namespace Business_Layer.Services
             List<PersonalScheduleView> res = new List<PersonalScheduleView>();
             foreach (PersonalSchedule ps in all)
             {
-                if( ps.TrainerId == trainerId && ps.Date >= startDate && ps.Date <= stopDate )
+                if( (ps.TrainerId == trainerId || ps.ParticipantId == trainerId) && ps.Date >= startDate && ps.Date <= stopDate )
                 {
                     res.Add(PersonalScheduleMapper.ScheduleToScheduleDetails(ps));
                 }
