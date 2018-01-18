@@ -1,3 +1,50 @@
+li.pages {
+    display: inline;
+    padding: 1%;
+}
+
+li.pages a {
+    text-decoration: none;
+}
+
+.gym-navbar {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    z-index: 10;
+    background-color: #ffffff;
+    box-shadow: 3px 3px grey;
+    height: 60px;
+}
+
+.gym-container {
+    background: url(./images/background.jpg) no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+.gym-container {
+    position: relative;
+    overflow: hidden;
+    min-height: 1000px;
+    width: 100%;
+    height: 100%;
+}
+
+.content {
+    padding-top: 60px;
+    position: absolute;
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.content::-webkit-scrollbar {
+    display: none;
+}
+
+
 body {
     margin: 0;
     padding: 0;
