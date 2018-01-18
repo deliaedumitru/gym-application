@@ -61,9 +61,6 @@ namespace Gym_Application.Controllers
         [HttpPost]
         public IHttpActionResult GetPersonalSchedulesDetails([FromBody] DateSpan dateSpan, int id )
         {
-            // at least user
-            if (!Utils.CheckPermission(new List<Role> { Role.USER, Role.ADMIN, Role.TRAINER }))
-                return StatusCode(HttpStatusCode.Forbidden);
             try
             {
                 if (ModelState.IsValid)

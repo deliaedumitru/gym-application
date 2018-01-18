@@ -2,11 +2,12 @@ import React, {Component} from 'react';
 import moment from 'moment';
 import 'whatwg-fetch';
 
-import {SCHEDULE_DETAILS, SERVER} from "../../api/gym";
+import {enrollUser, getEnrollments, getSchedule, unenrollUser} from "../../api/gym";
 import ScheduleTable from "../../components/ScheduleTable/index";
 
 import './style.css'
 import {getMonday, getSunday} from "../DateUtils/index";
+
 
 export default class Schedule extends Component {
     constructor(props) {
@@ -41,15 +42,8 @@ export default class Schedule extends Component {
 
     enrollToClassSchedule(scheduleId) {
         if (this.userId) {
-            let enrollUserUrl = SERVER + 'ClassSchedules/' + scheduleId + '/participants/' + this.userId;
-
-            //TODO handle error case
-            fetch(enrollUserUrl, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json'
-                }
-            }).then().then(responseData => {
+            const userId = this.userId;
+            const onSuccess = (responseData) => {
                 const {classes} = this.state;
                 const updatedClasses = classes.map((it) => {
                     if (it.Id.toString() === scheduleId) {
@@ -63,9 +57,9 @@ export default class Schedule extends Component {
 
                 this.loadEnrolledClasses();
                 this.setState(() => ({classes: updatedClasses}));
-            }).catch((error) => {
-                console.error(error);
-            });
+            };
+
+            enrollUser(userId, scheduleId, onSuccess);
         } else {
             //SHOW ERROR MESSAGE: NOT LOGGED IN!
             console.log("not logged in!!")
@@ -74,13 +68,7 @@ export default class Schedule extends Component {
 
     unEnrollToClassSchedule(scheduleId) {
         if (this.userId) {
-            let unEnrollUserUrl = SERVER + 'ClassSchedules/' + scheduleId + '/participants/' + this.userId;
-            fetch(unEnrollUserUrl, {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json'
-                }
-            }).then().then(responseData => {
+            const onSuccess = (responseData) => {
                 const {classes} = this.state;
                 const updatedClasses = classes.map((it) => {
                     if (it.Id.toString() === scheduleId) {
@@ -95,9 +83,10 @@ export default class Schedule extends Component {
                 this.setState(() => ({classes: updatedClasses}));
                 console.log("classes after", this.state.classes);
                 this.loadEnrolledClasses();
-            }).catch((error) => {
-                console.error(error);
-            });
+            };
+
+            const userId = this.userId;
+            unenrollUser(userId, scheduleId, onSuccess);
         } else {
             //SHOW ERROR MESSAGE: NOT LOGGED IN!
             console.log("not logged in!!")
@@ -106,18 +95,12 @@ export default class Schedule extends Component {
 
     loadEnrolledClasses() {
         if (this.userId) {
-            let userEnrolledUrl = SERVER + 'users/' + this.userId + '/enrolledClasses';
-
-            fetch(userEnrolledUrl, {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json'
-                }
-            }).then(response => response.json()).then(responseData => {
+            const onSuccess = (responseData) => {
                 this.setState({loggedUserEnrolled: responseData});
-            }).catch((error) => {
-                console.error(error);
-            });
+            };
+
+            const userId = this.userId;
+            getEnrollments(userId, onSuccess);
         } else {
             //SHOW ERROR MESSAGE: NOT LOGGED IN!
             console.log("not logged in!!")
@@ -125,20 +108,12 @@ export default class Schedule extends Component {
     }
 
     loadSchedule(monday, sunday) {
-        fetch(`${SERVER}${SCHEDULE_DETAILS}`, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                startDate: monday,
-                endDate: sunday,
-            })
-        }).then(response => response.json()).then(responseData => {
+        const startDate = monday;
+        const endDate = sunday;
+        const onSuccess = (responseData) => {
             this.setState({classes: responseData, monday, sunday});
-        }).catch((error) => {
-            console.error(error);
-        });
+        };
+        getSchedule(startDate, endDate, onSuccess);
     }
 
     containsElement(elem) {
