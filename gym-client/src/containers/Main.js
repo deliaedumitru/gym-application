@@ -8,12 +8,16 @@ import App from "./App";
 import LogIn from "./LogIn/LogIn";
 import SignUp from "./SignUp/SignUp";
 import Schedule from "./ScheduleUser/index.js";
-import ClassSchedule from "./ScheduleAdmin/index.js"
+import ClassSchedule from "./ScheduleAdmin/index.js";
 import SchedulePersonal from './PersonalSchedule/index'
+import TrainerProfile from "./TrainerProfile/index.js";
+import Trainers from "./Trainers/index.js";
 import Image from "react-bootstrap/es/Image";
 import background from '../images/background.jpg';
 import ScheduleTrainer from './TrainerSchedule/ScheduleTrainer';
 import Class from "./Class/";
+import SubscriptionUser from "./SubscriptionUser/index.js";
+import SubscriptionAdmin from "./SubscriptionAdmin/index.js";
 
 export default class Main extends Component {
     render() {
@@ -33,6 +37,9 @@ export default class Main extends Component {
                             <li className="pages"><NavLink to="/SignUp">SIGN UP</NavLink></li>
                             <li className="pages"><NavLink to="/Class">Class</NavLink></li>
                             <li className="pages"><NavLink to="/SchedulePersonal">Schedule Personal</NavLink></li>
+                            <li className="pages"><NavLink to="/Trainers">Trainers</NavLink></li>
+                            <li className="pages"><NavLink to="/SubscriptionUser">Subscription</NavLink></li>
+                            <li className="pages"><NavLink to="/SubscriptionAdmin">Subscription admin</NavLink></li>
                         </ul>
                     </div>
                     <div className="content">
@@ -44,6 +51,10 @@ export default class Main extends Component {
                         <Route path="/Class" component={Class}/>
                         <Route path="/ScheduleTrainer" component={ScheduleTrainer}/>
                         <Route path="/SchedulePersonal" component={SchedulePersonal}/>
+                        <Route path="/Trainer/:id" component={TrainerProfile}/> 
+                        <Route path="/Trainers" component={Trainers}/> 
+                        <Route path="/SubscriptionUser" component={SubscriptionUser}/>
+                        <Route path="/SubscriptionAdmin" component={SubscriptionAdmin}/>
                     </div>
                 </div>
             </HashRouter>

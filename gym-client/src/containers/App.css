@@ -27,8 +27,54 @@
   to { transform: rotate(360deg); }
 }
 
+li.pages {
+    display: inline;
+    padding: 1%;
+}
+
+li.pages a {
+    text-decoration: none;
+}
+
+.navbar {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    z-index: 10;
+    background-color: #ffffff;
+    box-shadow: 3px 3px grey;
+    right:10px;
+    height: 8%;
+}
+
+.nabar > ul {
+  margin-left: 10%;
+  display: inline;
+  float: left;
+}
+
 .container {
     background: url(../images/background.jpg) no-repeat;
     background-size: cover;
     background-attachment: fixed;
+}
+
+.container {
+    position: relative;
+    overflow: hidden;
+    min-height: 1000px;
+    width: 100%;
+    height: 100%;
+}
+
+.content {
+    position: absolute;
+    overflow: auto;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.content::-webkit-scrollbar {
+  display: none;
 }

@@ -10,24 +10,48 @@ using System.Web.Http;
 using System.Web.Http.Description;
 using DAL;
 using DAL.Model;
+using Business_Layer.Services;
+using System.Web.Http.Cors;
+using Business_Layer.DTO;
 
 namespace Gym_Application.Controllers
 {
     public class SubscriptionController : ApiController
     {
-        private GymDBContext db = new GymDBContext();
 
+        private SubscriptionService service = new SubscriptionService();
         // GET: api/Subscription
-        public IQueryable<Subcription> GetSubcription()
+        [Route("api/Subscriptions")]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IQueryable<SubscriptionModelView> GetSubcription()
         {
-            return db.Subcription;
+            return service.getAllSubscriptions();
+        }
+
+        // POST api/Subscription/Purchase
+        [Route("api/Subscription/purchase")]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IHttpActionResult PurchaseSubscription( SubscriptionUserModelView su)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            service.purchaseSubscription(su);
+
+            return StatusCode(HttpStatusCode.OK);
         }
 
         // GET: api/Subscription/5
         [ResponseType(typeof(Subcription))]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult GetSubcription(int id)
         {
-            Subcription subcription = db.Subcription.Find(id);
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            SubscriptionModelView subcription = service.getByID(id);
             if (subcription == null)
             {
                 return NotFound();
@@ -38,23 +62,23 @@ namespace Gym_Application.Controllers
 
         // PUT: api/Subscription/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutSubcription(int id, Subcription subcription)
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IHttpActionResult PutSubcription(int id, SubscriptionModelView subscription)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != subcription.Id)
+            if (id != subscription.Id)
             {
                 return BadRequest();
             }
 
-            db.Entry(subcription).State = EntityState.Modified;
 
             try
             {
-                db.SaveChanges();
+                service.updateSubscription(id, subscription);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -68,52 +92,43 @@ namespace Gym_Application.Controllers
                 }
             }
 
-            return StatusCode(HttpStatusCode.NoContent);
+            return StatusCode(HttpStatusCode.OK);
         }
 
         // POST: api/Subscription
-        [ResponseType(typeof(Subcription))]
-        public IHttpActionResult PostSubcription(Subcription subcription)
+        [ResponseType(typeof(SubscriptionModelView))]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        public IHttpActionResult PostSubcription(SubscriptionModelView subscription)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Subcription.Add(subcription);
-            db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = subcription.Id }, subcription);
+            var service = new SubscriptionService();
+            service.addSubscription(subscription);
+            return StatusCode(HttpStatusCode.OK);
         }
 
         // DELETE: api/Subscription/5
-        [ResponseType(typeof(Subcription))]
+        [ResponseType(typeof(SubscriptionModelView))]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult DeleteSubcription(int id)
         {
-            Subcription subcription = db.Subcription.Find(id);
-            if (subcription == null)
+            SubscriptionModelView subscription = service.getByID(id);
+            if (subscription == null)
             {
                 return NotFound();
             }
 
-            db.Subcription.Remove(subcription);
-            db.SaveChanges();
+            service.deleteSubscription(id);
 
-            return Ok(subcription);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
+            return Ok(subscription);
         }
 
         private bool SubcriptionExists(int id)
         {
-            return db.Subcription.Count(e => e.Id == id) > 0;
+            return service.getByID(id) != null;
         }
     }
 }

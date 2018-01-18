@@ -32,6 +32,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.IdentityModel.Logging, Version=1.1.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IdentityModel.Logging.1.1.5\lib\net45\Microsoft.IdentityModel.Logging.dll</HintPath>
       <Private>True</Private>
@@ -42,7 +48,6 @@
     </Reference>
     <Reference Include="Newtonsoft.Json, Version=10.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.10.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
@@ -62,6 +67,9 @@
     <Compile Include="DTO\ClassScheduleModelView.cs" />
     <Compile Include="DTO\FeedbackModelView.cs" />
     <Compile Include="DTO\PersonalScheduleView.cs" />
+    <Compile Include="DTO\SubscriptionModelView.cs" />
+    <Compile Include="DTO\SubscriptionUserModelView.cs" />
+    <Compile Include="Mappers\SubscriptionMapper.cs" />
     <Compile Include="DTO\UserModelViews.cs" />
     <Compile Include="Mappers\ClassMapper.cs" />
     <Compile Include="Mappers\ClassScheduleMapper.cs" />
@@ -74,6 +82,7 @@
     <Compile Include="Services\ClassServices.cs" />
     <Compile Include="Services\FeedbackServices.cs" />
     <Compile Include="Services\PersonalScheduleService.cs" />
+    <Compile Include="Services\SubscriptionService.cs" />
     <Compile Include="Services\UserServices.cs" />
     <Compile Include="Services\WaitingQueueService.cs" />
   </ItemGroup>

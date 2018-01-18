@@ -29,5 +29,24 @@ namespace Business_Layer.Mappers
             model.Role = Convert.ToInt32(user.Role);
             return model;
         }
+
+        public static DetailedTrainerModelView UserToDetailedTrainerUserMV(User user)
+        {
+            DetailedTrainerModelView model = new DetailedTrainerModelView();
+            model.Id = user.Id;
+            model.Username = user.Username;
+            model.Name = user.Name;
+            model.Role = Convert.ToInt32(user.Role);
+            model.About = user.About;
+            model.InstagramHandle = user.InstagramHandle;
+            model.FacebookHandle = user.InstagramHandle;
+            model.TwitterHandle = user.TwitterHandle;
+            model.Classes = new List<String>();
+            foreach(Class c in user.ClassForTrainer)
+            {
+                model.Classes.Add(c.Name);
+            }
+            return model;
+        }
     }
 }

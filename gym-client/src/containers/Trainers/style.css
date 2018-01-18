@@ -1,0 +1,79 @@
+.trainers-list {
+    margin: 0 auto;
+    font-family: 'Poppins', sans-serif;
+    padding: 50px 0;
+    margin-bottom: 280px;
+    max-width: 930px;
+}
+
+.trainers {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.trainer-item {
+  display: block;
+  margin-top: 10px;
+  padding: 20px;
+  border-radius: 2px;
+  background: white;
+  -webkit-box-shadow: 0 2px 1px rgba(170, 170, 170, 0.25);
+          box-shadow: 0 2px 1px rgba(170, 170, 170, 0.25);
+}
+
+.list .trainer-item {overflow: auto;
+    display: block;
+    width: 100%;
+    max-width: 250px;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.grid .trainer-item {
+    overflow: auto;
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  height: 150px;
+  width: 250px;
+  margin: 10px;
+}
+
+.trainer-item .trainer-info {
+    overflow: auto;
+    margin: 0 auto;
+    text-align: center;
+    font-size: 1.2rem;
+    max-height: 100px;
+}
+
+.trainer-item .trainer-info h1 {
+    overflow: auto;
+    font-size: 2em;
+    font-weight: 600;
+    margin-top: 0;
+    padding-top: 0;
+    max-height: 100px;
+}
+
+.trainer-item .survey-progress {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    border-top: 1px solid #eee;
+    font-size: 13px;
+    text-align: center;
+  }
+
+  .trainer-item a {
+    text-decoration: none;
+    color: black;
+  }
+
+
+.trainer-item .go-to:hover { background:#6267bb; }

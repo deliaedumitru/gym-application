@@ -17,9 +17,29 @@ namespace Business_Layer.Services
             using (var uow = new UnitOfWork())
             {
                 Feedback newFeedback = FeedbackMapper.FeedbackMVToFeedback(feedbackModel);
+                newFeedback.Date = DateTime.Now;
 
                 uow.Repository<Feedback>().Save(newFeedback);
                 uow.Save();
+
+                newFeedback.User = uow.Repository<User>().GetById(newFeedback.UserId);
+
+                return FeedbackMapper.FeedbackToBaseFeedbackMV(newFeedback);
+            }
+        }
+
+        public BaseFeedbackModelView updateFeedback(int id, FeedbackModelView feedbackModel)
+        {
+            using (var uow = new UnitOfWork())
+            {
+                Feedback newFeedback = FeedbackMapper.FeedbackMVToFeedback(feedbackModel);
+                newFeedback.Id = id;
+                newFeedback.Date = DateTime.Now;
+
+                uow.Repository<Feedback>().Update(newFeedback);
+                uow.Save();
+
+                newFeedback.User = uow.Repository<User>().GetById(newFeedback.UserId);
 
                 return FeedbackMapper.FeedbackToBaseFeedbackMV(newFeedback);
             }
@@ -39,6 +59,23 @@ namespace Business_Layer.Services
                     }
                 }
                 return qFeedbacks.AsQueryable();
+            }
+        }
+
+        public BaseFeedbackModelView getFeedbackForTrainerFromUser(int trainerId, int userId)
+        {
+            using (var uow = new UnitOfWork())
+            {
+                IEnumerable<Feedback> feedbacks = uow.Repository<Feedback>().findAll();
+                BaseFeedbackModelView result = null;
+                foreach (Feedback f in feedbacks)
+                {
+                    if (f.TrainerId == trainerId && f.UserId == userId)
+                    {
+                        result = FeedbackMapper.FeedbackToBaseFeedbackMV(f);
+                    }
+                }
+                return result;
             }
         }
     }

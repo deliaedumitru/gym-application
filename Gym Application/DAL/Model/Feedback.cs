@@ -21,6 +21,9 @@ namespace DAL.Model
         public string Text { get; set; }
 
         public short Rating { get; set; }
+        
+        [Column(TypeName = "date")]
+        public DateTime Date { get; set; }
 
         [InverseProperty("ReceivedFeedback")]
         public virtual User Trainer { get; set; }
