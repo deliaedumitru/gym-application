@@ -54,12 +54,12 @@ export default class Trainers extends Component {
                             {trainers.map((elem) => 
                                 {
                                     return(
-                                        <li className="trainer-item">
-                                                <div className="trainer-info" style={{"max-height": "125px"}}>
-                                                    <h1 style={{"max-height": "100px"}}>{elem.Name}</h1>
+                                        <li key={elem.Id} className="trainer-item">
+                                                <div className="trainer-info" style={{"maxHeight": "125px"}}>
+                                                    <h1 style={{"maxHeight": "100px"}}>{elem.Name}</h1>
                                                 </div>
-                                                <Link to={`/trainer/${elem.Id}`} activeClassName="active">
-                                                    <div class="survey-progress">
+                                                <Link to={`/trainer/${elem.Id}`} className="active">
+                                                    <div className="survey-progress">
                                                         See profile 
                                                     </div>
                                                 </Link>

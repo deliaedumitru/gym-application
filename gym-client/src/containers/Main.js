@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {HashRouter, NavLink, Route} from "react-router-dom";
+import {HashRouter, NavLink, Route, Switch} from "react-router-dom";
 import App from "./App";
 import LogIn from "./LogIn/LogIn";
 import SignUp from "./SignUp/SignUp";
@@ -12,6 +12,7 @@ import ScheduleTrainer from './TrainerSchedule/ScheduleTrainer';
 import Class from "./Class/";
 import SubscriptionUser from "./SubscriptionUser/index.js";
 import SubscriptionAdmin from "./SubscriptionAdmin/index.js";
+import NotFound from "./NotFound/index.js";
 
 export default class Main extends Component {
     render() {
@@ -55,18 +56,22 @@ export default class Main extends Component {
                         </ul>
                     </div>
                     <div className="content">
-                        <Route exact path="/" component={App}/>
-                        <Route path="/LogIn" component={LogIn}/>
-                        <Route path="/SignUp" component={SignUp}/>
-                        <Route path="/Schedule" component={Schedule}/>
-                        <Route path="/AddSchedule" component={ClassSchedule}/>
-                        <Route path="/Class" component={Class}/>
-                        <Route path="/ScheduleTrainer" component={ScheduleTrainer}/>
-                        <Route path="/SchedulePersonal" component={SchedulePersonal}/>
-                        <Route path="/Trainer/:id" component={TrainerProfile}/>
-                        <Route path="/Trainers" component={Trainers}/>
-                        <Route path="/SubscriptionUser" component={SubscriptionUser}/>
-                        <Route path="/SubscriptionAdmin" component={SubscriptionAdmin}/>
+                        <Switch>
+                            <Route exact path="/" component={App}/>
+                            <Route path="/LogIn" component={LogIn}/>
+                            <Route path="/SignUp" component={SignUp}/>
+                            <Route path="/Schedule" component={Schedule}/>
+                            <Route path="/AddSchedule" component={ClassSchedule}/>
+                            <Route path="/Class" component={Class}/>
+                            <Route path="/ScheduleTrainer" component={ScheduleTrainer}/>
+                            <Route path="/SchedulePersonal" component={SchedulePersonal}/>
+                            <Route path="/Trainer/:id" component={TrainerProfile}/>
+                            <Route path="/Trainers" component={Trainers}/>
+                            <Route path="/SubscriptionUser" component={SubscriptionUser}/>
+                            <Route path="/SubscriptionAdmin" component={SubscriptionAdmin}/>
+                            <Route path="*" component={NotFound}/>
+                        </Switch>
+
                     </div>
                 </div>
             </HashRouter>
