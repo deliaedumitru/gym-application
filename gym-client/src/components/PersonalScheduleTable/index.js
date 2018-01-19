@@ -11,9 +11,6 @@ import './style.css'
 export default class PersonalScheduleTable extends Component {
 
     render() {
-        const {classes} = this.props;
-
-        console.log("Personal schedule table classes:", classes);
         let mondayClasses = [];
         let tuesdayClasses = [];
         let wednesdayClasses = [];
@@ -21,36 +18,46 @@ export default class PersonalScheduleTable extends Component {
         let fridayClasses = [];
         let saturdayClasses = [];
 
-        classes.forEach((personalSchedule) => {
-            let scheduleItem = (
-                <PersonalScheduleItem
-                    key={personalSchedule.Id}
-                    personalSchedule={personalSchedule}
-                />
-            );
-            switch (personalSchedule.DayOfWeek) {
-                case 'Monday':
-                    mondayClasses.push(scheduleItem);
-                    break;
-                case 'Tuesday':
-                    tuesdayClasses.push(scheduleItem);
-                    break;
-                case 'Wednesday':
-                    wednesdayClasses.push(scheduleItem);
-                    break;
-                case 'Thursday':
-                    thursdayClasses.push(scheduleItem);
-                    break;
-                case 'Friday':
-                    fridayClasses.push(scheduleItem);
-                    break;
-                case 'Saturday':
-                    saturdayClasses.push(scheduleItem);
-                    break;
-                default:
-                    break;
+        try {
+            const {classes} = this.props;
+
+            console.log("Personal schedule table classes:", classes);
+            
+            if(classes.length != 0) {
+                classes.forEach((personalSchedule) => {
+                    let scheduleItem = (
+                        <PersonalScheduleItem
+                            key={personalSchedule.Id}
+                            personalSchedule={personalSchedule}
+                        />
+                    );
+                    switch (personalSchedule.DayOfWeek) {
+                        case 'Monday':
+                            mondayClasses.push(scheduleItem);
+                            break;
+                        case 'Tuesday':
+                            tuesdayClasses.push(scheduleItem);
+                            break;
+                        case 'Wednesday':
+                            wednesdayClasses.push(scheduleItem);
+                            break;
+                        case 'Thursday':
+                            thursdayClasses.push(scheduleItem);
+                            break;
+                        case 'Friday':
+                            fridayClasses.push(scheduleItem);
+                            break;
+                        case 'Saturday':
+                            saturdayClasses.push(scheduleItem);
+                            break;
+                        default:
+                            break;
+                    }
+                });
             }
-        });
+        } catch(error) {
+            console.log(error);
+        }
 
         return (
             <div className="responsive-table center">

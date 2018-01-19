@@ -4,6 +4,7 @@ import './style.css'
 import Modal from "../../components/Modal/index";
 import SubscriptionTable from "../../components/SubscriptionsTable/index";
 import SubscriptionItem from "../../components/SubscriptionItem/index";
+import ErrorModal from "../../components/ErrorModal/index";
 
 export default class SubscriptionAdmin extends Component {
     constructor(props) {
@@ -15,6 +16,11 @@ export default class SubscriptionAdmin extends Component {
         this.state = {
             subscriptions: [],
             subscription: null,
+
+            isOpen: true,
+            errorMsg: null,
+            errorStack: null,
+            showClose: true
         };
 
         const user = JSON.parse(localStorage.getItem("user"));
@@ -65,9 +71,15 @@ export default class SubscriptionAdmin extends Component {
                         return it;
                     })
                 }))
+            } else {
+                throw Error(response.statusText);
             }
         }).catch((error) => {
             console.error(error);
+            this.setState({errorMsg:  `There was an error while updating the subscription!`});
+            this.setState({errorStack:  JSON.stringify(error, Object.getOwnPropertyNames(error))});
+            this.setState({isOpen: true});
+            this.setState({showClose: true});
         });
     };
 
@@ -89,11 +101,29 @@ export default class SubscriptionAdmin extends Component {
                     subscriptions.push({Id: 0, Name: name, Price: price});
                     return {subscriptions};
                 })
+            } else {
+                throw Error(response.statusText);
             }
         }).catch((error) => {
             console.error(error);
+            if(name === null || description === null || price === null ) {
+                this.setState({errorMsg:  `There was an error while adding the subscription! Make sure all textboxes are completed!`});
+            } else this.setState({errorMsg:  `There was an error while adding the subscription!`});
+            this.setState({errorStack:  JSON.stringify(error, Object.getOwnPropertyNames(error))});
+            this.setState({isOpen: true});
+            this.setState({showClose: true});
         });
     }
+
+    toggleModal = () => {
+        this.setState({
+            errorMsg: null,
+            errorStack: null,
+            showClose: true,
+            isOpen: !this.state.isOpen
+        });
+    };
+
 
     render() {
         const {subscriptions} = this.state;
@@ -112,6 +142,16 @@ export default class SubscriptionAdmin extends Component {
                     handleEditSubscription={this.handleEditSubscription}
                     admin
                 />
+
+                {this.state.errorMsg ?
+                    <ErrorModal show={this.state.isOpen}
+                        onClose={this.toggleModal}
+                        errorMessage={this.state.errorMsg}
+                        errorStack={this.state.errorStack}
+                        showClose={this.state.showClose}
+                    ></ErrorModal>
+                    : null
+                }
             </div>
         )
     }

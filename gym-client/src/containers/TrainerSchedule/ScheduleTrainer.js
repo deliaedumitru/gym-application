@@ -8,6 +8,7 @@ import 'whatwg-fetch';
 import {SCHEDULE_TRAINERS, SERVER} from "../../api/gym";
 import TrainerScheduleTable from "../../components/TrainerTable/TrainerScheduleTable";
 
+import ErrorModal from "../../components/ErrorModal/index";
 import './style.css'
 import {getMonday, getSunday} from "../DateUtils/index";
 
@@ -19,11 +20,25 @@ export default class ScheduleTrainer extends Component {
 
         this.state = {
             classes: [],
+
+            isOpen: true,
+            errorMsg: null,
+            errorStack: null,
+            showClose: true
         };
 
         const user = JSON.parse(localStorage.getItem("user"));
         this.userId = user ? user.id : null;
     }
+
+    toggleModal = () => {
+        this.setState({
+            errorMsg: null,
+            errorStack: null,
+            showClose: true,
+            isOpen: !this.state.isOpen
+        });
+    };
 
     shouldComponentUpdate() {
         console.log("should component update");
@@ -48,10 +63,19 @@ export default class ScheduleTrainer extends Component {
                 startDate: monday,
                 endDate: sunday,
             })
-        }).then(response => response.json()).then(responseData => {
+        }).then(response =>{
+            if (!response.ok) {
+                throw Error(response.statusText);
+            }
+            return response.json()    
+        }).then(responseData => {
             this.setState({classes: responseData, monday, sunday});
         }).catch((error) => {
             console.error(error);
+            this.setState({errorMsg:  `There was an error while loading the schedule!`});
+            this.setState({errorStack:  JSON.stringify(error, Object.getOwnPropertyNames(error))});
+            this.setState({isOpen: true});
+            this.setState({showClose: true});
         });
     }
 
@@ -93,6 +117,16 @@ export default class ScheduleTrainer extends Component {
                         <i className="fa fa-spinner fa-spin"/>
                         <span>Loading...</span>
                     </div>
+                }
+
+                {this.state.errorMsg ?
+                    <ErrorModal show={this.state.isOpen}
+                        onClose={this.toggleModal}
+                        errorMessage={this.state.errorMsg}
+                        errorStack={this.state.errorStack}
+                        showClose={this.state.showClose}
+                    ></ErrorModal>
+                    : null
                 }
             </div>
         )

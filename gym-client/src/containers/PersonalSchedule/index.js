@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import moment from 'moment';
 import 'whatwg-fetch';
 
+import ErrorModal from "../../components/ErrorModal/index";
 import {SCHEDULE_PERSONALS, SERVER} from "../../api/gym";
 import PersonalScheduleTable from "../../components/PersonalScheduleTable/index";
 
@@ -16,11 +17,25 @@ export default class SchedulePersonal extends Component {
 
         this.state = {
             classes: [],
+
+            isOpen: true,
+            errorMsg: null,
+            errorStack: null,
+            showClose: true
         };
 
         const user = JSON.parse(localStorage.getItem("user"));
         this.userId = user ? user.id : null;
     }
+
+    toggleModal = () => {
+        this.setState({
+            errorMsg: null,
+            errorStack: null,
+            showClose: true,
+            isOpen: !this.state.isOpen
+        });
+    };
 
     shouldComponentUpdate() {
         console.log("should component update");
@@ -46,10 +61,18 @@ export default class SchedulePersonal extends Component {
                 startDate: monday,
                 endDate: sunday,
             })
-        }).then(response => response.json()).then(responseData => {
-            this.setState({classes: responseData, monday, sunday});
+        }).then(response =>{ 
+            if(!response.ok) {
+                throw Error("error");
+            } else return         response.json()
+        }).then(responseData => {
+            if(responseData!=null) this.setState({classes: responseData, monday, sunday});
         }).catch((error) => {
-            console.error(error);
+            console.log("intra in error");
+            this.setState({errorMsg:  `Error loading the schedule! Please try again!`});
+            this.setState({errorStack:  JSON.stringify(error, Object.getOwnPropertyNames(error))});
+            this.setState({isOpen: true});
+            this.setState({showClose: true});
         });
     }
 
@@ -91,6 +114,15 @@ export default class SchedulePersonal extends Component {
                         <i className="fa fa-spinner fa-spin"/>
                         <span>Loading...</span>
                     </div>
+                }
+                {this.state.errorMsg ?
+                    <ErrorModal show={this.state.isOpen}
+                        onClose={this.toggleModal}
+                        errorMessage={this.state.errorMsg}
+                        errorStack={this.state.errorStack}
+                        showClose={this.state.showClose}
+                    ></ErrorModal>
+                    : null
                 }
             </div>
         )

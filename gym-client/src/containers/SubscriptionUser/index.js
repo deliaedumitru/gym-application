@@ -2,7 +2,9 @@ import React, {Component} from 'react';
 import {PURCHASE_SUBSCRIPTION, SERVER, SUBSCRIPTIONS} from "../../api/gym";
 import './style.css'
 import Modal from "../../components/Modal/index";
+import ErrorModal from "../../components/ErrorModal/index";
 import SubscriptionTable from "../../components/SubscriptionsTable/index";
+
 
 export default class SubscriptionUser extends Component {
     constructor(props) {
@@ -15,6 +17,11 @@ export default class SubscriptionUser extends Component {
             subscriptions: [],
             isOpen: false,
             subscription: null,
+
+            isOpenError: true,
+            errorMsg: null,
+            errorStack: null,
+            showClose: true
         };
 
         const user = JSON.parse(localStorage.getItem("user"));
@@ -28,10 +35,18 @@ export default class SubscriptionUser extends Component {
             headers: {
                 'Accept': 'application/json'
             },
-        }).then(response => response.json()).then(responseData => {
+        }).then(response => {
+            if (!response.ok) {
+                throw Error(response.statusText);
+            } else return response.json()
+        }).then(responseData => {
             this.setState({subscriptions: responseData});
         }).catch((error) => {
             console.error(error);
+            this.setState({errorMsg:  `There was an error while loading subscriptions!`});
+            this.setState({errorStack:  JSON.stringify(error, Object.getOwnPropertyNames(error))});
+            this.setState({isOpenError: true});
+            this.setState({showClose: true});
         });
     }
 
@@ -43,6 +58,15 @@ export default class SubscriptionUser extends Component {
     toggleModal = () => {
         this.setState({
             isOpen: !this.state.isOpen
+        });
+    };
+
+    toggleModalError = () => {
+        this.setState({
+            errorMsg: null,
+            errorStack: null,
+            showClose: true,
+            isOpenError: !this.state.isOpenError
         });
     };
 
@@ -85,9 +109,15 @@ export default class SubscriptionUser extends Component {
         }).then(response => {
             if (response.status === 200) {
                 alert("OK!!");
+            } else {
+                throw Error(response.statusText);
             }
         }).catch((error) => {
             console.error(error);
+            this.setState({errorMsg:  `There was an error while purchasing subscription!`});
+            this.setState({errorStack:  JSON.stringify(error, Object.getOwnPropertyNames(error))});
+            this.setState({isOpenError: true});
+            this.setState({showClose: true});
         });
     }
 
@@ -106,6 +136,16 @@ export default class SubscriptionUser extends Component {
                        handlePurchase={this.handlePurchase}
                 >
                 </Modal>
+
+                {this.state.errorMsg ?
+                    <ErrorModal show={this.state.isOpenError}
+                        onClose={this.toggleModalError}
+                        errorMessage={this.state.errorMsg}
+                        errorStack={this.state.errorStack}
+                        showClose={this.state.showClose}
+                    ></ErrorModal>
+                    : null
+                }
             </div>
         )
     }
