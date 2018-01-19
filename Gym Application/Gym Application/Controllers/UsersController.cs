@@ -17,7 +17,7 @@ namespace Gym_Application.Controllers
     public class UsersController : ApiController
     {
         //creeaza si salveaza un nou account
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         public IHttpActionResult Post([FromBody]RegistrationModelView account)
         {
             try
@@ -39,16 +39,24 @@ namespace Gym_Application.Controllers
 
         //returns the user with username & password BaseAccountModelView
         [Route("api/users/login")]
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpPost]
         public IHttpActionResult Login([FromBody]LoginModelView model)
         {
             try
             {
                 var service = new UserServices();
-                BaseUserModelView account = service.GetOneAccountWithPassword(model);
-                HttpContext.Current.Response.AppendHeader("Authorization", "Bearer " + JwtManager.GenerateToken(model.Username));
-                return Ok(account);
+                var token = JwtManager.GenerateToken(model.Username); // get the token
+
+                var baseView = service.GetOneAccountWithPassword(model);
+                var tokenView = new UserModelWithTokenView
+                {
+                    Id = baseView.Id,
+                    Name = baseView.Name,
+                    Role = baseView.Role,
+                    Username = baseView.Username,
+                    Token = token, // add the token to the response
+                };
+                return Ok(tokenView);
             }
             catch (Exception e)
             {
@@ -84,7 +92,7 @@ namespace Gym_Application.Controllers
 
         //returns the classes for which the user is enrolled
         [Route("api/users/{id_user}/enrolledClasses")]
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         [JwtAuthentication]
         [HttpGet]
         public IHttpActionResult EnrolledClasses(int id_user)
