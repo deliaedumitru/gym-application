@@ -19,13 +19,13 @@ class LogIn extends Component {
                     <br/>
                     <div className = "wrapInput">
                         <span className = "label-input100" >Username</span>
-                        <input className="input100" type = "text" id="userNameInput" placeholder="Username..."/>
+                        <input className="input100" type = "text" id="userNameInput" />
                         <span className="focus-input100" data-symbol="&#xf206;"></span>
                     </div>
 
                     <div className ="wrapInput">
                         <span className = "label-input100" >Password</span>
-                        <input  className="input100" type="password" id="passwordInput" placeholder="Password..."/>
+                        <input  className="input100" type="password" id="passwordInput" />
                         <span className="focus-input100" data-symbol="&#xf206;"></span>
                     </div>
 

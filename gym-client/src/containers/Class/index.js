@@ -36,9 +36,8 @@ class Class extends Component {
                 <th>ID</th>
                 <th>Class Name</th>
                 <th >Available Actions</th>
-                </tr>
+            </tr>
                 </thead>
-
                 <tbody id='tableClasses'>
           { classes && classes.map((elem) => 
               { 
@@ -49,10 +48,9 @@ class Class extends Component {
                           <td className="fuck-this" id={'name' + elem.Id} key={'name' + elem.Id}>
                               {elem.Name}
                           </td>
-                          <td className="fuck-this" key={'editBtn' + elem.Id}>
+
+                          <td className="fuck-this" key={'editBtn' + 'deleteBtn' + elem.Id}>
                               <input id={'editBtn' + elem.Id} className='editBtn' type='button' value='Edit' onClick={this.editClass}/>
-                          </td>
-                          <td className="fuck-this" key={'deleteBtn' + elem.Id}>
                               <input id={'deleteBtn' + elem.Id} className='deleteBtn' type='button' value='Delete' onClick={this.deleteClass}/>
                           </td>
                         </tr>)
