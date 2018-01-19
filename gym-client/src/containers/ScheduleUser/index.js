@@ -7,6 +7,7 @@ import ScheduleTable from "../../components/ScheduleTable/index";
 
 import './style.css'
 import {getMonday, getSunday} from "../DateUtils/index";
+import {getUserRole} from "../../utils/UserUtils";
 
 
 export default class Schedule extends Component {
@@ -153,6 +154,7 @@ export default class Schedule extends Component {
                 {classes ?
                     <div className="schedule">
                         <ScheduleTable
+                            enrollable={getUserRole() == "USER"}
                             classes={classes}
                             containsElement={this.containsElement}
                             enrollToClassSchedule={this.enrollToClassSchedule}
