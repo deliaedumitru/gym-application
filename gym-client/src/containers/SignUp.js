@@ -1,8 +1,13 @@
 import React, {Component} from 'react';
 import 'whatwg-fetch';
-import {signUp} from "../api/gym";
+import {login, signUp} from "../api/gym";
 
 class SignUp extends Component {
+    constructor() {
+        super();
+        this.state = {error: false};
+    }
+
     render() {
         return (
             <div id="signup">
@@ -17,6 +22,8 @@ class SignUp extends Component {
                     <br/>
                     <input type="password" id="passwordConfirmInput" placeholder="Confirm Password..."/>
                     <br/>
+                    <p> {this.state.error ? "INVALID DATA" : ""} </p>
+                    <br />
                     <input type="submit" id="signUpButton" value="Register"/>
                 </form>
             </div>
@@ -24,18 +31,23 @@ class SignUp extends Component {
     }
 
 
-    signUp() {
+    signUp = () => {
         let username = document.getElementById('userNameInput').value;
         let name = document.getElementById('nameInput').value;
         let email = document.getElementById('emailInput').value;
-        signUp(username, name, email);
-    }
+        let password = document.getElementById('passwordInput').value;
+        signUp(username, name, email, password, () => {
+            login(username, password, ()=> window.location.reload())
+            },
+            (err)=> {
+                this.setState({error: true})
+            });
+    };
 
 
     componentDidMount() {
         document.getElementById("signUpButton").addEventListener("click", this.signUp);
     }
-
 }
 
 export default SignUp;

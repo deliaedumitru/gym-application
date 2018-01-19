@@ -114,7 +114,10 @@ export const signUp = (username, name, email, password, onSuccess = () => {}, on
             Password: password
         })
     }).then(
-        () => onSuccess() // call on success
+        (resp) => {
+            if(resp.status < 300) onSuccess();
+            else onFail("INVALID DATA");
+        } // call on success
     ).catch((err) => {
         onFail(err); // call back on fail
         console.log(err + 'fuck you very muuuuuuuuuuch');

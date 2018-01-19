@@ -17,7 +17,8 @@ namespace Gym_Application.Controllers
     public class UsersController : ApiController
     {
         //creeaza si salveaza un nou account
-        
+        [Route("api/users")]
+        [HttpPost]
         public IHttpActionResult Post([FromBody]RegistrationModelView account)
         {
             try
