@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import 'whatwg-fetch';
 import {LOGIN, SERVER} from "../../api/gym";
+import '../SignUp/SignUp.css';
 
 class LogIn extends Component {
 
@@ -12,12 +13,30 @@ class LogIn extends Component {
     render() {
         return (
             <div className="login">
-                <form id="formLogIn" action="">
-                    <input type="text" id="userNameInput" placeholder="Username..."/>
+                <form className="form" id="formLogIn" action="">
+                    <span className="spanSignUp">LOGIN</span>
+
                     <br/>
-                    <input type="password" id="passwordInput" placeholder="Password..."/>
-                    <br/>
-                    <input type="submit" id="logInButton" value="Log In"/>
+                    <div className = "wrapInput">
+                        <span className = "label-input100" >Username</span>
+                        <input className="input100" type = "text" id="userNameInput" />
+                        <span className="focus-input100" data-symbol="&#xf206;"></span>
+                    </div>
+
+                    <div className ="wrapInput">
+                        <span className = "label-input100" >Password</span>
+                        <input  className="input100" type="password" id="passwordInput" />
+                        <span className="focus-input100" data-symbol="&#xf206;"></span>
+                    </div>
+
+                    <div className="container-login100-form-btn">
+                        <div className="wrap-login100-form-btn">
+                            <div className="login100-form-bgbtn"></div>
+                            <button id="logInButton" className="login100-form-btn">
+                                LOGIN
+                            </button>
+                        </div>
+                    </div>
                 </form>
             </div>
         );

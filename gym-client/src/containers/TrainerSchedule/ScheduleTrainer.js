@@ -76,13 +76,17 @@ export default class ScheduleTrainer extends Component {
         //fa fa-spinner fa-spin needs bootstrap
         return (
             <div>
+                <br/>
                 <p className="center">
-                   <span style={{padding: 20,fontSize:20}}>
-                        Gym schedule {start} - {end}
+                    <br/>
+                    <button className="button" onClick={this.loadPrevWeek}>Prev</button>
+                    <span style={{padding: 20,fontSize:20}}>
+                        GYM SCHEDULE {start} - {end}
                     </span>
-                    <button onClick={this.loadPrevWeek}>‹</button>
-                    <button onClick={this.loadNextWeek}>›</button>
+                    <button className="button" onClick={this.loadNextWeek}>Next</button>
+
                 </p>
+                <br/>
                 {classes ?
                     <div className="schedule">
                         <TrainerScheduleTable

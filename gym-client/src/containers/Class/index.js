@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import logo from '../..//images/logo.svg';
 import {CLASSES, SERVER} from "../../api/gym";
 import 'whatwg-fetch';
+import './style.css';
+import Table from "react-bootstrap/es/Table";
 
 class Class extends Component {
 
@@ -15,29 +17,49 @@ class Class extends Component {
     const {classes} = this.state;
     return (
       <div className='classretrieve'>
-      <input type='text' id='classNameField' placeholder='Class name...'/>
-        <input type='submit' id='addBtn' value='Add'/>
-        <table>
-          <tbody id='tableClasses'>
-          <tr>
-            <th>ID</th>
-            <th>Class Name</th>
-            <th >Available Actions</th>
-          </tr>
+          <br/>
+        <div className="add-class">
+          <input className="classNameField" type='text' id='classNameField' placeholder='Class name...'/>
 
+            <div className="container-login100-form-btn">
+                <div className="wrap-login100-form-btn">
+                    <div className="login100-form-bgbtn"></div>
+                    <button className="addBtn" id='addBtn'> ADD </button>
+                </div>
+            </div>
+        </div>
+          <br/>
+          <div className="responsive-table center">
+            <Table responsive className="schedule-table">
+                <thead>
+                <tr className="table-header" style={{backgroundColor: '#404040'}}>
+                <th>ID</th>
+                <th>Class Name</th>
+                <th >Available Actions</th>
+            </tr>
+                </thead>
+                <tbody id='tableClasses'>
           { classes && classes.map((elem) => 
               { 
                 return(<tr key={'tr' + elem.Id}>
-                          <td id={'id' + elem.Id} key={'id' + elem.Id}>{elem.Id}</td>
-                          <td id={'name' + elem.Id} key={'name' + elem.Id}>{elem.Name}</td>
-                          <td key={'editBtn' + elem.Id}><input id={'editBtn' + elem.Id} className='editBtn' type='button' value='Edit' onClick={this.editClass}/></td>
-                          <td key={'deleteBtn' + elem.Id}><input id={'deleteBtn' + elem.Id} className='deleteBtn' type='button' value='Delete' onClick={this.deleteClass}/></td>
+                          <td className="fuck-this" id={'id' + elem.Id} key={'id' + elem.Id}>
+                              {elem.Id}
+                          </td>
+                          <td className="fuck-this" id={'name' + elem.Id} key={'name' + elem.Id}>
+                              {elem.Name}
+                          </td>
+
+                          <td className="fuck-this" key={'editBtn' + 'deleteBtn' + elem.Id}>
+                              <input id={'editBtn' + elem.Id} className='editBtn' type='button' value='Edit' onClick={this.editClass}/>
+                              <input id={'deleteBtn' + elem.Id} className='deleteBtn' type='button' value='Delete' onClick={this.deleteClass}/>
+                          </td>
                         </tr>)
               })
           }
-          </tbody>
-        </table>
-        </div>
+            </tbody>
+            </Table>
+          </div>
+      </div>
     );
   }
   
