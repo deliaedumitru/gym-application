@@ -3,9 +3,10 @@ import StarRatingComponent from 'react-star-rating-component';
 import Moment from 'moment';
 import 'whatwg-fetch';
 
-import {addFeedback, editFeedback, getFeebacksForUser, getFeedbacks, getTrainer} from "../../api/gym";
+import {addFeedback, editFeedback, getFeebacksForUser, getFeedbacks, getTrainer, getUser} from "../../api/gym";
 
 import './style.css'
+import {getUserRole} from "../../utils/UserUtils";
 
 
 export default class TrainerProfile extends Component {
@@ -25,8 +26,9 @@ export default class TrainerProfile extends Component {
             feedbackFromUser: null
         };
 
-        const user = JSON.parse(localStorage.getItem("user"));
+        const user = getUser();
         this.userId = user ? user.id : null;
+        this.shouldPost = getUserRole() === 'USER';
         this.trainerId = this.props.match.params.id;
     }
 
@@ -183,7 +185,7 @@ export default class TrainerProfile extends Component {
                                         </div> : null
                                     }
                                 </div> 
-                                {this.userId && feedbackFromUser === null ?
+                                {this.shouldPost && this.userId && feedbackFromUser === null ?
                                     <div className="feedback">
                                         <h2>Leave your feedback </h2>
                                         <div style={{fontSize: 26}}>
@@ -204,7 +206,7 @@ export default class TrainerProfile extends Component {
                                     </div> : null
                                 }
 
-                                {this.userId && feedbackFromUser != null ?
+                                {this.shouldPost && this.userId && feedbackFromUser != null ?
                                     <div className="feedback">
                                         <h2>You already left a feedback on this, but you can modify it if you want to.</h2>
                                         <div style={{fontSize: 26}}>
