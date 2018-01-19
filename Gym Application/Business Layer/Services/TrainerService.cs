@@ -68,7 +68,7 @@ namespace Business_Layer.Services
                         .ToList();
 
                     int cs_trainer_size = cs_of_trainer.Count;
-                    for(int i = 0; i < cs_trainer_size; ++i)
+                    for (int i = 0; i < cs_trainer_size; ++i)
                     {
                         cs_repo.Delete(cs_of_trainer[i]);
                     }
