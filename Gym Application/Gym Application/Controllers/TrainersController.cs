@@ -9,75 +9,28 @@ using DAL.Repository;
 using DAL.Model;
 using Business_Layer.DTO;
 using Business_Layer.Mappers;
+using Business_Layer.Services;
 
 namespace Gym_Application.Controllers
 {
     public class TrainersController : ApiController
     {
-        private UnitOfWork transaction_manager = new UnitOfWork();
-
+        private TrainerService service = new TrainerService();
 
         [HttpGet]
         [Route("api/trainers")]
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IEnumerable<BaseUserModelView> getTrainers()
         {
-            IRepository<User> user_repo = transaction_manager.Repository<User>();
-            IEnumerable<User> users = user_repo.findAll();
-            List<BaseUserModelView> trainers = new List<BaseUserModelView>();
-            foreach(User user in users)
-            {
-                if( user.Role == Role.TRAINER )
-                    trainers.Add( UserMapper.UserToBaseUserMV( user ) );
-            }
-
-            return trainers;
-        }
-
-        [HttpPut]
-        [Route("api/trainers/{id}")]
-        public IHttpActionResult EditTrainer(int id)
-        {
-            IRepository<User> user_repo = transaction_manager.Repository<User>();
-            User found_user = user_repo.GetById(id);
-            bool found = found_user != null,
-                is_trainer = found && found_user.Role == Role.TRAINER;
-
-            if( is_trainer )
-            {
-                // what can we edit?
-                // we'll see later, I guess
-            }
-
-            transaction_manager.Dispose();
-
-            if (found && found_user.Role == Role.TRAINER)
-                return Ok();
-
-            return NotFound();
+            return service.GetTrainers()
+                .Select(e => UserMapper.UserToBaseUserMV(e));
         }
 
         [HttpPost]
         [Route("api/trainers/{id}")]
         public IHttpActionResult AddTrainer(int id)
         {
-            IRepository<User> user_repo = transaction_manager.Repository<User>();
-            User found_user = user_repo.GetById(id);
-            bool found = found_user != null, 
-                is_normal_user = found && found_user.Role == Role.USER;
-
-            // If we found the user, mark him as a trainer
-            // Do this only if it is a normal user. We do not want people demoting admins
-            if( is_normal_user )
-            {
-                found_user.Role = Role.TRAINER;
-                user_repo.Update(found_user);
-                transaction_manager.Save();
-            }
-
-            transaction_manager.Dispose();
-
-            if( is_normal_user )
+            if (service.AddTrainer(id))
                 return Ok();
 
             return NotFound();
@@ -87,23 +40,7 @@ namespace Gym_Application.Controllers
         [Route("api/trainers/{id}")]
         public IHttpActionResult DeleteTrainer(int id)
         {
-            IRepository<User> user_repo = transaction_manager.Repository<User>();
-            User found_user = user_repo.GetById(id);
-            bool found = found_user != null, 
-                is_trainer = found && found_user.Role == Role.TRAINER;
-
-            // If we found the user, mark him as a normal user
-            // Do this only if it is a trainer. We do not want people demoting admins
-            if( is_trainer )
-            {
-                found_user.Role = Role.USER;
-                user_repo.Update(found_user);
-                transaction_manager.Save();
-            }
-
-            transaction_manager.Dispose();
-
-            if( is_trainer )
+            if (service.DeleteTrainer(id))
                 return Ok();
 
             return NotFound();
@@ -114,18 +51,12 @@ namespace Gym_Application.Controllers
         [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult getTrainer(int id)
         {
-            IRepository<User> user_repo = transaction_manager.Repository<User>();
-            User user = user_repo.GetById(id);
-            if (user!= null && user.Role == Role.TRAINER)
-            {
-                user.ClassForTrainer = user.ClassForTrainer;
-                return Ok(UserMapper.UserToDetailedTrainerUserMV(user));
-            } else
-            {
+            User user = service.GetTrainer(id);
+
+            if (user == null)
                 return NotFound();
-            }
+
+            return Ok(UserMapper.UserToDetailedTrainerUserMV(user));
         }
     }
-
-
 }
