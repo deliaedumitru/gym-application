@@ -43,7 +43,7 @@ const NAVIGATION_ITEMS = {
 const DEFAULT_NAVBARS = {
     'ANON': ['home', 'login', 'signup', 'trainers', 'schedule', 'trainer_profile'],
     'USER': ['home', 'schedule', 'schedule_personal', 'trainers', 'subscription_user', 'logout'],
-    'TRAINER': ['home', 'schedule', 'schedule_trainer', 'add_schedule', 'class', 'trainers', 'trainer_profile', 'logout'],
+    'TRAINER': ['home', 'schedule', 'schedule_trainer', 'trainers', 'trainer_profile', 'logout'],
     'ADMIN': ['home', 'schedule', 'schedule_trainer', 'add_schedule', 'class', 'trainers', 'trainer_profile', 'subscription_admin', 'logout'],
 
 };

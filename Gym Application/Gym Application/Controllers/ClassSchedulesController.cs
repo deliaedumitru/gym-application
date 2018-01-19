@@ -54,16 +54,14 @@ namespace Gym_Application.Controllers
             return Ok( classSchedule );
         }
 
+        //GET CLASS SCHEDULE !!!!! FFS
+        // TODO: MAKE IT GET
         // POST: api/ClassSchedules/details
-        
         [Route("api/ClassSchedules/details")]
         [JwtAuthentication]
         [HttpPost]
         public IHttpActionResult GetClassSchedulesDetails([FromBody] DateSpan dateSpan)
         {
-            // at least trainer
-            if (!Utils.CheckPermission(new List<Role> { Role.ADMIN, Role.TRAINER }))
-                return StatusCode(HttpStatusCode.Forbidden);
 
             try
             {
