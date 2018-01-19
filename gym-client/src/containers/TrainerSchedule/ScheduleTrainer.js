@@ -19,6 +19,8 @@ export default class ScheduleTrainer extends Component {
 
         this.state = {
             classes: [],
+            monday: getMonday(new Date()),
+            sunday: getSunday(getMonday(new Date()))
         };
 
         const user = JSON.parse(localStorage.getItem("user"));

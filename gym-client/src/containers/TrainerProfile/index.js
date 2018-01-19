@@ -106,7 +106,7 @@ export default class TrainerProfile extends Component {
             ));
         };
 
-        if(comment != null && rating != 0) {
+        if(comment !== null && rating !== 0) {
             const trainerId = this.trainerId;
             addFeedback(trainerId, userId, comment, rating, onSuccess);
         } else {
