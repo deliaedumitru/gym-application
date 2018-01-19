@@ -53,9 +53,8 @@ export default class SubscriptionAdmin extends Component {
     };
 
     handleAddSubscription(name, description, price) {
-
         const id = 0;
-        addSubscription(id, name, price);
+        addSubscription(id, name, price, ()=>this.loadSubscriptions());
     }
 
     render() {

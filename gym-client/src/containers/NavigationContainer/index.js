@@ -28,7 +28,7 @@ const NAVIGATION_ITEMS = {
     'signup': {path: "/SignUp", component: SignUp, title: 'SIGNUP'},
     'logout': {path: "/Logout", component: LogoutComponent, title: 'LOGOUT'},
     'schedule': {path: "/Schedule", component: Schedule, title: 'SCHEDULE'},
-    'add_schedule': {path: "/AddSchedule", component: ClassSchedule, title: 'CRUD SCHEDULE'},
+    'add_schedule': {path: "/AddSchedule", component: ClassSchedule, title: 'MANAGE SCHEDULE'},
     'class': {path: "/Class", component: Class, title: 'CLASS'},
     'schedule_trainer': {path: "/ScheduleTrainer", component: ScheduleTrainer, title: 'SCHEDULE TRAINER'},
     'schedule_personal': {path: "/SchedulePersonal", component: SchedulePersonal, title: 'SCHEDULE PERSONAL'},
@@ -44,13 +44,13 @@ const DEFAULT_NAVBARS = {
     'ANON': ['home', 'login', 'signup', 'trainers', 'schedule', 'trainer_profile'],
     'USER': ['home', 'schedule', 'schedule_personal', 'trainers', 'subscription_user', 'logout'],
     'TRAINER': ['home', 'schedule', 'schedule_trainer', 'trainers', 'trainer_profile', 'logout'],
-    'ADMIN': ['home', 'schedule', 'schedule_trainer', 'add_schedule', 'class', 'trainers', 'trainer_profile', 'subscription_admin', 'logout'],
+    'ADMIN': ['home', 'schedule',  'add_schedule', 'class', 'trainers', 'trainer_profile', 'subscription_admin', 'logout'],
 
 };
 
 // get the navigation item for that particular role
 const getNavigationItems = (role) =>
-    DEFAULT_NAVBARS[role].map((item_name) => NAVIGATION_ITEMS[item_name])
+    DEFAULT_NAVBARS[role].map((item_name) => NAVIGATION_ITEMS[item_name]);
 
 
 export default class NavigationContainer extends Component {

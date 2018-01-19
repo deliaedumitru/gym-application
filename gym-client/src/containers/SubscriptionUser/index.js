@@ -69,7 +69,7 @@ export default class SubscriptionUser extends Component {
 
         const userId = this.userId;
         const onSuccess = (responseData) => {
-            this.setState({subscriptions: responseData});
+            this.loadSubscriptions();
         };
 
         purchaseSubscription(subscription, userId, startDate, endDate, onSuccess);
