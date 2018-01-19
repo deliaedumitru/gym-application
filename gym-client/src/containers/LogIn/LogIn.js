@@ -26,7 +26,7 @@ class LogIn extends Component {
     logIn() {
         const username = document.getElementById('userNameInput').value;
         const password = document.getElementById('passwordInput').value;
-        login(username, password);
+        login(username, password, () => window.location.reload());  // reload window on success
     }
 
     componentDidMount() {
