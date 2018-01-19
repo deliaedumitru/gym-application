@@ -3,6 +3,7 @@ import StarRatingComponent from 'react-star-rating-component';
 import Moment from 'moment';
 import { Grid, Row, Col } from "react-bootstrap";
 import ErrorModal from "../../components/ErrorModal/index";
+import { Redirect } from "react-router-dom";
 import 'whatwg-fetch';
 
 import { SERVER, TRAINERS, FEEDBACK } from "../../api/gym";
@@ -28,7 +29,9 @@ export default class TrainerProfile extends Component {
             isOpen: true,
             errorMsg: null,
             errorStack: null,
-            showClose: true
+            showClose: true,
+
+            redirect: false
         };
 
         const user = JSON.parse(localStorage.getItem("user"));
@@ -65,9 +68,8 @@ export default class TrainerProfile extends Component {
             }
         }).then(response =>{
              if (!response.ok) {
-                 //TODO: REDIRECT TO NOT FOUND
-                throw Error(response.statusText);
-            }
+                this.setState({redirect: true});
+            } else
             return response.json()
         }).then(responseData => {
             this.setState({userInfo: responseData});
@@ -279,6 +281,12 @@ export default class TrainerProfile extends Component {
         }
         info = info.substring(0, info.length-2);
         console.log(feedbacks);
+
+        if (this.state.redirect) {
+            return <Redirect to='/notfound'/>;
+        }
+
+
         return (
             <div>
                 {userInfo ?
