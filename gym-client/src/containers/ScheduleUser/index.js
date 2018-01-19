@@ -169,12 +169,14 @@ export default class Schedule extends Component {
         return (
             <div>
                 <p className="center">
+                    <br/>
                    <span style={{padding: 20,fontSize:20}}>
-                        Gym schedule {start} - {end}
+                        GYM SCHEDULE {start} - {end}
                     </span>
                     <button onClick={this.loadPrevWeek}>‹</button>
                     <button onClick={this.loadNextWeek}>›</button>
                 </p>
+                <br/>
                 {classes ?
                     <div className="schedule">
                         <ScheduleTable

@@ -12,6 +12,8 @@ import ScheduleTrainer from './TrainerSchedule/ScheduleTrainer';
 import Class from "./Class/";
 import SubscriptionUser from "./SubscriptionUser/index.js";
 import SubscriptionAdmin from "./SubscriptionAdmin/index.js";
+import logo from '../images/logo.png';
+import './Main.css';
 
 export default class Main extends Component {
     render() {
@@ -28,7 +30,7 @@ export default class Main extends Component {
                             alignItems: 'center',
                             justifyContent: 'flex-start',
                         }} className="logoul">
-                            <li>Gym App</li>
+                            <img src={logo} className="main-logo" alt="logo" />
                         </ul>
                         <ul style={{
                             height: '100%',
@@ -43,15 +45,15 @@ export default class Main extends Component {
                             className="gym-header">
                             <li className="pages"><NavLink exact to="/">HOME</NavLink></li>
                             <li className="pages"><NavLink to="/Schedule">SCHEDULE</NavLink></li>
-                            <li className="pages"><NavLink to="/AddSchedule">CRUD Schedule</NavLink></li>
-                            <li className="pages"><NavLink to="/ScheduleTrainer">Schedule Trainer</NavLink></li>
+                            <li className="pages"><NavLink to="/AddSchedule">CRUD SCHEDULE</NavLink></li>
+                            <li className="pages"><NavLink to="/ScheduleTrainer">SCHEDULE TRAINER</NavLink></li>
                             <li className="pages"><NavLink to="/LogIn">LOG IN</NavLink></li>
                             <li className="pages"><NavLink to="/SignUp">SIGN UP</NavLink></li>
-                            <li className="pages"><NavLink to="/Class">Class</NavLink></li>
-                            <li className="pages"><NavLink to="/SchedulePersonal">Schedule Personal</NavLink></li>
-                            <li className="pages"><NavLink to="/Trainers">Trainers</NavLink></li>
-                            <li className="pages"><NavLink to="/SubscriptionUser">Subscription</NavLink></li>
-                            <li className="pages"><NavLink to="/SubscriptionAdmin">Subscription admin</NavLink></li>
+                            <li className="pages"><NavLink to="/Class">CLASS</NavLink></li>
+                            <li className="pages"><NavLink to="/SchedulePersonal">SCHEDULE PERSONAL</NavLink></li>
+                            <li className="pages"><NavLink to="/Trainers">TRAINERS</NavLink></li>
+                            <li className="pages"><NavLink to="/SubscriptionUser">SUBSCRIPTION</NavLink></li>
+                            <li className="pages"><NavLink to="/SubscriptionAdmin">SUBSCRIPTION ADMIN</NavLink></li>
                         </ul>
                     </div>
                     <div className="content">

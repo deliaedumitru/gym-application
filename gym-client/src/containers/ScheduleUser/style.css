@@ -1,7 +1,11 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+
 p.center {
     text-align: center;
+    font-family: 'Open-Sans', sans-serif;
 }
 
 .loading {
     text-align: center;
+    font-family: 'Open-Sans', sans-serif;
 }
