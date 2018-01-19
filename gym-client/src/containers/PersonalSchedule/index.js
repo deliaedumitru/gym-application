@@ -1,17 +1,14 @@
-/**
- * Created by IT on 29/12/2017.
- */
 import React, {Component} from 'react';
 import moment from 'moment';
 import 'whatwg-fetch';
 
-import {getPersonalTrainerSchedule} from "../../api/gym";
-import TrainerScheduleTable from "../../components/TrainerTable/TrainerScheduleTable";
+import {getPersonalUserSchedule} from "../../api/gym";
+import PersonalScheduleTable from "../../components/PersonalScheduleTable/index";
 
 import './style.css'
 import {getMonday, getSunday} from "../DateUtils/index";
 
-export default class ScheduleTrainer extends Component {
+export default class SchedulePersonal extends Component {
     constructor(props) {
         super(props);
         this.loadNextWeek = this.loadNextWeek.bind(this);
@@ -19,8 +16,6 @@ export default class ScheduleTrainer extends Component {
 
         this.state = {
             classes: [],
-            monday: getMonday(new Date()),
-            sunday: getSunday(getMonday(new Date()))
         };
 
         const user = JSON.parse(localStorage.getItem("user"));
@@ -40,13 +35,10 @@ export default class ScheduleTrainer extends Component {
     }
 
     loadSchedule(monday, sunday) {
-        const startDate = monday;
-        const endDate = sunday;
-        const onSuccess = (responseData) => {
-            this.setState({classes: responseData, monday, sunday});
-        };
+        const onSuccess = (responseData) => this.setState({classes: responseData, monday, sunday});
+        const userId = this.userId;
 
-        getPersonalTrainerSchedule(startDate, endDate, this.userId, onSuccess);
+        getPersonalUserSchedule(userId, monday, sunday, onSuccess);
     }
 
     loadNextWeek() {
@@ -79,7 +71,7 @@ export default class ScheduleTrainer extends Component {
                 </p>
                 {classes ?
                     <div className="schedule">
-                        <TrainerScheduleTable
+                        <PersonalScheduleTable
                             classes={classes}
                         />
                     </div>

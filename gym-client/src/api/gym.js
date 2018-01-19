@@ -8,6 +8,7 @@ export const SCHEDULE = 'ClassSchedules';
 export const SCHEDULE_DETAILS = 'classSchedules/details';
 export const SCHEDULE_TRAINERS = 'PersonalSchedules';
 export const SUBSCRIPTIONS = 'Subscriptions';
+export const SCHEDULE_PERSONALS = 'PersonalSchedules';
 export const PURCHASE_SUBSCRIPTION = 'Subscription/purchase';
 export const SUBSCRIPTION = 'Subscription';
 const USER_STORAGE_KEY = 'user';
@@ -398,7 +399,7 @@ export const deleteClassSchedule = (id, onSuccess = (resp) => {}, onFail = (err)
  * @param onSuccess
  * @param onFail
  */
-export const getPersonalSchedule = (startDate, endDate, userId, onSuccess = (resp) => {}, onFail = (err) => {}) => {
+export const getPersonalTrainerSchedule = (startDate, endDate, userId, onSuccess = (resp) => {}, onFail = (err) => {}) => {
     let trainerUrl = SERVER + SCHEDULE_TRAINERS + '/' + userId + '/details';
     fetchWithToken(trainerUrl, {
         method: 'POST',
@@ -656,6 +657,25 @@ export const addFeedback = (trainerId, userId, comment, rating, onSuccess = (res
         body: bodyJson
     }).then(response => response.json()
     ).then(responseData => {
+        onSuccess(responseData);
+    }).catch((error) => {
+        console.error(error);
+        onFail(error);
+    });
+};
+export const getPersonalUserSchedule = (userId, startDate, endDate, onSuccess = () => {}, onFail = () => {}) => {
+    let personalUrl = SERVER + SCHEDULE_PERSONALS + '/' + userId + '/details';
+    fetch(personalUrl, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+            id: userId,
+            startDate: startDate,
+            endDate: endDate,
+        })
+    }).then(response => response.json()).then(responseData => {
         onSuccess(responseData);
     }).catch((error) => {
         console.error(error);

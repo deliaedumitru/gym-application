@@ -12,6 +12,7 @@ namespace Business_Layer.DTO
         public string Room { get; set; }
         public int ParticipantId { get; set; }
         public int TrainerId { get; set; }
+        public string TrainerName { get; set; }
         public int Id { get; set; }
         public String DayOfWeek { get; set; }
         public String numeParticipant { get; set; }

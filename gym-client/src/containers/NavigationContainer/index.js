@@ -13,6 +13,9 @@ import {getUserRole} from "../../utils/UserUtils";
 import {Navigation} from "../../components/Navigation";
 import Class from "../Class";
 import {LogoutComponent} from "../LogIn/Logout";
+import SchedulePersonal from "../PersonalSchedule";
+
+//                         <Route path="/SchedulePersonal" component={SchedulePersonal}/>
 
 
 // all the navigation elements
@@ -28,6 +31,7 @@ const NAVIGATION_ITEMS = {
     'add_schedule': {path: "/AddSchedule", component: ClassSchedule, title: 'CRUD SCHEDULE'},
     'class': {path: "/Class", component: Class, title: 'CLASS'},
     'schedule_trainer': {path: "/ScheduleTrainer", component: ScheduleTrainer, title: 'SCHEDULE TRAINER'},
+    'schedule_personal': {path: "/SchedulePersonal", component: SchedulePersonal, title: 'SCHEDULE PERSONAL'},
     'trainer_profile': {path: "/Trainer/:id", component: TrainerProfile},
     'trainers': {path: "/Trainers", component: Trainers, title: 'TRAINERS'},
     'subscription_user': {path: "/SubscriptionUser", component: SubscriptionUser, title: 'SUBSCRIPTION'},
@@ -38,7 +42,7 @@ const NAVIGATION_ITEMS = {
 // and is therefore not on the navbar
 const DEFAULT_NAVBARS = {
     'ANON': ['home', 'login', 'signup', 'trainers', 'schedule', 'trainer_profile'],
-    'USER': ['home', 'schedule', 'trainers', 'subscription_user', 'logout'],
+    'USER': ['home', 'schedule', 'schedule_personal', 'trainers', 'subscription_user', 'logout'],
     'TRAINER': ['home', 'schedule', 'schedule_trainer', 'add_schedule', 'class', 'trainers', 'trainer_profile', 'logout'],
     'ADMIN': ['home', 'schedule', 'schedule_trainer', 'add_schedule', 'class', 'trainers', 'trainer_profile', 'subscription_admin', 'logout'],
 

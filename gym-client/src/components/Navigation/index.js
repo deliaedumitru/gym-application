@@ -9,11 +9,29 @@ import React from "react";
  * @constructor
  */
 const NavBar = ({items}) => (
-    <div className="navbar">
-        <ul className="logoul">
+    <div style={{boxSizing: 'unset', fontSize: 15, color: 'black'}} className="gym-navbar">
+        <ul style={{
+            padding:0,
+            margin: 0,
+            width: '10%',
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-start',
+        }} className="logoul">
             <li>Gym App</li>
         </ul>
-        <ul className="header">
+        <ul style={{
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'flex-end',
+            margin: 0,
+            boxSizing: 'unset',
+            fontSize: 15,
+            color: 'black',
+        }}
+            className="gym-header">
             {items.map(({path, title}) =>
                 <li className="pages"><NavLink exact to={path}>{title}</NavLink></li>
             )}
@@ -47,7 +65,7 @@ const NavigationContent = ({items}) => (
  */
 export const Navigation = ({items}) => (
     <HashRouter>
-        <div className="container">
+        <div className="gym-container">
             <NavBar items={items.filter(({title}) => title !== undefined)} />
             <NavigationContent items={items} />
         </div>
