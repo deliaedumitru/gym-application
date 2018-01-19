@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
-import {PURCHASE_SUBSCRIPTION, SERVER, SUBSCRIPTIONS} from "../../api/gym";
+import {getSubscriptions, purchaseSubscription} from "../../api/gym";
 import './style.css'
 import Modal from "../../components/Modal/index";
 import SubscriptionTable from "../../components/SubscriptionsTable/index";
+
 
 export default class SubscriptionUser extends Component {
     constructor(props) {
@@ -23,16 +24,10 @@ export default class SubscriptionUser extends Component {
 
     loadSubscriptions() {
         console.log("load subscriptions");
-        fetch(`${SERVER}${SUBSCRIPTIONS}`, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json'
-            },
-        }).then(response => response.json()).then(responseData => {
+        const onSuccess = (responseData) => {
             this.setState({subscriptions: responseData});
-        }).catch((error) => {
-            console.error(error);
-        });
+        };
+        getSubscriptions(onSuccess);
     }
 
     componentDidMount() {
@@ -72,23 +67,17 @@ export default class SubscriptionUser extends Component {
             endDate.setDate(0);
         }
 
-        fetch(`${SERVER}${PURCHASE_SUBSCRIPTION}`, {
-            method: 'Post',
-            headers: {
-                'Accept': 'application/json'
-            }, body: JSON.stringify({
-                TypeId: subscription,
-                UserId: this.userId,
-                StartDate: startDate,
-                EndDate: endDate,
-            })
-        }).then(response => {
-            if (response.status === 200) {
-                alert("OK!!");
-            }
-        }).catch((error) => {
-            console.error(error);
-        });
+        const userId = this.userId;
+        const onSuccess = (responseData) => {
+            this.loadSubscriptions();
+            alert('Subscription purchased!');
+            this.setState({
+                ...this.state,
+                isOpen: false  // close modal
+            });
+        };
+
+        purchaseSubscription(subscription, userId, startDate, endDate, onSuccess);
     }
 
     render() {

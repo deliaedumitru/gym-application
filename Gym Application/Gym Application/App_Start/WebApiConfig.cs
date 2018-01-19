@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Headers;
 using System.Web.Http;
+using System.Web.Http.Cors;
 
 namespace Gym_Application
 {
@@ -10,8 +11,10 @@ namespace Gym_Application
     {
         public static void Register(HttpConfiguration config)
         {
+            // globally enable cors
+            var cors = new EnableCorsAttribute("*", "*", "*");
+            config.EnableCors(cors);
 
-            config.EnableCors();
             // Web API configuration and services
 
             // Web API routes

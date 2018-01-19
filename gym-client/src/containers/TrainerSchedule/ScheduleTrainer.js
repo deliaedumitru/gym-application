@@ -5,7 +5,7 @@ import React, {Component} from 'react';
 import moment from 'moment';
 import 'whatwg-fetch';
 
-import {SCHEDULE_TRAINERS, SERVER} from "../../api/gym";
+import {getPersonalTrainerSchedule} from "../../api/gym";
 import TrainerScheduleTable from "../../components/TrainerTable/TrainerScheduleTable";
 
 import './style.css'
@@ -19,6 +19,8 @@ export default class ScheduleTrainer extends Component {
 
         this.state = {
             classes: [],
+            monday: getMonday(new Date()),
+            sunday: getSunday(getMonday(new Date()))
         };
 
         const user = JSON.parse(localStorage.getItem("user"));
@@ -38,21 +40,13 @@ export default class ScheduleTrainer extends Component {
     }
 
     loadSchedule(monday, sunday) {
-        let trainerUrl = SERVER + SCHEDULE_TRAINERS + '/' + this.userId + '/details';
-        fetch(trainerUrl, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                startDate: monday,
-                endDate: sunday,
-            })
-        }).then(response => response.json()).then(responseData => {
+        const startDate = monday;
+        const endDate = sunday;
+        const onSuccess = (responseData) => {
             this.setState({classes: responseData, monday, sunday});
-        }).catch((error) => {
-            console.error(error);
-        });
+        };
+
+        getPersonalTrainerSchedule(startDate, endDate, this.userId, onSuccess);
     }
 
     loadNextWeek() {

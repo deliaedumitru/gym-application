@@ -1,9 +1,8 @@
 import React, {Component} from 'react';
-import { Grid, Row, Col } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import {Link} from "react-router-dom";
 import 'whatwg-fetch';
 
-import { SERVER, TRAINERS } from "../../api/gym";
+import {getTrainers} from "../../api/gym";
 
 import './style.css'
 
@@ -31,17 +30,7 @@ export default class Trainers extends Component {
     }
 
     getTrainers() {
-        fetch(`${SERVER}${TRAINERS}/`, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json'
-            }
-        }).then(response => response.json()
-        ).then(responseData => {
-            this.setState({trainers: responseData});
-        }).catch((error) => {
-            console.error(error);
-        });
+        getTrainers((resp) =>  this.setState({trainers: resp}));
     }
 
     render() {

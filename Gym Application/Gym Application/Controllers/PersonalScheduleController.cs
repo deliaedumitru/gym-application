@@ -13,6 +13,7 @@ using Business_Layer.Services;
 using Gym_Application.Models;
 using Business_Layer.Mappers;
 using System.Web.Http.Results;
+using Gym_Application.Authentication;
 
 namespace Gym_Application.Controllers
 {
@@ -22,8 +23,9 @@ namespace Gym_Application.Controllers
         private PersonalScheduleService service = new PersonalScheduleService();
         
         //merge 
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         [Route("api/PersonalSchedules/")]
+        [JwtAuthentication]
         [HttpGet]
         //[ResponseType(typeof(PersonalSchedule))]
         public IEnumerable<PersonalScheduleView> GetPersonalSchedule()
@@ -37,9 +39,10 @@ namespace Gym_Application.Controllers
         }
 
         //merge 
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         [ResponseType(typeof(PersonalScheduleView))]
         [Route("api/PersonalSchedules/{id}")]
+        [JwtAuthentication]
         [HttpGet]
         public IHttpActionResult GetPersonalSchedule([FromUri] int id)
         {
@@ -51,8 +54,9 @@ namespace Gym_Application.Controllers
             return Ok( PersonalScheduleMapper.ScheduleToScheduleDetails( personalSchedule ) );
         }
         
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         [Route( "api/PersonalSchedules/{id}/details" )]
+        [JwtAuthentication]
         [ResponseType(typeof(IEnumerable<PersonalScheduleView>))]
         [HttpPost]
         public IHttpActionResult GetPersonalSchedulesDetails([FromBody] DateSpan dateSpan, int id )
@@ -75,12 +79,17 @@ namespace Gym_Application.Controllers
         }
         
         
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         [Route("api/PersonalSchedules/{id}")]
+        [JwtAuthentication]
         [HttpPut]
         [ResponseType(typeof(void))]
         public IHttpActionResult PutPersonalSchedule(int id, PersonalSchedule personalSchedule)
         {
+            // at least user
+            if (!Utils.CheckPermission(new List<Role> { Role.USER, Role.ADMIN, Role.TRAINER }))
+                return StatusCode(HttpStatusCode.Forbidden);
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -99,12 +108,16 @@ namespace Gym_Application.Controllers
         }
         
         //merge
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         [Route("api/PersonalSchedules")]
+        [JwtAuthentication]
         [HttpPost]
         [ResponseType(typeof(PersonalScheduleView))]
         public IHttpActionResult PostPersonalSchedule(PersonalSchedule personalSchedule)
         {
+            // at least user
+            if (!Utils.CheckPermission(new List<Role> { Role.USER, Role.ADMIN, Role.TRAINER }))
+                return StatusCode(HttpStatusCode.Forbidden);
 
             if (!ModelState.IsValid)
             {
@@ -129,12 +142,17 @@ namespace Gym_Application.Controllers
         }
         
         
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         [ResponseType(typeof(void))]
         [Route("api/PersonalSchedules/{id}")]
+        [JwtAuthentication]
         [HttpDelete]
         public IHttpActionResult DeletePersonalSchedule(int id)
         {
+            // at least user
+            if (!Utils.CheckPermission(new List<Role> { Role.USER, Role.ADMIN, Role.TRAINER }))
+                return StatusCode(HttpStatusCode.Forbidden);
+
             service.Delete(id);
             return Ok();
         }

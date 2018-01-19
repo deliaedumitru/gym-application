@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import {PURCHASE_SUBSCRIPTION, SERVER, SUBSCRIPTION, SUBSCRIPTIONS} from "../../api/gym";
+import {addSubscription, editSubscription, getSubscriptions} from "../../api/gym";
 import './style.css'
-import Modal from "../../components/Modal/index";
 import SubscriptionTable from "../../components/SubscriptionsTable/index";
 import SubscriptionItem from "../../components/SubscriptionItem/index";
+
 
 export default class SubscriptionAdmin extends Component {
     constructor(props) {
@@ -23,16 +23,7 @@ export default class SubscriptionAdmin extends Component {
 
     loadSubscriptions() {
         console.log("load subscriptions");
-        fetch(`${SERVER}${SUBSCRIPTIONS}`, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json'
-            },
-        }).then(response => response.json()).then(responseData => {
-            this.setState({subscriptions: responseData});
-        }).catch((error) => {
-            console.error(error);
-        });
+        getSubscriptions((responseData)=> this.setState({subscriptions: responseData}));
     }
 
     componentDidMount() {
@@ -41,16 +32,7 @@ export default class SubscriptionAdmin extends Component {
     }
 
     handleEditSubscription = (id, name, description, price) => {
-        fetch(`${SERVER}${SUBSCRIPTION}/${id}`, {
-            method: 'PUT',
-            headers: {
-                'Accept': 'application/json'
-            }, body: JSON.stringify({
-                Id: id,
-                Name: name,
-                Price: price,
-            })
-        }).then(response => {
+        const onSuccess = (response) => {
             if (response.status === 200) {
                 alert("OK!!");
                 this.setState((prevState) => ({
@@ -66,33 +48,13 @@ export default class SubscriptionAdmin extends Component {
                     })
                 }))
             }
-        }).catch((error) => {
-            console.error(error);
-        });
+        };
+        editSubscription(id, name, price, onSuccess);
     };
 
     handleAddSubscription(name, description, price) {
-        fetch(`${SERVER}${SUBSCRIPTION}`, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json'
-            }, body: JSON.stringify({
-                Id: 0,
-                Name: name,
-                Price: price,
-            })
-        }).then(response => {
-            if (response.status === 200) {
-                alert("OK!!");
-                this.setState((prevState) => {
-                    const {subscriptions} = prevState;
-                    subscriptions.push({Id: 0, Name: name, Price: price});
-                    return {subscriptions};
-                })
-            }
-        }).catch((error) => {
-            console.error(error);
-        });
+        const id = 0;
+        addSubscription(id, name, price, ()=>this.loadSubscriptions());
     }
 
     render() {

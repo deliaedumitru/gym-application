@@ -5,10 +5,11 @@ import moment from 'moment';
 
 import 'react-datepicker/dist/react-datepicker.css'
 import 'react-datepicker/dist/react-datepicker-cssmodules.css'
-import {CLASSES, SCHEDULE, SCHEDULE_DETAILS, SERVER, TRAINERS} from "../../api/gym";
+import {addClassSchedule, deleteClassSchedule, getClasses, getSchedule, getTrainers} from "../../api/gym";
 import ScheduleTable from "../../components/ScheduleTable/index";
 import ClassScheduleForm from "../../components/ClassScheduleForm/index";
 import {getMonday, getSunday} from "../DateUtils/index";
+
 
 export default class ScheduleAdmin extends Component {
     constructor(props) {
@@ -35,54 +36,36 @@ export default class ScheduleAdmin extends Component {
 
     loadSchedule(monday, sunday) {
         console.log("load schedule");
-        fetch(`${SERVER}${SCHEDULE_DETAILS}`, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                startDate: monday,
-                endDate: sunday,
-            })
-        }).then(response => response.json()).then(responseData => {
-            this.setState({schedule: responseData, monday, sunday});
-        }).catch((error) => {
-            console.error(error);
-        });
+        const onSuccess = (responseData) => this.setState({schedule: responseData, monday, sunday});
+
+
+        getSchedule(monday, sunday, onSuccess);
     }
 
     loadTrainers() {
-        fetch(`${SERVER}${TRAINERS}`, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-            },
-        }).then((response) => response.json()).then((responseJson) => {
+        const onSucces = (responseJson) => {
             const trainers = responseJson.map((elem) =>
                 ({value: elem.Id, label: elem.Name})
             );
             this.setState(() => ({trainers}));
             console.log(responseJson);
-        }).catch((error) => {
-            console.error(error);
-        });
+        };
+
+        // get the trainers and persist them to state
+        getTrainers(onSucces);
     }
 
     loadClasses() {
-        fetch(`${SERVER}${CLASSES}`, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json',
-            },
-        }).then((response) => response.json()).then((responseJson) => {
+        const onSuccess = (responseJson) => {
             const classes = responseJson.map((elem) =>
                 ({value: elem.Id, label: elem.Name})
             );
             this.setState(() => ({classes}));
             console.log(responseJson);
-        }).catch((error) => {
-            console.error(error);
-        });
+        };
+
+        // load the classes and persist them in the state
+        getClasses(onSuccess);
     }
 
 
@@ -100,45 +83,24 @@ export default class ScheduleAdmin extends Component {
         console.log("trainer = ", selectedTrainer);
 
 
-        fetch(`${SERVER}${SCHEDULE}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                Id: 1,
-                ClassId: selectedClass.value,
-                Date: date,
-                Capacity: capacity,
-                Room: room,
-                Difficulty: selectedDifficulty - 1,
-                TrainerId: selectedTrainer.value,
-            })
-        }).then((response) => response.json()).then((responseJson) => {
-            console.log("Success:", responseJson);
+        const id = 1;
+        const classId = selectedClass.value;
+        const trainerId = selectedTrainer.value;
+        const difficulty = selectedDifficulty - 1;
+
+        const onSuccess = (responseJson) => {
             this.loadSchedule(monday, sunday);
-            alert("Class added");
-        }).catch((error) => {
-            console.error(error);
-        });
+        };
+        addClassSchedule(id, classId, date, capacity, room, difficulty, trainerId, onSuccess);
     }
 
     handleDeleteClassSchedule(id) {
         console.log("delete class");
         const {monday, sunday} = this.state;
-
-        fetch(`${SERVER}ClassSchedules/${id}`, {
-            method: 'DELETE',
-            headers: {
-                'Accept': 'application/json'
-            },
-        }).then(responseData => {
-            console.log("success ", responseData);
+        const onSuccess = (responseData) => {
             this.loadSchedule(monday, sunday);
-            alert("class deleted");
-        }).catch((error) => {
-            console.error(error);
-        });
+        };
+        deleteClassSchedule(id, onSuccess);
     }
 
     loadNextWeek() {

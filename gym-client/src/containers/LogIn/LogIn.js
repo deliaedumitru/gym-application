@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import 'whatwg-fetch';
-import {LOGIN, SERVER} from "../../api/gym";
+import {login} from "../../api/gym";
 
 class LogIn extends Component {
 
@@ -24,30 +24,9 @@ class LogIn extends Component {
     }
 
     logIn() {
-        let username = document.getElementById('userNameInput').value;
-        fetch(`${SERVER}${LOGIN}`, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                username: username,
-                password: document.getElementById('passwordInput').value,
-            })
-        }).then((response) => response.json()).then((responseJson) => {
-            console.log(responseJson);
-            let user = {id: responseJson.Id, username: username, name: responseJson.Name, role: responseJson.Role};
-            localStorage.setItem('user', JSON.stringify(user));
-            console.log(user);
-            console.log(JSON.parse(localStorage.getItem('user')));
-            //alternatively, a function can be called that does the local storage and redirect to some other layout
-            //it can be accessed by 'localStorage.getItem('user');
-            //it can be remover by localStorage.removeItem('user');
-            //objects = JSON.parse(localStorage.getItem('user'));
-        }).catch((error) => {
-            console.error(error);
-        });
+        const username = document.getElementById('userNameInput').value;
+        const password = document.getElementById('passwordInput').value;
+        login(username, password, () => window.location.reload());  // reload window on success
     }
 
     componentDidMount() {

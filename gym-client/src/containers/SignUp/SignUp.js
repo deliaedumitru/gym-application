@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import 'whatwg-fetch';
-import {SERVER, SIGNUP} from "../../api/gym";
+import {signUp} from "../../api/gym";
 
 class SignUp extends Component {
     render() {
@@ -25,23 +25,11 @@ class SignUp extends Component {
 
 
     signUp() {
-        let username = document.getElementById('userNameInput').value;
-        let name = document.getElementById('nameInput').value;
-        let email = document.getElementById('emailInput').value;
-        fetch(`${SERVER}${SIGNUP}`, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                username: username,
-                name: name,
-                email: email,
-                password: document.getElementById('passwordInput').value,
-                role: '2'
-            })
-        })
+        const username = document.getElementById('userNameInput').value;
+        const name = document.getElementById('nameInput').value;
+        const email = document.getElementById('emailInput').value;
+        const password = document.getElementById('passwordInput').value;
+        signUp(username, name, email, password);
     }
 
 

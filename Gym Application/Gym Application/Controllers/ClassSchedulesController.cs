@@ -16,6 +16,7 @@ using Gym_Application.Models;
 using Business_Layer.DTO;
 
 using System.Net.Mail;
+using Gym_Application.Authentication;
 
 namespace Gym_Application.Controllers
 {
@@ -23,14 +24,15 @@ namespace Gym_Application.Controllers
     using DAL.Repository;
 
 
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    
     public class ClassSchedulesController : ApiController
     {
         private ClassScheduleServices service = new ClassScheduleServices();
 
         // GET: api/ClassSchedules
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         [Route("api/ClassSchedules")]
+        [JwtAuthentication]
         [HttpGet]
         public IEnumerable<ClassSchedule> GetClassSchedule()
         {
@@ -38,8 +40,9 @@ namespace Gym_Application.Controllers
         }
 
         // GET: api/ClassSchedules/5
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         [ResponseType( typeof( ClassSchedule ) )]
+        [JwtAuthentication]
         public IHttpActionResult GetClassSchedule( int id )
         {
             ClassSchedule classSchedule = service.findOne( id );
@@ -51,12 +54,15 @@ namespace Gym_Application.Controllers
             return Ok( classSchedule );
         }
 
+        //GET CLASS SCHEDULE !!!!! FFS
+        // TODO: MAKE IT GET
         // POST: api/ClassSchedules/details
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
         [Route("api/ClassSchedules/details")]
+        [JwtAuthentication]
         [HttpPost]
         public IHttpActionResult GetClassSchedulesDetails([FromBody] DateSpan dateSpan)
         {
+
             try
             {
                 if (ModelState.IsValid)
@@ -74,11 +80,16 @@ namespace Gym_Application.Controllers
         }
         
         // POST: api/ClassSchedules/trainers/{id}
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         [Route("api/ClassSchedules/trainers/{id}")]
+        [JwtAuthentication]
         [HttpPost]
         public IHttpActionResult GetTrainerScheduleDetails([FromBody] DateSpan dateSpan,int id)
         {
+            // at least trainer
+            if (!Utils.CheckPermission(new List<Role> { Role.ADMIN, Role.TRAINER }))
+                return StatusCode(HttpStatusCode.Forbidden);
+
             try
             {
                 if (ModelState.IsValid)
@@ -97,9 +108,10 @@ namespace Gym_Application.Controllers
         }
 
         // GET: api/ClassSchedules/5/participants
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         [ResponseType( typeof( IEnumerable<int> ) )]
         [Route( "api/ClassSchedules/{id}/participants" )]
+        [JwtAuthentication]
         public IHttpActionResult GetClassScheduleParticipants( int id )
         {
             ClassSchedule classSchedule = service.findOne( id );
@@ -114,11 +126,16 @@ namespace Gym_Application.Controllers
         }
 
         // PUT: api/ClassSchedules/5
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         [ResponseType( typeof( void ) )]
+        [JwtAuthentication]
         public IHttpActionResult PutClassSchedule( int id, ClassSchedule classSchedule )
         {
-            if( !ModelState.IsValid )
+            // at least trainer
+            if (!Utils.CheckPermission(new List<Role> { Role.ADMIN, Role.TRAINER }))
+                return StatusCode(HttpStatusCode.Forbidden);
+
+            if ( !ModelState.IsValid )
             {
                 return BadRequest( ModelState );
             }
@@ -136,13 +153,18 @@ namespace Gym_Application.Controllers
         }
 
         // POST: api/ClassSchedules/{id}/participants/{id_user}   -   sign up for class schedule
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         [ResponseType( typeof( void ) )]
         [HttpPost]
         [Route( "api/ClassSchedules/{id_class_schedule}/participants/{id_user}" )]
+        [JwtAuthentication]
         public IHttpActionResult PostClassScheduleParticipants( int id_class_schedule, int id_user )
         {
-            if( !ModelState.IsValid )
+            // at least user
+            if (!Utils.CheckPermission(new List<Role> { Role.USER, Role.ADMIN, Role.TRAINER }))
+                return StatusCode(HttpStatusCode.Forbidden);
+
+            if ( !ModelState.IsValid )
             {
                 return BadRequest( ModelState );
             }
@@ -164,13 +186,18 @@ namespace Gym_Application.Controllers
         }
 
         // DELETE: api/ClassSchedules/{id}/participants/{id_user}   -   unenroll from class schedule
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         [ResponseType( typeof( void ) )]
         [HttpGet]
         [Route( "api/ClassSchedules/{id_class_schedule}/participants/{id_user}" )]
+        [JwtAuthentication]
         public IHttpActionResult DeleteClassScheduleParticipants( int id_class_schedule, int id_user )
         {
-            if( !ModelState.IsValid )
+            // at least user
+            if (!Utils.CheckPermission(new List<Role> { Role.USER, Role.ADMIN, Role.TRAINER }))
+                return StatusCode(HttpStatusCode.Forbidden);
+
+            if ( !ModelState.IsValid )
             {
                 return BadRequest( ModelState );
             }
@@ -188,13 +215,17 @@ namespace Gym_Application.Controllers
         }
 
         // POST: api/ClassSchedules
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         [ResponseType( typeof( ClassSchedule ) )]
         [Route("api/ClassSchedules")]
+        [JwtAuthentication]
         public IHttpActionResult PostClassSchedule( ClassSchedule classSchedule )
         {
+            // at least trainer
+            if (!Utils.CheckPermission(new List<Role> { Role.ADMIN, Role.TRAINER }))
+                return StatusCode(HttpStatusCode.Forbidden);
 
-            if( !ModelState.IsValid )
+            if ( !ModelState.IsValid )
             {
                 return BadRequest( ModelState );
             }
@@ -215,10 +246,15 @@ namespace Gym_Application.Controllers
         }
 
         // DELETE: api/ClassSchedules/5
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         [ResponseType( typeof( void ) )]
+        [JwtAuthentication]
         public IHttpActionResult DeleteClassSchedule( int id )
         {
+            // at least trainer
+            if (!Utils.CheckPermission(new List<Role> { Role.ADMIN, Role.TRAINER }))
+                return StatusCode(HttpStatusCode.Forbidden);
+
             service.delete( id );
             return Ok();
         }

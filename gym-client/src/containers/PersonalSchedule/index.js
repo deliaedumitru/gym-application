@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import moment from 'moment';
 import 'whatwg-fetch';
 
-import {SCHEDULE_PERSONALS, SERVER} from "../../api/gym";
+import {getPersonalUserSchedule} from "../../api/gym";
 import PersonalScheduleTable from "../../components/PersonalScheduleTable/index";
 
 import './style.css'
@@ -35,22 +35,10 @@ export default class SchedulePersonal extends Component {
     }
 
     loadSchedule(monday, sunday) {
-        let personalUrl = SERVER + SCHEDULE_PERSONALS + '/' + this.userId + '/details';
-        fetch(personalUrl, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json'
-            },
-            body: JSON.stringify({
-                id : this.userId,
-                startDate: monday,
-                endDate: sunday,
-            })
-        }).then(response => response.json()).then(responseData => {
-            this.setState({classes: responseData, monday, sunday});
-        }).catch((error) => {
-            console.error(error);
-        });
+        const onSuccess = (responseData) => this.setState({classes: responseData, monday, sunday});
+        const userId = this.userId;
+
+        getPersonalUserSchedule(userId, monday, sunday, onSuccess);
     }
 
     loadNextWeek() {

@@ -1,12 +1,13 @@
 import React, {Component} from 'react';
 import StarRatingComponent from 'react-star-rating-component';
 import Moment from 'moment';
-import { Grid, Row, Col } from "react-bootstrap";
 import 'whatwg-fetch';
 
-import { SERVER, TRAINERS, FEEDBACK } from "../../api/gym";
+import {addFeedback, editFeedback, getFeebacksForUser, getFeedbacks, getTrainer, getUser} from "../../api/gym";
 
 import './style.css'
+import {getUserRole} from "../../utils/UserUtils";
+
 
 export default class TrainerProfile extends Component {
     constructor(props) {
@@ -25,8 +26,9 @@ export default class TrainerProfile extends Component {
             feedbackFromUser: null
         };
 
-        const user = JSON.parse(localStorage.getItem("user"));
+        const user = getUser();
         this.userId = user ? user.id : null;
+        this.shouldPost = getUserRole() === 'USER';
         this.trainerId = this.props.match.params.id;
     }
 
@@ -43,63 +45,33 @@ export default class TrainerProfile extends Component {
     }
 
     getTrainerDetails() {
-        fetch(`${SERVER}${TRAINERS}/` + this.trainerId, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json'
-            }
-        }).then(response =>{
-             if (!response.ok) {
-                 //TODO: REDIRECT TO NOT FOUND
-                throw Error(response.statusText);
-            }
-            return response.json()
-        }).then(responseData => {
+        const trainerId = this.trainerId;
+        const onSuccess = (responseData) => {
             this.setState({userInfo: responseData});
             console.log(this.state.userInfo);
-        }).catch((error) => {
-            console.error(error);
-        });
+        };
+        getTrainer(trainerId, onSuccess);
     }
 
     getFeedbacks() {
-         fetch(`${SERVER}${FEEDBACK}/` + this.trainerId, {
-            method: 'GET',
-            headers: {
-                'Accept': 'application/json'
-            }
-        }).then(response =>{
-             if (!response.ok) {
-                 //TODO: REDIRECT TO NOT FOUND
-                throw Error(response.statusText);
-            }
-            return response.json()
-        }).then(responseData => {
-            console.log(responseData);
+        const trainerId = this.trainerId;
+        const onSuccess = (responseData) => {
             this.setState({feedbacks: responseData});
-        }).catch((error) => {
-            console.error(error);
-        });
+        };
+
+        getFeedbacks(trainerId, onSuccess);
     }
 
     getFeedbackFromUser() {
         if (this.userId) {
-            fetch(`${SERVER}${FEEDBACK}/trainer/` + this.trainerId + `/user/` + this.userId, {
-                method: 'GET',
-                headers: {
-                    'Accept': 'application/json'
-                }
-            }).then(response =>{
-                if (!response.ok) {
-                    throw Error(response.statusText);
-                }
-                return response.json()
-            }).then(responseData => {
+            const onSuccess = (responseData) => {
                 this.setState({feedbackFromUser: responseData});
                 this.setState({rating: responseData.Rating});
-            }).catch((error) => {
-                console.error(error);
-            });
+            };
+
+            const trainerId = this.trainerId;
+            const userId = this.userId;
+            getFeebacksForUser(trainerId, userId, onSuccess);
         }
     }
 
@@ -124,35 +96,21 @@ export default class TrainerProfile extends Component {
         }
     }
 
-    postFeedback(data) {
+    postFeedback(data, userId = this.userId) {
         const { feedbacks } = this.state;
         const { feedbackFromUser } = this.state;
         const { rating } = this.state; 
         const comment = data.get('textPost');
+        const onSuccess = (responseData) => {
+            this.setState({feedbackFromUser: responseData});
+            this.setState((prevState)=>(
+                prevState.feedbacks.push(responseData)
+            ));
+        };
 
-        if(comment != null && rating != 0) {
-            var bodyJson = JSON.stringify({
-                TrainerId: this.trainerId,
-                UserId: this.userId,
-                Text: comment,
-                Rating: rating
-            });
-            fetch(`${SERVER}${FEEDBACK}/`, {
-                method: 'POST',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: bodyJson
-            }).then(response => response.json()
-            ).then(responseData => {
-                this.setState({feedbackFromUser: responseData});
-                this.setState((prevState)=>(
-                    prevState.feedbacks.push(responseData)
-                ))
-            }).catch((error) => {
-                console.error(error);
-            });
+        if(comment !== null && rating !== 0) {
+            const trainerId = this.trainerId;
+            addFeedback(trainerId, userId, comment, rating, onSuccess);
         } else {
             //SHOW ERROR MESSAGE: INVALID FEEDBACK
             console.log("invalid feedback!!")
@@ -165,22 +123,12 @@ export default class TrainerProfile extends Component {
         const { rating } = this.state;
         const comment = data.get('text');
 
-        if(comment != null && rating != 0) {
-            var bodyJson = JSON.stringify({
-                TrainerId: this.trainerId,
-                UserId: this.userId,
-                Text: comment,
-                Rating: rating
-            });
-            fetch(`${SERVER}${FEEDBACK}/` + feedbackFromUser.Id, {
-                method: 'PUT',
-                headers: {
-                    'Accept': 'application/json',
-                    'Content-Type': 'application/json',
-                },
-                body: bodyJson
-            }).then(response => response.json()
-            ).then(responseData => {
+        if(comment != null && rating !== 0) {
+            const trainerId = this.trainerId;
+            const userId = this.userId;
+
+            const id = feedbackFromUser.Id;
+            const onSuccess = (responseData) => {
                 this.setState({feedbackFromUser: responseData});
                 const updatedFeedback = feedbacks.map((it) => {
                     if (it.Id === feedbackFromUser.Id) {
@@ -189,13 +137,13 @@ export default class TrainerProfile extends Component {
                             Text: responseData.Text,
                             Rating: responseData.Rating
                         }
-                    } else 
-                    return it;
-                }); 
+                    } else
+                        return it;
+                });
                 this.setState({feedbacks: updatedFeedback});
-            }).catch((error) => {
-                console.error(error);
-            });
+            };
+
+            editFeedback(trainerId, userId, id, comment, rating, onSuccess);
         } else {
             //SHOW ERROR MESSAGE: INVALID FEEDBACK
             console.log("invalid feedback!!")
@@ -237,7 +185,7 @@ export default class TrainerProfile extends Component {
                                         </div> : null
                                     }
                                 </div> 
-                                {this.userId && feedbackFromUser === null ?
+                                {this.shouldPost && this.userId && feedbackFromUser === null ?
                                     <div className="feedback">
                                         <h2>Leave your feedback </h2>
                                         <div style={{fontSize: 26}}>
@@ -258,7 +206,7 @@ export default class TrainerProfile extends Component {
                                     </div> : null
                                 }
 
-                                {this.userId && feedbackFromUser != null ?
+                                {this.shouldPost && this.userId && feedbackFromUser != null ?
                                     <div className="feedback">
                                         <h2>You already left a feedback on this, but you can modify it if you want to.</h2>
                                         <div style={{fontSize: 26}}>

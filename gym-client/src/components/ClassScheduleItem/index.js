@@ -13,14 +13,15 @@ export default class ClassScheduleItem extends Component {
             'BEGINNER': 'rgba(0, 102, 0, 0.5)',
         };
 
-        const {crud, handleDeleteClassSchedule, enrollToClassSchedule, unEnrollToClassSchedule, enrolled, classSchedule: {Id: id, ClassName: name, Room: room, AvailableCapacity: capacity, Date: date, Difficulty: difficulty, TrainerName: trainerName}} = this.props;
+        const {crud, enrollable, handleDeleteClassSchedule, enrollToClassSchedule, unEnrollToClassSchedule, enrolled, classSchedule: {Id: id, ClassName: name, Room: room, AvailableCapacity: capacity, Date: date, Difficulty: difficulty, TrainerName: trainerName}} = this.props;
 
         const endDate = moment(date).add(1, 'hour');
         const start = moment(date).tz("Europe/Bucharest").format("HH:mm");
         const end = moment(endDate).tz("Europe/Bucharest").format("HH:mm");
-		const cap_left = ( capacity == 1 ) ? capacity + ' place left' : capacity + ' places left';
+        const cap_left = (capacity == 1) ? capacity + ' place left' : capacity + ' places left';
         return (
-            <div className="class-schedule" style={{backgroundColor: colors[difficulty], borderRadius: 10, textAlign: 'center', fontSize: 14}}>
+            <div className="class-schedule"
+                 style={{backgroundColor: colors[difficulty], borderRadius: 10, textAlign: 'center', fontSize: 14}}>
                 <h3>{name}</h3>
                 <p>
                     Room {room}
@@ -37,18 +38,23 @@ export default class ClassScheduleItem extends Component {
                         onClick={() => handleDeleteClassSchedule(id)}>
                         delete
                     </Button>
-                    : enrolled ?
-                        <Button
-                            className="btn"
-                            onClick={() => unEnrollToClassSchedule(id)}>
-                            Leave
-                        </Button>
-                        : <Button
-                            id={id}
-                            className="btn"
-                            onClick={() => enrollToClassSchedule(id)}>
-                            Enroll
-                        </Button>
+                    :
+                    (enrollable ?
+                            (enrolled ?
+                                <Button
+                                    className="btn"
+                                    onClick={() => unEnrollToClassSchedule(id)}>
+                                    Leave
+                                </Button>
+                                :
+                                <Button
+                                    id={id}
+                                    className="btn"
+                                    onClick={() => enrollToClassSchedule(id)}>
+                                    Enroll
+                                </Button>
+                            ) : ""
+                    )
                 }
             </div>
         );

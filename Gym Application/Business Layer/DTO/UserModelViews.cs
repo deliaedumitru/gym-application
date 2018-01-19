@@ -31,6 +31,15 @@ namespace Business_Layer.DTO
         public int Role { get; set; }
     }
 
+    public class UserModelWithTokenView
+    {
+        public int Id { get; set; }
+        public string Username { get; set; }
+        public string Name { get; set; }
+        public int Role { get; set; }
+        public string Token { get; set; }
+    }
+
     public class DetailedTrainerModelView
     {
         public int Id { get; set; }

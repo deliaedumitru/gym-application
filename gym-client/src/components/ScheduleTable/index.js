@@ -11,7 +11,7 @@ import Table from "react-bootstrap/es/Table";
 export default class ScheduleTable extends Component {
 
     render() {
-        const {classes, containsElement, enrollToClassSchedule, unEnrollToClassSchedule, crud, handleDeleteClassSchedule} = this.props;
+        const {classes, containsElement, enrollToClassSchedule, unEnrollToClassSchedule, crud, enrollable, handleDeleteClassSchedule} = this.props;
 
         console.log("schedule table classes:", classes);
         let mondayClasses = [];
@@ -27,6 +27,7 @@ export default class ScheduleTable extends Component {
                     key={classSchedule.Id}
                     classSchedule={classSchedule}
                     crud={crud}
+                    enrollable={enrollable}
                     enrolled={crud ? false : containsElement(classSchedule.Id)}
                     enrollToClassSchedule={enrollToClassSchedule}
                     unEnrollToClassSchedule={unEnrollToClassSchedule}

@@ -9,6 +9,7 @@ using DAL.Repository;
 using DAL.Model;
 using Business_Layer.DTO;
 using Business_Layer.Mappers;
+using Gym_Application.Authentication;
 
 namespace Gym_Application.Controllers
 {
@@ -19,9 +20,11 @@ namespace Gym_Application.Controllers
 
         [HttpGet]
         [Route("api/trainers")]
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [JwtAuthentication]
+        
         public IEnumerable<BaseUserModelView> getTrainers()
         {
+            //default permissions for get
             IRepository<User> user_repo = transaction_manager.Repository<User>();
             IEnumerable<User> users = user_repo.findAll();
             List<BaseUserModelView> trainers = new List<BaseUserModelView>();
@@ -36,8 +39,13 @@ namespace Gym_Application.Controllers
 
         [HttpPut]
         [Route("api/trainers/{id}")]
+        [JwtAuthentication]
         public IHttpActionResult EditTrainer(int id)
         {
+            // users should not be able to perform destructive operations
+            if (!Utils.CheckPermission(new List<Role> {Role.ADMIN, Role.TRAINER}))
+                return StatusCode(HttpStatusCode.Forbidden);
+
             IRepository<User> user_repo = transaction_manager.Repository<User>();
             User found_user = user_repo.GetById(id);
             bool found = found_user != null,
@@ -59,8 +67,13 @@ namespace Gym_Application.Controllers
 
         [HttpPost]
         [Route("api/trainers/{id}")]
+        [JwtAuthentication]
         public IHttpActionResult AddTrainer(int id)
         {
+            // users should not be able to perform destructive operations
+            if (!Utils.CheckPermission(new List<Role> { Role.ADMIN, Role.TRAINER }))
+                return StatusCode(HttpStatusCode.Forbidden);
+
             IRepository<User> user_repo = transaction_manager.Repository<User>();
             User found_user = user_repo.GetById(id);
             bool found = found_user != null, 
@@ -85,8 +98,13 @@ namespace Gym_Application.Controllers
 
         [HttpDelete]
         [Route("api/trainers/{id}")]
+        [JwtAuthentication]
         public IHttpActionResult DeleteTrainer(int id)
         {
+            // users should not be able to perform destructive operations
+            if (!Utils.CheckPermission(new List<Role> { Role.ADMIN, Role.TRAINER }))
+                return StatusCode(HttpStatusCode.Forbidden);
+
             IRepository<User> user_repo = transaction_manager.Repository<User>();
             User found_user = user_repo.GetById(id);
             bool found = found_user != null, 
@@ -111,7 +129,8 @@ namespace Gym_Application.Controllers
 
         [HttpGet]
         [Route("api/trainers/{id}")]
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [JwtAuthentication]
+        
         public IHttpActionResult getTrainer(int id)
         {
             IRepository<User> user_repo = transaction_manager.Repository<User>();
