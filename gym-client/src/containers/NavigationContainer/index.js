@@ -8,6 +8,7 @@ import TrainerProfile from "../TrainerProfile";
 import Trainers from "../Trainers";
 import SubscriptionUser from "../SubscriptionUser";
 import SubscriptionAdmin from "../SubscriptionAdmin";
+import SubscriptionAdmin from "../TrainersAdmin";
 import ClassSchedule from "../ScheduleAdmin/index.js";
 import {getUserRole} from "../../utils/UserUtils";
 import {Navigation} from "../../components/Navigation";
@@ -36,6 +37,7 @@ const NAVIGATION_ITEMS = {
     'trainers': {path: "/Trainers", component: Trainers, title: 'TRAINERS'},
     'subscription_user': {path: "/SubscriptionUser", component: SubscriptionUser, title: 'SUBSCRIPTION'},
     'subscription_admin': {path: "/SubscriptionAdmin", component: SubscriptionAdmin, title: 'MANAGE SUBSCRIPTIONS'},
+    'trainers_admin': {path: "/TrainersAdmin", component: SubscriptionAdmin, title: 'MANAGE SUBSCRIPTIONS'},
 };
 
 // the available components, based on role(can contain content which does not have 'title'
