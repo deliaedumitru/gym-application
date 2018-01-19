@@ -59,6 +59,33 @@ namespace Business_Layer.Services
                 {
                     found_user.Role = Role.USER;
                     user_repo.Update(found_user);
+
+                    // remove class-schedules which this trainer is 
+                    // having
+                    IRepository<ClassSchedule> cs_repo = uow.Repository<ClassSchedule>();
+                    List<ClassSchedule> cs_of_trainer = cs_repo.findAll()
+                        .Where(e => e.TrainerId == id)
+                        .ToList();
+
+                    int cs_trainer_size = cs_of_trainer.Count;
+                    for(int i = 0; i < cs_trainer_size; ++i)
+                    {
+                        cs_repo.Delete(cs_of_trainer[i]);
+                    }
+
+                    // remove personal-schedules which this trainer is
+                    // having 
+                    IRepository<PersonalSchedule> ps_repo = uow.Repository<PersonalSchedule>();
+                    List<PersonalSchedule> ps_of_trainer = ps_repo.findAll()
+                        .Where(e => e.TrainerId == id)
+                        .ToList();
+
+                    int ps_trainer_size = ps_of_trainer.Count;
+                    for (int i = 0; i < ps_trainer_size; ++i)
+                    {
+                        ps_repo.Delete(ps_of_trainer[i]);
+                    }
+
                     uow.Save();
                     return true;
                 }
