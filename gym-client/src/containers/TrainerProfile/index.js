@@ -121,7 +121,7 @@ export default class TrainerProfile extends Component {
         const { rating } = this.state;
         const comment = data.get('text');
 
-        if(comment != null && rating != 0) {
+        if(comment != null && rating !== 0) {
             const trainerId = this.trainerId;
             const userId = this.userId;
 

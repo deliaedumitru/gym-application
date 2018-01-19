@@ -54,7 +54,6 @@ class Class extends Component {
 
     editClass(event) {
         console.log('sa-mi bag pula, Iulia');
-        alert(event.target.id);
         let id = parseInt(event.target.parentElement.parentElement.childNodes[0].innerHTML);
         let name = document.getElementById('classNameField').value;
         console.log(id);
