@@ -170,11 +170,12 @@ export default class Schedule extends Component {
             <div>
                 <p className="center">
                     <br/>
+                    <button className="button" onClick={this.loadPrevWeek}>Prev</button>
                    <span style={{padding: 20,fontSize:20}}>
                         GYM SCHEDULE {start} - {end}
                     </span>
-                    <button onClick={this.loadPrevWeek}>‹</button>
-                    <button onClick={this.loadNextWeek}>›</button>
+                    <button className="button" onClick={this.loadNextWeek}>Next</button>
+
                 </p>
                 <br/>
                 {classes ?

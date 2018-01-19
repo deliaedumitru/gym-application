@@ -9,3 +9,45 @@ p.center {
     text-align: center;
     font-family: 'Open-Sans', sans-serif;
 }
+
+/* General Button */
+/* -------------- */
+.button {
+    position: relative;
+    margin: 0;
+    padding:14px;
+    background: #535278;
+    color: white;
+    font-size: 14px;
+}
+
+
+.button:hover { background:  #0585e8; }
+
+/* Arrow Buttons */
+/* ------------- */
+.next::after, .prev::after { border-style: solid; }
+
+/* Next Button */
+/* ----------- */
+.next::after {
+    right: 22px;
+    border-width: 11px;
+    border-color: transparent transparent transparent #0d5287;
+}
+
+.next:hover::after {
+    border-left-color: #0585e8;
+}
+
+/* Prev Button */
+/* ----------- */
+.prev::after {
+    left: 22px;
+    border-color: transparent #0d5287 transparent transparent;
+    border-width: 11px;
+}
+
+.prev:hover::after {
+    border-right-color: #0d5287;
+}
