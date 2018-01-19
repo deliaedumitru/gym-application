@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import StarRatingComponent from 'react-star-rating-component';
 import Moment from 'moment';
 import { Grid, Row, Col } from "react-bootstrap";
+import ErrorModal from "../../components/ErrorModal/index";
 import 'whatwg-fetch';
 
 import { SERVER, TRAINERS, FEEDBACK } from "../../api/gym";
@@ -22,13 +23,27 @@ export default class TrainerProfile extends Component {
             userInfo: null,
             rating: 0,
             feedbacks: [],
-            feedbackFromUser: null
+            feedbackFromUser: null,
+
+            isOpen: true,
+            errorMsg: null,
+            errorStack: null,
+            showClose: true
         };
 
         const user = JSON.parse(localStorage.getItem("user"));
         this.userId = user ? user.id : null;
         this.trainerId = this.props.match.params.id;
     }
+
+    toggleModal = () => {
+        this.setState({
+            errorMsg: null,
+            errorStack: null,
+            showClose: true,
+            isOpen: !this.state.isOpen
+        });
+    };
 
     shouldComponentUpdate() {
         console.log("TrainerProfile: should component update");
@@ -59,6 +74,10 @@ export default class TrainerProfile extends Component {
             console.log(this.state.userInfo);
         }).catch((error) => {
             console.error(error);
+            this.setState({errorMsg:  `There was an error while retrieving details about the trainer!`});
+            this.setState({errorStack:  JSON.stringify(error, Object.getOwnPropertyNames(error))});
+            this.setState({isOpen: true});
+            this.setState({showClose: false});
         });
     }
 
@@ -79,6 +98,11 @@ export default class TrainerProfile extends Component {
             this.setState({feedbacks: responseData});
         }).catch((error) => {
             console.error(error);
+            console.error(error);
+            this.setState({errorMsg:  `There was an error while retrieving the feedback of the trainer!`});
+            this.setState({errorStack:  JSON.stringify(error, Object.getOwnPropertyNames(error))});
+            this.setState({isOpen: true});
+            this.setState({showClose: true});
         });
     }
 
@@ -99,6 +123,10 @@ export default class TrainerProfile extends Component {
                 this.setState({rating: responseData.Rating});
             }).catch((error) => {
                 console.error(error);
+                this.setState({errorMsg:  `There was an error while retrieving the feedback of the trainer!`});
+                this.setState({errorStack:  JSON.stringify(error, Object.getOwnPropertyNames(error))});
+                this.setState({isOpen: true});
+                this.setState({showClose: true});   
             });
         }
     }
@@ -121,6 +149,10 @@ export default class TrainerProfile extends Component {
         } else {
             //SHOW ERROR MESSAGE: NOT LOGGED IN!
             console.log("not logged in!!")
+            this.setState({errorMsg:  `You must be logged in in order to give feedback!!`});
+            this.setState({errorStack:  null});
+            this.setState({isOpen: true});
+            this.setState({showClose: true});
         }
     }
 
@@ -130,7 +162,7 @@ export default class TrainerProfile extends Component {
         const { rating } = this.state; 
         const comment = data.get('textPost');
 
-        if(comment != null && rating != 0) {
+        if(comment != null && comment != '' && rating != 0) {
             var bodyJson = JSON.stringify({
                 TrainerId: this.trainerId,
                 UserId: this.userId,
@@ -152,10 +184,18 @@ export default class TrainerProfile extends Component {
                 ))
             }).catch((error) => {
                 console.error(error);
+                this.setState({errorMsg:  `There was an error while saving your feedback! Please try again!`});
+                this.setState({errorStack: null});
+                this.setState({isOpen: true});
+                this.setState({showClose: true});
             });
         } else {
             //SHOW ERROR MESSAGE: INVALID FEEDBACK
             console.log("invalid feedback!!")
+            this.setState({errorMsg: `The feedback is invalid! Make sure you gave a rating and left a comment!`});
+            this.setState({errorStack:  null});
+            this.setState({isOpen: true});
+            this.setState({showClose: true});
         }
     }
 
@@ -165,7 +205,7 @@ export default class TrainerProfile extends Component {
         const { rating } = this.state;
         const comment = data.get('text');
 
-        if(comment != null && rating != 0) {
+        if(comment != null && comment != '' && rating != 0) {
             var bodyJson = JSON.stringify({
                 TrainerId: this.trainerId,
                 UserId: this.userId,
@@ -195,10 +235,29 @@ export default class TrainerProfile extends Component {
                 this.setState({feedbacks: updatedFeedback});
             }).catch((error) => {
                 console.error(error);
+                this.setState({errorMsg:  `There was an error while updating your feedback! Please try again!`});
+                this.setState({errorStack: null});
+                this.setState({isOpen: true});
+                this.setState({showClose: true});
+
+                //reload old feedback of the user
+                const feed = this.state.feedbackFromUser;
+                this.setState({feedbackFromUser: null});
+                this.setState({feedbackFromUser: feed});
             });
         } else {
             //SHOW ERROR MESSAGE: INVALID FEEDBACK
-            console.log("invalid feedback!!")
+            console.log("invalid feedback!!");
+            this.setState({errorMsg:  `The feedback is invalid! Make sure you gave a rating and left a comment!`});
+            this.setState({errorStack:  null});
+            this.setState({isOpen: true});
+            this.setState({showClose: true});
+            this.setState({feedbackFromUser: this.state.feedbackFromUser})
+
+            //reload old feedback of the user
+            const feed = this.state.feedbackFromUser;
+            this.setState({feedbackFromUser: null});
+            this.setState({feedbackFromUser: feed});
         }
     }
 
@@ -211,6 +270,7 @@ export default class TrainerProfile extends Component {
         const { rating } = this.state;
         const { feedbacks } = this.state;
         const { feedbackFromUser } = this.state;
+        const { errorMsg } = this.state;
         var info = '';
         if(userInfo && userInfo.Classes) {
             userInfo.Classes.forEach((elem) => {
@@ -221,8 +281,9 @@ export default class TrainerProfile extends Component {
         console.log(feedbacks);
         return (
             <div>
-                <div className="profile">
-                        {userInfo ?
+                {userInfo ?
+                    <div className="profile">
+                        
                             <div>
                                 <div className="info">
                                     <div className="profile-info">
@@ -273,7 +334,7 @@ export default class TrainerProfile extends Component {
                                             />
                                         </div>
                                         <form onSubmit={this.giveFeedback}>
-                                            <textarea id="text" name="text" className="input" placeholder="Comment" defaultValue={feedbackFromUser.Text}></textarea>
+                                            <textarea id="text" name="text" className="input" placeholder="Comment" >{feedbackFromUser.Text}</textarea>
                                             <input type="submit" value="UPDATE"/>
                                         </form>
                                     </div> : null
@@ -308,9 +369,20 @@ export default class TrainerProfile extends Component {
                                     </div> : <div className="feedback">
                                         <h2>There is no feedback for this trainer!</h2> </div>
                                 }
-                            </div> : null
+                            </div> 
+                        </div>: null
                         }
-                </div>
+
+                        {errorMsg ?
+                            <ErrorModal show={this.state.isOpen}
+                                onClose={this.toggleModal}
+                                errorMessage={errorMsg}
+                                errorStack={this.state.errorStack}
+                                showClose={this.state.showClose}
+                            ></ErrorModal>
+                            : null
+                        }
+
                 <br/><br/><br/>
             </div>
         )
