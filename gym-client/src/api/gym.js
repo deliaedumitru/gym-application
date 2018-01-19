@@ -665,7 +665,7 @@ export const addFeedback = (trainerId, userId, comment, rating, onSuccess = (res
 };
 export const getPersonalUserSchedule = (userId, startDate, endDate, onSuccess = () => {}, onFail = () => {}) => {
     let personalUrl = SERVER + SCHEDULE_PERSONALS + '/' + userId + '/details';
-    fetch(personalUrl, {
+    fetchWithToken(personalUrl, {
         method: 'POST',
         headers: {
             'Accept': 'application/json'
