@@ -70,6 +70,11 @@ export default class SubscriptionUser extends Component {
         const userId = this.userId;
         const onSuccess = (responseData) => {
             this.loadSubscriptions();
+            alert('Subscription purchased!');
+            this.setState({
+                ...this.state,
+                isOpen: false  // close modal
+            });
         };
 
         purchaseSubscription(subscription, userId, startDate, endDate, onSuccess);
