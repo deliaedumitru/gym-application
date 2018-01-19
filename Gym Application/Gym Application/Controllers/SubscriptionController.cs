@@ -24,7 +24,6 @@ namespace Gym_Application.Controllers
         // GET: api/Subscription
         [Route("api/Subscriptions")]
         [JwtAuthentication]
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IQueryable<SubscriptionModelView> GetSubcription()
         {
             return service.getAllSubscriptions();
@@ -33,7 +32,7 @@ namespace Gym_Application.Controllers
         // POST api/Subscription/Purchase
         [Route("api/Subscription/purchase")]
         [JwtAuthentication]
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         public IHttpActionResult PurchaseSubscription( SubscriptionUserModelView su)
         {
             // users should not be able to perform destructive operations
@@ -51,7 +50,7 @@ namespace Gym_Application.Controllers
         // GET: api/Subscription/5
         [ResponseType(typeof(Subcription))]
         [JwtAuthentication]
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         public IHttpActionResult GetSubcription(int id)
         {
             if (!ModelState.IsValid)
@@ -70,7 +69,7 @@ namespace Gym_Application.Controllers
         // PUT: api/Subscription/5
         [ResponseType(typeof(void))]
         [JwtAuthentication]
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         public IHttpActionResult PutSubcription(int id, SubscriptionModelView subscription)
         {
             if (!Utils.CheckPermission(new List<Role> { Role.USER, Role.ADMIN, Role.TRAINER }))
@@ -108,7 +107,7 @@ namespace Gym_Application.Controllers
         // POST: api/Subscription
         [ResponseType(typeof(SubscriptionModelView))]
         [JwtAuthentication]
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         public IHttpActionResult PostSubcription(SubscriptionModelView subscription)
         {
             if (!Utils.CheckPermission(new List<Role> { Role.USER, Role.ADMIN, Role.TRAINER }))
@@ -126,7 +125,7 @@ namespace Gym_Application.Controllers
         // DELETE: api/Subscription/5
         [ResponseType(typeof(SubscriptionModelView))]
         [JwtAuthentication]
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         public IHttpActionResult DeleteSubcription(int id)
         {
             if (!Utils.CheckPermission(new List<Role> { Role.USER, Role.ADMIN, Role.TRAINER }))

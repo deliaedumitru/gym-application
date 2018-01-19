@@ -16,9 +16,10 @@ namespace Gym_Application.Controllers
     public class ClassController : ApiController
     {
         // POST: api/Class
+        // ADD CLASS
         [Route( "api/Class" )]
         [JwtAuthentication]
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         public IHttpActionResult PostClass([FromBody]ClassModelView classModel)
         {
             // at least trainer
@@ -36,7 +37,7 @@ namespace Gym_Application.Controllers
         }
 
         // DELETE: api/Class/5
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // DELETE CLASS
         [Route( "api/Class/{id}" )]
         [JwtAuthentication]
         [HttpDelete]
@@ -57,11 +58,11 @@ namespace Gym_Application.Controllers
                 return NotFound();
             }
         }
+        
 
-
+        // GET ALL CLASSES
         [Route( "api/Class" )]
         [JwtAuthentication]
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
         [HttpGet]
         public IQueryable<BaseClassModelView> GetClass()
         {
@@ -69,7 +70,8 @@ namespace Gym_Application.Controllers
             return service.getAllClasses();
         }
 
-        [EnableCors( origins: "*", headers: "*", methods: "*" )]
+        // GET SINGLE CLASS
+        
         [HttpGet]
         [Route( "api/Class/{id}" )]
         [JwtAuthentication]
@@ -86,7 +88,8 @@ namespace Gym_Application.Controllers
             }
         }
 
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        // EDIT CLASS
+        
         [HttpPut]
         [JwtAuthentication]
         [Route("api/Class/{id}")]

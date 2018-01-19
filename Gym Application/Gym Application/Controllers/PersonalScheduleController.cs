@@ -23,7 +23,7 @@ namespace Gym_Application.Controllers
         private PersonalScheduleService service = new PersonalScheduleService();
         
         //merge 
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         [Route("api/PersonalSchedules/")]
         [JwtAuthentication]
         [HttpGet]
@@ -39,7 +39,7 @@ namespace Gym_Application.Controllers
         }
 
         //merge 
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         [ResponseType(typeof(PersonalScheduleView))]
         [Route("api/PersonalSchedules/{id}")]
         [JwtAuthentication]
@@ -54,7 +54,7 @@ namespace Gym_Application.Controllers
             return Ok( PersonalScheduleMapper.ScheduleToScheduleDetails( personalSchedule ) );
         }
         
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         [Route( "api/PersonalSchedules/{id}/details" )]
         [JwtAuthentication]
         [ResponseType(typeof(IEnumerable<PersonalScheduleView>))]
@@ -79,7 +79,7 @@ namespace Gym_Application.Controllers
         }
         
         
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         [Route("api/PersonalSchedules/{id}")]
         [JwtAuthentication]
         [HttpPut]
@@ -108,7 +108,7 @@ namespace Gym_Application.Controllers
         }
         
         //merge
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         [Route("api/PersonalSchedules")]
         [JwtAuthentication]
         [HttpPost]
@@ -142,7 +142,7 @@ namespace Gym_Application.Controllers
         }
         
         
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         [ResponseType(typeof(void))]
         [Route("api/PersonalSchedules/{id}")]
         [JwtAuthentication]

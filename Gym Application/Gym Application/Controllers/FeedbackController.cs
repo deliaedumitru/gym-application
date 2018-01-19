@@ -16,7 +16,7 @@ namespace Gym_Application.Controllers
     {
         [Route( "api/feedbacks/" )]
         [JwtAuthentication]
-        [EnableCors( origins: "*", headers: "*", methods: "*" )]
+        
         [HttpPost]
         public IHttpActionResult PostFeedack([FromBody]FeedbackModelView feedbackModel)
         {
@@ -37,7 +37,7 @@ namespace Gym_Application.Controllers
 
         [Route("api/feedbacks/{id}")]
         [JwtAuthentication]
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         [HttpGet]
         public IQueryable<BaseFeedbackModelView> GetClass(int id)
         {
@@ -47,7 +47,7 @@ namespace Gym_Application.Controllers
 
         [Route("api/feedbacks/{id}")]
         [JwtAuthentication]
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         [HttpPut]
         public IHttpActionResult UpdateFeedback(int id, [FromBody]FeedbackModelView feedbackModel)
         {
@@ -71,7 +71,7 @@ namespace Gym_Application.Controllers
 
         [Route("api/feedbacks/trainer/{trainerId}/user/{userId}/")]
         [JwtAuthentication]
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         [HttpGet]
         public IHttpActionResult getFeedback(int trainerId, int userId)
         {

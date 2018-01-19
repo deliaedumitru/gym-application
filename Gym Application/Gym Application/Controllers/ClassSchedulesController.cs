@@ -24,13 +24,13 @@ namespace Gym_Application.Controllers
     using DAL.Repository;
 
 
-    [EnableCors(origins: "*", headers: "*", methods: "*")]
+    
     public class ClassSchedulesController : ApiController
     {
         private ClassScheduleServices service = new ClassScheduleServices();
 
         // GET: api/ClassSchedules
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         [Route("api/ClassSchedules")]
         [JwtAuthentication]
         [HttpGet]
@@ -40,7 +40,7 @@ namespace Gym_Application.Controllers
         }
 
         // GET: api/ClassSchedules/5
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         [ResponseType( typeof( ClassSchedule ) )]
         [JwtAuthentication]
         public IHttpActionResult GetClassSchedule( int id )
@@ -55,7 +55,7 @@ namespace Gym_Application.Controllers
         }
 
         // POST: api/ClassSchedules/details
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         [Route("api/ClassSchedules/details")]
         [JwtAuthentication]
         [HttpPost]
@@ -82,7 +82,7 @@ namespace Gym_Application.Controllers
         }
         
         // POST: api/ClassSchedules/trainers/{id}
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         [Route("api/ClassSchedules/trainers/{id}")]
         [JwtAuthentication]
         [HttpPost]
@@ -110,7 +110,7 @@ namespace Gym_Application.Controllers
         }
 
         // GET: api/ClassSchedules/5/participants
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         [ResponseType( typeof( IEnumerable<int> ) )]
         [Route( "api/ClassSchedules/{id}/participants" )]
         [JwtAuthentication]
@@ -128,7 +128,7 @@ namespace Gym_Application.Controllers
         }
 
         // PUT: api/ClassSchedules/5
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         [ResponseType( typeof( void ) )]
         [JwtAuthentication]
         public IHttpActionResult PutClassSchedule( int id, ClassSchedule classSchedule )
@@ -155,7 +155,7 @@ namespace Gym_Application.Controllers
         }
 
         // POST: api/ClassSchedules/{id}/participants/{id_user}   -   sign up for class schedule
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         [ResponseType( typeof( void ) )]
         [HttpPost]
         [Route( "api/ClassSchedules/{id_class_schedule}/participants/{id_user}" )]
@@ -188,7 +188,7 @@ namespace Gym_Application.Controllers
         }
 
         // DELETE: api/ClassSchedules/{id}/participants/{id_user}   -   unenroll from class schedule
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         [ResponseType( typeof( void ) )]
         [HttpGet]
         [Route( "api/ClassSchedules/{id_class_schedule}/participants/{id_user}" )]
@@ -217,7 +217,7 @@ namespace Gym_Application.Controllers
         }
 
         // POST: api/ClassSchedules
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         [ResponseType( typeof( ClassSchedule ) )]
         [Route("api/ClassSchedules")]
         [JwtAuthentication]
@@ -248,7 +248,7 @@ namespace Gym_Application.Controllers
         }
 
         // DELETE: api/ClassSchedules/5
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         [ResponseType( typeof( void ) )]
         [JwtAuthentication]
         public IHttpActionResult DeleteClassSchedule( int id )

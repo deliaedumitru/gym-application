@@ -21,7 +21,7 @@ namespace Gym_Application.Controllers
         [HttpGet]
         [Route("api/trainers")]
         [JwtAuthentication]
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         public IEnumerable<BaseUserModelView> getTrainers()
         {
             //default permissions for get
@@ -130,7 +130,7 @@ namespace Gym_Application.Controllers
         [HttpGet]
         [Route("api/trainers/{id}")]
         [JwtAuthentication]
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        
         public IHttpActionResult getTrainer(int id)
         {
             IRepository<User> user_repo = transaction_manager.Repository<User>();
