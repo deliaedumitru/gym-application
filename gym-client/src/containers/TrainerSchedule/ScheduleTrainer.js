@@ -5,7 +5,7 @@ import React, {Component} from 'react';
 import moment from 'moment';
 import 'whatwg-fetch';
 
-import {getPersonalTrainerSchedule, getUsers,postPersonalUserSchedule} from "../../api/gym";
+import {getPersonalTrainerSchedule, getUsers,postPersonalUserSchedule, deletePersonalUserSchedule} from "../../api/gym";
 import TrainerScheduleTable from "../../components/TrainerTable/TrainerScheduleTable";
 
 import PersonalScheduleForm from "../../components/PersonalScheduleForm/index";
@@ -20,6 +20,7 @@ export default class ScheduleTrainer extends Component {
         this.loadPrevWeek = this.loadPrevWeek.bind(this);
         this.loadUsers = this.loadUsers.bind(this);
         this.addPersonalSchedule = this.addPersonalSchedule.bind(this);
+        this.handleDeletePersonalSchedule = this.handleDeletePersonalSchedule.bind(this);
 
         this.state = {
             classes: [],
@@ -80,7 +81,15 @@ export default class ScheduleTrainer extends Component {
             this.loadSchedule(monday, sunday);
         };
         postPersonalUserSchedule(selectedUser.value, userId, startDate, room, onSuccess);
-        
+    }
+
+    handleDeletePersonalSchedule(id) {
+        console.log("delete personal schedule");
+        const {monday, sunday} = this.state;
+        const onSuccess = (responseData) => {
+            this.loadSchedule(monday, sunday);
+        };
+        deletePersonalUserSchedule(id, onSuccess);
     }
 
     loadSchedule(monday, sunday) {
@@ -134,6 +143,7 @@ export default class ScheduleTrainer extends Component {
                             <div className="schedule">
                                 <TrainerScheduleTable
                                     classes={classes}
+                                    handleDelete={this.handleDeletePersonalSchedule}
                                 />
                             </div>
                             : <div className="loading">

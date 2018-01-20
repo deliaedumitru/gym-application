@@ -710,6 +710,23 @@ export const postPersonalUserSchedule = (userId, trainerId, date, room, onSucces
     });
 };
 
+export const deletePersonalUserSchedule = (id, onSuccess = (resp) => {}, onFail = (err) => {}) => {
+    let personalUrl = SERVER + SCHEDULE_PERSONALS + '/' + id;
+    fetchWithToken(personalUrl, {
+        method: 'DELETE',
+        headers: {
+            'Accept': 'application/json'
+        },
+    }).then(responseData => {
+        console.log("success ", responseData);
+        onSuccess(responseData);
+        alert("schedule deleted");
+    }).catch((error) => {
+        console.error(error);
+        onFail(error);
+    });
+};
+
 export const makeTrainer = (userId, onSuccess = (resp) => {}, onFail = (err) => {}) => {
     fetchWithToken(`${SERVER}${TRAINERS}/` + userId, {
             method: 'POST',
