@@ -21,8 +21,6 @@ namespace DAL.Model
         [DataMember]
         public int TypeId { get; set; }
 
-        public string Description { get; set; }
-
         [DataMember]
         [Column(TypeName = "date")]
         public DateTime StartDate { get; set; }

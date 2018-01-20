@@ -17,6 +17,7 @@ namespace Business_Layer.Mappers
                 subscription.Id = subscriptionModelView.Id;
                 subscription.Name = subscriptionModelView.Name;
                 subscription.Price = subscriptionModelView.Price;
+                subscription.Description = subscriptionModelView.Description;
               
                 return subscription;
             }
@@ -27,6 +28,7 @@ namespace Business_Layer.Mappers
             subscriptionMV.Id = subscription.Id;
             subscriptionMV.Name = subscription.Name;
             subscriptionMV.Price = subscription.Price;
+            subscriptionMV.Description = subscription.Description;
           
             return subscriptionMV;
         }

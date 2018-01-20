@@ -48,7 +48,7 @@ namespace Gym_Application.Controllers
         }
 
         // GET: api/Subscription/5
-        [ResponseType(typeof(Subcription))]
+        [ResponseType( typeof( SubscriptionModelView ) )]
         [JwtAuthentication]
         
         public IHttpActionResult GetSubcription(int id)
