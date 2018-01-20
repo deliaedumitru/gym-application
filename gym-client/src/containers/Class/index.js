@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {addClass, deleteClass, editClass, getClasses} from "../../api/gym";
 import Table from "react-bootstrap/es/Table";
+import {CLASSES, SERVER} from "../../api/gym";
 import 'whatwg-fetch';
 
 class Class extends Component {
@@ -8,8 +9,30 @@ class Class extends Component {
     constructor(props) {
         super(props);
         this.state = {user: '', classes: null};
+        this.handleInputChange = this.handleInputChange.bind(this);
         this.getFromDB = this.getFromDB.bind(this);
     }
+
+  handleInputChange(event) {
+       const target = event.target;
+       const name = target.value;
+       const id = target.id;
+
+       let asdf = this.state.classes;
+
+       let vrb = 0;
+       for (let i=0; i<asdf.length; i++){
+            if (asdf[i].Id == id)
+                vrb = i;
+       }
+       asdf[vrb].Id = id;
+       asdf[vrb].Name = name;
+
+       this.setState({
+           classes: asdf
+       });
+  }
+
 
   render() {
     const {classes} = this.state;
@@ -31,7 +54,6 @@ class Class extends Component {
             <Table responsive className="schedule-table">
                 <thead>
                 <tr className="table-header" style={{backgroundColor: '#404040'}}>
-                <th>ID</th>
                 <th>Class Name</th>
                 <th >Available Actions</th>
             </tr>
@@ -40,12 +62,17 @@ class Class extends Component {
           { classes && classes.map((elem) =>
               {
                 return(<tr key={'tr' + elem.Id}>
-                          <td className="fuck-this" id={'id' + elem.Id} key={'id' + elem.Id}>
-                              {elem.Id}
-                          </td>
-                          <td className="fuck-this" id={'name' + elem.Id} key={'name' + elem.Id}>
-                              {elem.Name}
-                          </td>
+                          <td id={'name' + elem.Id} key={'name' + elem.Id}>
+                          <input  id={elem.Id} key={'name' + elem.Id} value={elem.Name} type="text" 
+                                style={{
+                                    width: '100%',
+                                    fontSize: 'x-large',
+                                    background: 'transparent',
+                                    border: 'none',
+                                    textAlign: 'center'
+                                }}
+                                onChange={this.handleInputChange}/>
+                        </td>
 
                           <td className="fuck-this" key={'editBtn' + 'deleteBtn' + elem.Id}>
                               <input id={'editBtn' + elem.Id} className='editBtn' type='button' value='Edit' onClick={this.editClass}/>
@@ -70,17 +97,14 @@ class Class extends Component {
     }
 
     editClass(event) {
-        console.log('sa-mi bag pula, Iulia');
-        let id = parseInt(event.target.parentElement.parentElement.childNodes[0].innerHTML);
-        let name = document.getElementById('classNameField').value;
-        console.log(id);
-        console.log(name);
+        let id = parseInt(event.target.parentElement.parentElement.childNodes[0].childNodes[0].id);
+        let name = event.target.parentElement.parentElement.childNodes[0].childNodes[0].value;
         editClass(id, name, () => window.location.reload());
     }
 
     deleteClass(event) {
         console.log('jhsbfkdjsldfjslnd48655');
-        let id = event.target.parentElement.parentElement.childNodes[0].innerHTML;
+        let id = event.target.parentElement.parentElement.childNodes[0].childNodes[0].id;
         deleteClass(id, () => window.location.reload());
     }
 
@@ -96,6 +120,7 @@ class Class extends Component {
         window.scrollTo(0, 0);
         this.getFromDB();
         document.getElementById('addBtn').addEventListener('click', this.addClass, false);
+        window.scrollTo(0, 0);
     }
 }
 

@@ -14,8 +14,7 @@ import {Navigation} from "../../components/Navigation";
 import Class from "../Class";
 import {LogoutComponent} from "../LogIn/Logout";
 import SchedulePersonal from "../PersonalSchedule";
-
-//                         <Route path="/SchedulePersonal" component={SchedulePersonal}/>
+import {HomeRedirector} from "../HomeRedirector";
 
 
 // all the navigation elements
@@ -27,6 +26,8 @@ const NAVIGATION_ITEMS = {
     'login': {path: "/LogIn", component: LogIn, title: 'LOGIN'},
     'signup': {path: "/SignUp", component: SignUp, title: 'SIGNUP'},
     'logout': {path: "/Logout", component: LogoutComponent, title: 'LOGOUT'},
+    'logout_redirect': {path: "/Logout", component: HomeRedirector},  // helper ones to redirect if  the user hits them
+    'login_redirect': {path: "/LogIn", component: HomeRedirector},
     'schedule': {path: "/Schedule", component: Schedule, title: 'SCHEDULE'},
     'add_schedule': {path: "/AddSchedule", component: ClassSchedule, title: 'MANAGE SCHEDULE'},
     'class': {path: "/Class", component: Class, title: 'CLASS'},
@@ -41,10 +42,10 @@ const NAVIGATION_ITEMS = {
 // the available components, based on role(can contain content which does not have 'title'
 // and is therefore not on the navbar
 const DEFAULT_NAVBARS = {
-    'ANON': ['home', 'login', 'signup', 'trainers', 'schedule', 'trainer_profile'],
-    'USER': ['home', 'schedule', 'schedule_personal', 'trainers', 'subscription_user', 'trainer_profile', 'logout'],
-    'TRAINER': ['home', 'schedule', 'schedule_trainer', 'trainers', 'trainer_profile', 'logout'],
-    'ADMIN': ['home',  'add_schedule', 'class', 'trainers', 'trainer_profile', 'subscription_admin', 'logout'],
+    'ANON': ['home', 'login', 'signup', 'trainers', 'schedule', 'trainer_profile', 'logout_redirect'],
+    'USER': ['home', 'schedule', 'schedule_personal', 'trainers', 'subscription_user', 'trainer_profile', 'logout', 'login_redirect'],
+    'TRAINER': ['home', 'schedule', 'schedule_trainer', 'trainers', 'trainer_profile', 'logout', 'login_redirect'],
+    'ADMIN': ['home',  'add_schedule', 'class', 'trainers', 'trainer_profile', 'subscription_admin', 'logout', 'login_redirect'],
 
 };
 

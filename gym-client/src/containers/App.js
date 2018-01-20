@@ -7,12 +7,13 @@ import trainer from '../images/personal-trainer.jpg';
 import classes from '../images/classes.jpg';
 import {withScriptjs, withGoogleMap, GoogleMap, Marker} from "react-google-maps"
 
+
 const AnyReactComponent = ({text}) => <div>{text}</div>;
 export default class App extends Component {
-    static defaultProps = {
-        center: {lat: 59.95, lng: 30.33},
-        zoom: 11
-    };
+    componentDidMount(){
+        window.scrollTo(0, 0);
+    }
+
 
     componentDidMount() {
         console.log("component did mount home");
