@@ -143,7 +143,7 @@ class Row extends Component {
                         width: '40%'
                     }}
                            className='delete-btn'
-                           type='button' value='Edit'
+                           type='button' value='Update'
                            onClick={() => editClass(elem.Id, nameInput)}/>
                     <input style={{
                         width: '40%',

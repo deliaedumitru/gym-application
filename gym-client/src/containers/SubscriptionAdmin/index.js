@@ -35,7 +35,7 @@ export default class SubscriptionAdmin extends Component {
     handleEditSubscription = (id, name, description, price) => {
         const onSuccess = (response) => {
             if (response.status === 200) {
-                alert("OK!!");
+                //alert("OK!!");
                 this.setState((prevState) => ({
                     subscriptions: prevState.subscriptions.map((it) => {
                         if (it.Id === id) {

@@ -94,7 +94,7 @@ export default class SubscriptionItem extends Component {
                                 </button>
                                 : <button onClick={() => handleEditSubscription(Id, name, description, price)}
                                           id='purchase-button'>
-                                    Edit
+                                    Update
                                 </button>
                             }
 
