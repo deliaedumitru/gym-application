@@ -34,6 +34,7 @@ export default class Schedule extends Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         console.log("component did mount");
         let monday = getMonday(new Date());
         let sunday = getSunday(monday);
@@ -145,16 +146,19 @@ export default class Schedule extends Component {
         return (
             <div>
                 <p className="center">
+                    <br/>
+                    <button className="button" onClick={this.loadPrevWeek}>Prev</button>
                    <span style={{padding: 20,fontSize:20}}>
-                        Gym schedule {start} - {end}
+                        GYM SCHEDULE {start} - {end}
                     </span>
-                    <button onClick={this.loadPrevWeek}>‹</button>
-                    <button onClick={this.loadNextWeek}>›</button>
+                    <button className="button" onClick={this.loadNextWeek}>Next</button>
+
                 </p>
+                <br/>
                 {classes ?
                     <div className="schedule">
                         <ScheduleTable
-                            enrollable={getUserRole() == "USER"}
+                            enrollable={getUserRole() === "USER"}
                             classes={classes}
                             containsElement={this.containsElement}
                             enrollToClassSchedule={this.enrollToClassSchedule}

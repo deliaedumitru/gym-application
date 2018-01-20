@@ -2,14 +2,13 @@ import React, {Component} from 'react';
 import 'react-select/dist/react-select.css';
 
 import moment from 'moment';
-
+import './style.css'
 import 'react-datepicker/dist/react-datepicker.css'
 import 'react-datepicker/dist/react-datepicker-cssmodules.css'
 import {addClassSchedule, deleteClassSchedule, getClasses, getSchedule, getTrainers} from "../../api/gym";
 import ScheduleTable from "../../components/ScheduleTable/index";
 import ClassScheduleForm from "../../components/ClassScheduleForm/index";
 import {getMonday, getSunday} from "../DateUtils/index";
-
 
 export default class ScheduleAdmin extends Component {
     constructor(props) {
@@ -26,6 +25,7 @@ export default class ScheduleAdmin extends Component {
     }
 
     componentDidMount() {
+        window.scrollTo(0, 0);
         console.log("component did mount");
         const monday = getMonday(new Date());
         const sunday = getSunday(monday);
@@ -125,13 +125,17 @@ export default class ScheduleAdmin extends Component {
 
         return (
             <div>
+                <br/>
                 <p className="center">
-                   <span style={{padding: 20, fontSize: 20}}>
-                        Gym schedule {start} - {end}
+                    <br/>
+                    <button className="button" onClick={this.loadPrevWeek}>Prev</button>
+                    <span style={{padding: 20,fontSize:20}}>
+                        GYM SCHEDULE {start} - {end}
                     </span>
-                    <button onClick={this.loadPrevWeek}>‹</button>
-                    <button onClick={this.loadNextWeek}>›</button>
+                    <button className="button" onClick={this.loadNextWeek}>Next</button>
+
                 </p>
+                <br/>
                 <div style={{display: 'inline-flex', width: '100%'}}>
                     <ClassScheduleForm
                         trainers={trainers}

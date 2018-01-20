@@ -26,6 +26,7 @@ export default class Trainers extends Component {
 
     componentDidMount() {
         console.log("Trainers: component did mount");
+        window.scrollTo(0, 0);
         this.getTrainers();
     }
 

@@ -1,4 +1,7 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+
 li.pages {
+    color: #95a2ce;
     display: inline;
     padding: 1%;
 }
@@ -15,43 +18,47 @@ li.pages a {
     background-color: #ffffff;
     box-shadow: 3px 3px grey;
     height: 70px;
+    color: #95a2ce;
 }
 
-.gym-container {
-    background: url(./images/background.jpg) no-repeat;
-    background-size: cover;
-    background-attachment: fixed;
-}
-
-.gym-container {
-    position: relative;
-    overflow: hidden;
+#gym-container {
+    /*
+    overflow:hidden;
     min-height: 1000px;
+    height: 100%
+    */
     width: 100%;
-    height: 100%;
 }
 
 .content {
     padding-top: 70px;
-    position: absolute;
-    overflow: auto;
     width: 100%;
-    height: 100%;
     z-index: 1;
 }
 
-.content::-webkit-scrollbar {
+#gym-container::-webkit-scrollbar{
     display: none;
 }
 
+html {
+    height:100%;
+}
 
 body {
     margin: 0;
     padding: 0;
-    font-family: sans-serif;
-    /* trebuie sa fie scoase ca sa mearga pentru oricate elemente, dar cu scrollbar urat */
-    /* overflow: hidden;
-    min-height: 1000px; */
+    font-family: 'Open-Sans', sans-serif;
+
+    /* pls don't touch dis*/
+    min-height:100% !important;
+    background: url(./images/background.jpg) no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    display:flex;
+    flex-direction:column;
+}
+body::-webkit-scrollbar{
+    display: none;
 }
 
 .logoul {
@@ -68,16 +75,16 @@ form {
 }
 
 table {
-  width: 100%;
+    width: 100%;
 }
 
 th,
 td {
-  width: 100px;
+    width: 100px;
 }
 
 thead>tr {
-  position: relative;
+    position: relative;
     /* pls don't touch dis ty
   display: block; */
 }
@@ -86,8 +93,8 @@ tbody {
     /* pls don't touch dis either ty
   display: block; */
     /* inaltimea tabelului o sa creasca in functie de cate elemente sunt in el */
-  min-height: 450px;
-  overflow: auto;
+    min-height: 450px;
+    overflow: auto;
 }
 
 /* pentru a ascunde scrollbar-ul din tabel
