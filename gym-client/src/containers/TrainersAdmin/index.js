@@ -5,6 +5,7 @@ import 'whatwg-fetch';
 
 import Table from "react-bootstrap/es/Table";
 import { SERVER, TRAINERS, USERS } from "../../api/gym";
+import { makeTrainer, makeUser } from "../../api/gym";
 
 import './style.css'
 
@@ -51,17 +52,7 @@ export default class TrainersAdmin extends Component {
     }
 
     makeTrainer(userId) {
-        fetch(`${SERVER}${TRAINERS}/` + userId, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json'
-            }
-        }).then(response =>{
-             if (!response.ok) {
-                throw Error(response.statusText);
-            }
-            return response
-        }).then(response => {
+        const onSuccess = (responseData) => {
             const updatedUsers = this.state.users.map((it) => {
                 if (it.Id === userId) {
                     return {
@@ -72,24 +63,13 @@ export default class TrainersAdmin extends Component {
                 return it;
             }); 
             this.setState({users: updatedUsers});
-        }).catch((error) => {
-            console.error(error);
-        });
+        }
+        makeTrainer(userId, onSuccess);
     }
 
     makeUser(userId) {
-        fetch(`${SERVER}${TRAINERS}/` + userId, {
-            method: 'DELETE',
-            headers: {
-                'Accept': 'application/json'
-            }
-        }).then(response =>{
-             if (!response.ok) {
-                throw Error(response.statusText);
-            }
-            return response
-        }).then(response => {
-            const updatedUsers = this.state.users.map((it) => {
+        const onSuccess = (responseData) => {
+             const updatedUsers = this.state.users.map((it) => {
                 if (it.Id === userId) {
                     return {
                         ...it,
@@ -99,9 +79,8 @@ export default class TrainersAdmin extends Component {
                 return it;
             }); 
             this.setState({users: updatedUsers});
-        }).catch((error) => {
-            console.error(error);
-        });
+        }
+        makeUser(userId, onSuccess);
     }
 
     getButton(role, userId) {

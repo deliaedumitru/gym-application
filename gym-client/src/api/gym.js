@@ -636,6 +636,8 @@ export const editFeedback = (trainerId, userId, id, comment, rating, onSuccess =
     });
 };
 
+
+
 /**
  * add feedback fo  a trainer
  * @param trainerId
@@ -685,4 +687,43 @@ export const getPersonalUserSchedule = (userId, startDate, endDate, onSuccess = 
         console.error(error);
         onFail(error);
     });
+};
+
+export const makeTrainer = (userId, onSuccess = (resp) => {}, onFail = (err) => {}) => {
+    fetchWithToken(`${SERVER}${TRAINERS}/` + userId, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json'
+            }
+        }).then(response =>{
+             if (!response.ok) {
+                throw Error(response.statusText);
+            }
+            return response
+        }).then(response => {
+            onSuccess(response);
+        }).catch((error) => {
+            console.error(error);
+            onFail(error);
+        });
+};
+
+
+export const makeUser = (userId, onSuccess = (resp) => {}, onFail = (err) => {}) => {
+    fetchWithToken(`${SERVER}${TRAINERS}/` + userId, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json'
+            }
+        }).then(response =>{
+             if (!response.ok) {
+                throw Error(response.statusText);
+            }
+            return response
+        }).then(response => {
+            onSuccess(response);
+        }).catch((error) => {
+            console.error(error);
+            onFail(error);
+        });
 };
