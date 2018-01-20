@@ -1,5 +1,6 @@
 #home-page-container{
     -webkit-animation: fadein 2s;
+    font-family: 'Poppins', sans-serif;
 }
 @-webkit-keyframes fadein {
     from { opacity: 0; }

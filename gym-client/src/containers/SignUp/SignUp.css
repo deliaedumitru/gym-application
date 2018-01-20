@@ -4,7 +4,7 @@
     box-sizing: border-box;
 }
 
-input {
+.input100 {
     outline: none;
     border: none;
 }
@@ -113,7 +113,7 @@ iframe {
     font-family: 'Open Sans', sans-serif;
     color: #535278;
     width: 100%;
-    position: relative;
+
     border-bottom: 2px solid #d9d9d9;
 }
 

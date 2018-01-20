@@ -11,7 +11,7 @@ import '../../containers/Main.css';
  * @constructor
  */
 const NavBar = ({items}) => (
-    <div style={{boxSizing: 'unset', fontSize: 15, color: 'black'}} className="gym-navbar">
+    <div style={{boxSizing: 'unset', fontSize: 15, color: 'black', fontFamily: "'Poppins', sans-serif"}} className="gym-navbar">
         <ul style={{
             padding:0,
             margin: 0,

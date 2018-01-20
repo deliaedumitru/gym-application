@@ -22,7 +22,7 @@ p.center {
 }
 
 
-.button:hover { background:  #0585e8; }
+.button:hover { background: #d8ccff; }
 
 /* Arrow Buttons */
 /* ------------- */
@@ -37,7 +37,7 @@ p.center {
 }
 
 .next:hover::after {
-    border-left-color: #0585e8;
+    border-left-color: #9e92e8;
 }
 
 /* Prev Button */

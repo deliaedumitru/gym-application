@@ -87,7 +87,7 @@ export default class ClassScheduleForm extends Component {
         const {trainers, classes} = this.props;
 
         const classSelection = (
-            <label className="select-container">
+            <label className="select-container" style={{color: '#48476a'}}>
                 Class:
                 <Select
                     name="form-field-name"
@@ -100,7 +100,7 @@ export default class ClassScheduleForm extends Component {
         );
 
         const trainerSelection = (
-            <label className="select-container">
+            <label className="select-container" style={{color: '#48476a'}}>
                 Trainer:
                 <Select
                     name="form-field-name"
@@ -113,8 +113,11 @@ export default class ClassScheduleForm extends Component {
         );
 
         const datePicker = (
-            <div>
+            <div className="wrapInput">
+                Date:
+                <br/>
                 <DatePicker
+                    customInput={<ExampleCustomInput/>}
                     selected={startDate}
                     onChange={this.handleChangeDate}
                     showTimeSelect
@@ -127,57 +130,81 @@ export default class ClassScheduleForm extends Component {
         );
 
         const difficultySelection = (
-            <label>
+            <div style={{color: '#48476a'}}>
                 Difficulty:
                 <br/>
                 <input type="radio" value="1"
                        checked={selectedDifficulty === '1'}
                        onChange={this.handleDifficultyChange}/>
                 Beginner
+                <br/>
                 <input type="radio" value="2"
                        checked={selectedDifficulty === '2'}
                        onChange={this.handleDifficultyChange}/>
                 Intermediate
+                <br/>
                 <input type="radio" value="3"
                        checked={selectedDifficulty === '3'}
                        onChange={this.handleDifficultyChange}/>
                 Advanced
-            </label>
+            </div>
         );
 
         const roomInput = (
-            <label>
+            <div className="wrapInput">
                 Room:
                 <br/>
-                <input name='room' type="text" value={room} onChange={this.handleInputChange}/>
-            </label>
+                <input className="input100" name='room' type="text" value={room} onChange={this.handleInputChange}/>
+            </div>
         );
 
         const capacityInput = (
-            <label>
+            <div className="wrapInput">
                 Capacity:
                 <br/>
-                <input name='capacity' pattern="[0-9]*" type="text" value={capacity}
+                <input className="input100" name='capacity' pattern="[0-9]*" type="text" value={capacity}
                        onChange={this.handleCapacityChange}/>
-            </label>
+            </div>
         );
 
         return (
-            <form onSubmit={this.handleSubmit}>
-                {classSelection}
-                <br/><br/>
+            <div style={{
+                marginRight: 10,
+                marginLeft: 10,
+                backgroundColor: 'rgba(250, 250, 250, 0.7)',
+                borderRadius: 10,
+                paddingTop: 20,
+                display: 'flex',
+                flexDirection:'column',
+                textAlign: 'center'
+            }}>
+                <div style={{display: 'flex', flexDirection: 'row'}}>
+                    {classSelection}
+                    {trainerSelection}
+                </div>
+                <br/>
                 {capacityInput}
-                <br/><br/>
+                <br/>
                 {roomInput}
-                <br/><br/>
-                {difficultySelection}
-                <br/><br/>
-                {trainerSelection}
-                <br/><br/>
+                <br/>
                 {datePicker}
-                <br/><br/>
-                <input type="submit" value="Submit"/>
-            </form>
+                <br/>
+                {difficultySelection}
+                <br/>
+                <button id="submit-btn" onClick={this.handleSubmit}>Add</button>
+            </div>
+        )
+    }
+}
+
+class ExampleCustomInput extends React.Component {
+    render() {
+        return (
+            <button
+                className="input100"
+                onClick={this.props.onClick}>
+                {this.props.value}
+            </button>
         )
     }
 }

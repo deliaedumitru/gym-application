@@ -11,18 +11,22 @@ p.center {
 .button {
     position: relative;
     margin: 0;
-    padding:14px;
+    padding: 14px;
     background: #535278;
     color: white;
     font-size: 14px;
 }
 
-
-.button:hover { background:  #0585e8; }
+.button:hover {
+    background: #d8ccff;
+    color: black
+}
 
 /* Arrow Buttons */
 /* ------------- */
-.next::after, .prev::after { border-style: solid; }
+.next::after, .prev::after {
+    border-style: solid;
+}
 
 /* Next Button */
 /* ----------- */

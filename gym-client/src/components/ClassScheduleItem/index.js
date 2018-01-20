@@ -38,28 +38,33 @@ export default class ClassScheduleItem extends Component {
                     {start} - {end}
                 </p>
                 {crud ?
-                    <Button
-                        className="btn"
-                        onClick={() => handleDeleteClassSchedule(id)}>
-                        delete
-                    </Button>
+                    <div style={{padding: 3, backgroundColor: colors[difficulty], borderRadius: 5}}>
+                        <button
+                            className="btn"
+                            onClick={() => handleDeleteClassSchedule(id)}
+                        >
+                            Delete
+                        </button>
+                    </div>
                     :
                     (enrollable ?
                             (enrolled ?
-                                    <Button
-                                        style={{backgroundColor: colors[difficulty]}}
-                                        className="btn"
-                                        onClick={() => unEnrollToClassSchedule(id)}>
-                                        Leave
-                                    </Button>
+                                    <div style={{padding: 3, backgroundColor: colors[difficulty], borderRadius: 5}}>
+                                        <Button
+                                            className="btn"
+                                            onClick={() => unEnrollToClassSchedule(id)}>
+                                            Leave
+                                        </Button>
+                                    </div>
                                     :
-                                    <Button
-                                        style={{backgroundColor: colors[difficulty]}}
-                                        id={id}
-                                        className="btn"
-                                        onClick={() => enrollToClassSchedule(id)}>
-                                        Enroll
-                                    </Button>
+                                    <div style={{padding: 3, backgroundColor: colors[difficulty], borderRadius: 5}}>
+                                        <Button
+                                            id={id}
+                                            className="btn"
+                                            onClick={() => enrollToClassSchedule(id)}>
+                                            Enroll
+                                        </Button>
+                                    </div>
                             ) : ""
                     )
                 }
