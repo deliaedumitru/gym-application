@@ -83,6 +83,7 @@
     <Compile Include="Services\FeedbackServices.cs" />
     <Compile Include="Services\PersonalScheduleService.cs" />
     <Compile Include="Services\SubscriptionService.cs" />
+    <Compile Include="Services\TrainerService.cs" />
     <Compile Include="Services\UserServices.cs" />
     <Compile Include="Services\WaitingQueueService.cs" />
   </ItemGroup>
