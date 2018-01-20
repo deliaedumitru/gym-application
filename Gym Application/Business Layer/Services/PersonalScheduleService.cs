@@ -32,6 +32,10 @@ namespace Business_Layer.Services
 
         public PersonalSchedule Add(PersonalSchedule ps)
         {
+            User trainer = UoW.Repository<User>().GetById(ps.TrainerId);
+            User participant = UoW.Repository<User>().GetById(ps.ParticipantId);
+            ps.Trainer = trainer;
+            ps.Participant = participant;
             if (!ValidatePersonalSchedule(ps))
             {
                 throw new InvalidOperationException("The object is not in a valid state.");

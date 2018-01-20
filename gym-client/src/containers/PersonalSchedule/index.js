@@ -2,8 +2,9 @@ import React, {Component} from 'react';
 import moment from 'moment';
 import 'whatwg-fetch';
 
-import {getPersonalUserSchedule} from "../../api/gym";
+import {getPersonalUserSchedule, getUsers} from "../../api/gym";
 import PersonalScheduleTable from "../../components/PersonalScheduleTable/index";
+import PersonalScheduleForm from "../../components/PersonalScheduleForm/index";
 
 import './style.css'
 import {getMonday, getSunday} from "../DateUtils/index";
@@ -13,13 +14,17 @@ export default class SchedulePersonal extends Component {
         super(props);
         this.loadNextWeek = this.loadNextWeek.bind(this);
         this.loadPrevWeek = this.loadPrevWeek.bind(this);
+        this.loadUsers = this.loadUsers.bind(this);
 
         this.state = {
             classes: [],
+            users: null,
+            isTrainer: null
         };
 
         const user = JSON.parse(localStorage.getItem("user"));
         this.userId = user ? user.id : null;
+        this.userRole = user ? user.role : null
     }
 
     shouldComponentUpdate() {
@@ -28,11 +33,16 @@ export default class SchedulePersonal extends Component {
     }
 
     componentDidMount() {
+        console.log(this.userRole);
         window.scrollTo(0, 0);
         console.log("component did mount");
         let monday = getMonday(new Date());
         let sunday = getSunday(monday);
         this.loadSchedule(monday, sunday);
+        if(this.userRole && this.userRole == 1) {
+            this.setState({isTrainer: true});
+            this.loadUsers();
+        }
     }
 
     loadSchedule(monday, sunday) {
@@ -54,15 +64,38 @@ export default class SchedulePersonal extends Component {
         this.loadSchedule(monday.subtract(7, "day"), sunday.subtract(7, "day"));
     }
 
+    loadUsers() {
+        const onSucces = (responseJson) => {
+            const trainers = responseJson.map((elem) =>
+                ({value: elem.Id, label: elem.Name})
+            );
+            this.setState({users: trainers});
+            console.log(responseJson);
+        };
+
+        // get the trainers and persist them to state
+        getUsers(onSucces);
+    }
+
+    addPersonalSchedule() {
+        if(this.userRole && this.userRole == 1) {
+
+        } else {
+            console.log("Must be trainer to be able to add personal schedule");
+        }
+    }
+
 
     render() {
-        const {classes, monday, sunday} = this.state;
+        const {classes, monday, sunday,isTrainer} = this.state;
         const start = moment(monday).tz("Europe/Bucharest").format("DD.MMM.YYYY");
         const end = moment(sunday).tz("Europe/Bucharest").format("DD.MMM.YYYY");
 
         //fa fa-spinner fa-spin needs bootstrap
         return (
             <div>
+
+
                 <p className="center">
                     <br/>
                     <button className="button" onClick={this.loadPrevWeek}>‹</button>
@@ -73,6 +106,27 @@ export default class SchedulePersonal extends Component {
 
                 </p>
                 <br/>
+                {isTrainer ?
+                    <div style={{display: 'inline-flex', width: '100%'}}>
+                        <PersonalScheduleForm
+                            users={this.state.users}
+                            handleSubmit={this.addPersonalSchedule}
+                        />
+
+                        {classes ?
+                            <div className="schedule">
+                                <PersonalScheduleTable
+                                    classes={classes}
+                                />
+                            </div>
+                            : <div className="loading">
+                                <i className="fa fa-spinner fa-spin"/>
+                                <span>Loading...</span>
+                            </div>
+                        }
+                    </div> : null
+                }
+
                 {classes ?
                     <div className="schedule">
                         <PersonalScheduleTable

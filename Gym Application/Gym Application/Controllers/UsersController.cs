@@ -109,5 +109,40 @@ namespace Gym_Application.Controllers
                 return NotFound();
             }
         }
+
+        //returns the classes for which the user is enrolled
+        [Route("api/users")]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpGet]
+        public IHttpActionResult GetAllUsers()
+        {
+            try
+            {
+                var service = new UserServices();
+                return Ok(service.GetAllUsers());
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+        }
+
+
+        //returns the classes for which the user is enrolled
+        [Route("api/users/simple")]
+        [EnableCors(origins: "*", headers: "*", methods: "*")]
+        [HttpGet]
+        public IHttpActionResult GetSimpleUsers()
+        {
+            try
+            {
+                var service = new UserServices();
+                return Ok(service.GetSimpleUsers());
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
+        }
     }
 }

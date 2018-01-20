@@ -1,0 +1,9 @@
+label.select-container {
+    -webkit-box-align: center;
+    -webkit-box-pack: center;
+    display: inline-block;
+}
+
+ul.react-datepicker__time-list {
+    padding-left: 10px;
+}
