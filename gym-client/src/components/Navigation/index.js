@@ -1,7 +1,9 @@
-import {HashRouter, NavLink, Route} from "react-router-dom";
+import {HashRouter, NavLink, Route, Switch} from "react-router-dom";
 import React from "react";
 import logo from '../../images/logo.png';
 import '../../containers/Main.css';
+import NotFound from '../../containers/NotFound/index'
+
 
 /**
  * Navbar component, return the nab object, with the
@@ -52,10 +54,13 @@ const NavBar = ({items}) => (
  */
 const NavigationContent = ({items}) => (
     <div className="content">
-        <Route exact path={items[0].path} component={items[0].component}/>
-        {items.slice(1).map(({path, component}) =>
-            <Route path={path} component={component}/>
-        )}
+        <Switch>
+            <Route exact path={items[0].path} component={items[0].component}/>
+            {items.slice(1).map(({path, component}) =>
+                <Route path={path} component={component}/>
+            )}
+            <Route path="*" component={NotFound}/>
+        </Switch>
     </div>
 );
 
