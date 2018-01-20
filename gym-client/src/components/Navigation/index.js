@@ -11,9 +11,10 @@ import '../../containers/Main.css';
  * @constructor
  */
 const NavBar = ({items}) => (
-    <div style={{boxSizing: 'unset', fontSize: 15, color: 'black', fontFamily: "'Poppins', sans-serif"}} className="gym-navbar">
+    <div style={{boxSizing: 'unset', fontSize: 15, color: 'black', fontFamily: "'Poppins', sans-serif"}}
+         className="gym-navbar">
         <ul style={{
-            padding:0,
+            padding: 0,
             margin: 0,
             width: '10%',
             height: '100%',
@@ -21,7 +22,7 @@ const NavBar = ({items}) => (
             alignItems: 'center',
             justifyContent: 'flex-start',
         }} className="logoul">
-            <img src={logo} className="main-logo" alt="logo" />
+            <img src={logo} className="main-logo" alt="logo"/>
         </ul>
         <ul style={{
             height: '100%',
@@ -35,7 +36,8 @@ const NavBar = ({items}) => (
         }}
             className="gym-header">
             {items.map(({path, title}) =>
-                <li className="pages"><NavLink exact to={path}>{title}</NavLink></li>
+                <li className="pages"><NavLink style={{color: '#337ab7'}} activeStyle={{fontWeight: 'bold',}} exact
+                                               to={path}>{title}</NavLink></li>
             )}
         </ul>
     </div>
@@ -50,9 +52,9 @@ const NavBar = ({items}) => (
  */
 const NavigationContent = ({items}) => (
     <div className="content">
-        <Route exact path={items[0].path} component={items[0].component} />
+        <Route exact path={items[0].path} component={items[0].component}/>
         {items.slice(1).map(({path, component}) =>
-            <Route path={path} component={component} />
+            <Route path={path} component={component}/>
         )}
     </div>
 );
@@ -68,8 +70,8 @@ const NavigationContent = ({items}) => (
 export const Navigation = ({items}) => (
     <HashRouter>
         <div className="gym-container">
-            <NavBar items={items.filter(({title}) => title !== undefined)} />
-            <NavigationContent items={items} />
+            <NavBar items={items.filter(({title}) => title !== undefined)}/>
+            <NavigationContent items={items}/>
         </div>
     </HashRouter>
 );

@@ -80,7 +80,7 @@ class Modal extends React.Component {
             minHeight: 300,
             margin: '0 auto',
             padding: 30,
-            marginTop:'5%',
+            marginTop: '5%',
         };
 
         const cardNumberInput = (
@@ -120,7 +120,7 @@ class Modal extends React.Component {
         return (
             <div className="backdrop" style={backdropStyle}>
                 <div className="modal" style={modalStyle}>
-                    <div className="header">
+                    <div className="header" style={{display: 'flex', justifyContent: 'flex-end', cursor: 'pointer'}}>
                         <FaClose onClick={this.props.onClose}/>
                     </div>
                     <div>
