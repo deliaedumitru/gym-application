@@ -47,7 +47,7 @@ export default class SubscriptionItem extends Component {
 
         const descriptionInput = (
             <input placeholder='Description' name='description'
-                   type="text" value={description}
+                   type="text" value={""}
                    style={{
                        width: '100%',
                        height: '100%',
