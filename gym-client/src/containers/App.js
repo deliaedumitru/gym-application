@@ -96,13 +96,13 @@ export default class App extends Component {
                             <h3 style={{borderTop: '1px solid white', borderBottom: '1px solid white', padding: 15}}>
                                 Location</h3>
                             <br/>
-                            {/*<MyMapComponent*/}
-                                {/*isMarkerShown*/}
-                                {/*googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places"*/}
-                                {/*loadingElement={<div style={{height: `100%`}}/>}*/}
-                                {/*containerElement={<div style={{width: '80%', height: `230px`}}/>}*/}
-                                {/*mapElement={<div style={{height: `100%`}}/>}*/}
-                            {/*/>*/}
+                            <MyMapComponent
+                                isMarkerShown
+                                googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places"
+                                loadingElement={<div style={{height: `100%`}}/>}
+                                containerElement={<div style={{width: '80%', height: `230px`}}/>}
+                                mapElement={<div style={{height: `100%`}}/>}
+                            />
                         </div>
                         <div style={{width: '33%', marginLeft: 15, marginRight: 15, fontSize: 16}}>
                             <h3 style={{borderTop: '1px solid white', borderBottom: '1px solid white', padding: 15}}>

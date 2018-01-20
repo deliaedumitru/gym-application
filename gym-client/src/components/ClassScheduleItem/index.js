@@ -21,7 +21,12 @@ export default class ClassScheduleItem extends Component {
         const cap_left = (capacity === 1) ? capacity + ' place left' : capacity + ' places left';
         return (
             <div className="class-schedule"
-                 style={{backgroundColor: colors[difficulty], borderRadius: 10, textAlign: 'center', fontSize: 14}}>
+                 style={{
+                     backgroundColor: colors[difficulty],
+                     borderRadius: 10,
+                     textAlign: 'center',
+                     fontSize: 14,
+                 }}>
                 <h3>{name}</h3>
                 <p>
                     Room {room}
@@ -41,18 +46,20 @@ export default class ClassScheduleItem extends Component {
                     :
                     (enrollable ?
                             (enrolled ?
-                                <Button
-                                    className="btn"
-                                    onClick={() => unEnrollToClassSchedule(id)}>
-                                    Leave
-                                </Button>
-                                :
-                                <Button
-                                    id={id}
-                                    className="btn"
-                                    onClick={() => enrollToClassSchedule(id)}>
-                                    Enroll
-                                </Button>
+                                    <Button
+                                        style={{backgroundColor: colors[difficulty]}}
+                                        className="btn"
+                                        onClick={() => unEnrollToClassSchedule(id)}>
+                                        Leave
+                                    </Button>
+                                    :
+                                    <Button
+                                        style={{backgroundColor: colors[difficulty]}}
+                                        id={id}
+                                        className="btn"
+                                        onClick={() => enrollToClassSchedule(id)}>
+                                        Enroll
+                                    </Button>
                             ) : ""
                     )
                 }
