@@ -1,138 +1,35 @@
-
-.add-class{
-    width: 200px;
-    background: #fff;
-    border-radius: 10px;
+.delete-btn{
+    background-image: linear-gradient(to right, #748ccc 0%, #98c2f1 51%, #748ccc 100%);
+    cursor:pointer;
     overflow: hidden;
-    display: table;
-    margin:0 auto;
-    margin-top: 50px;
-    text-align: center;
+    border-width: thin;
+    border-radius: 3px;
+    outline: none;
+
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
 }
 
-.classNameField{
-    font-family: 'Open Sans', sans-serif;
-    font-size: 14px;
-    color: #535278;
+.delete-btn:hover {
+    background-position: right center; /* change the direction of the change here */
+}
+
+.add-btn{
     width: 100%;
-    position: relative;
-    border-bottom: 2px solid #d9d9d9;
-}
-
-.container-login100-form-btn {
-
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-
-}
-
-.wrap-login100-form-btn {
-    width: 100%;
-    display: block;
-    position: relative;
-    z-index: 1;
+    height: 45px;
+    background-image: linear-gradient(to right, #748ccc 0%, #98c2f1 51%, #748ccc 100%);
+    cursor:pointer;
     overflow: hidden;
-    margin: 0 auto;
+    border-width: thin;
+    border-radius: 3px;
+    outline: none;
 
-    box-shadow: 0 5px 30px 0px rgba(3, 216, 222, 0.2);
-    -moz-box-shadow: 0 5px 30px 0px rgba(3, 216, 222, 0.2);
-    -webkit-box-shadow: 0 5px 30px 0px rgba(3, 216, 222, 0.2);
-    -o-box-shadow: 0 5px 30px 0px rgba(3, 216, 222, 0.2);
-    -ms-box-shadow: 0 5px 30px 0px rgba(3, 216, 222, 0.2);
-}
-
-.login100-form-bgbtn {
-
-    position: absolute;
-    z-index: -1;
-    width: 300%;
-    height: 100%;
-    background: #a64bf4;
-
-    background: -webkit-linear-gradient(right, #748ccc 0%, #98c2f1 51%, #748ccc 100%);
-    background: -o-linear-gradient(right, #748ccc 0%, #98c2f1 51%, #748ccc 100%);
-    background: -moz-linear-gradient(right, #748ccc 0%, #98c2f1 51%, #748ccc 100%);
-    background: linear-gradient(right, #748ccc 0%, #98c2f1 51%, #748ccc 100%);
-    top: 0;
-    left: -100%;
-
-    -webkit-transition: all 0.4s;
-    -o-transition: all 0.4s;
-    -moz-transition: all 0.4s;
-    transition: all 0.4s;
-}
-
-.login100-form-btn {
-    font-size: 16px;
-    color: #fff;
-    line-height: 1.2;
-    text-transform: uppercase;
-
-    display: -webkit-box;
-    display: -webkit-flex;
-    display: -moz-box;
-    display: -ms-flexbox;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 0 20px;
-    width: 100%;
-    height: 50px;
-}
-
-.wrap-login100-form-btn:hover .login100-form-bgbtn {
-    left: 0;
-}
-
-.addBtn{
-    font-family: 'Open Sans', sans-serif;
-    font-size: 14px;
+    transition: 0.5s;
+    background-size: 200% auto;
     color: white;
-    font-weight: bold;
 }
 
-
-div .center {
-    margin-left: auto;
-    margin-right: auto;
-}
-
-table {
-    border-collapse: collapse;
-}
-
-table, th, td {
-    vertical-align: top;
-    padding: 3px;
-}
-
-.please{ column-span: 2;}
-
-.responsive-table {
-    width: 80%;
-}
-
-.schedule-table {
-    width: 100%;
-    background-color: rgba(250, 250, 250, 0.5);
-}
-
-.table-header th {
-    line-height: 40px;
-    width: 17%;
-    color: white;
-
-}
-
-.fuck-this{
-    font-family: 'Open Sans', sans-serif;
-    font-size: 14px;
-    color: #404040;
-
-
+.add-btn:hover {
+    background-position: right center; /* change the direction of the change here */
 }
