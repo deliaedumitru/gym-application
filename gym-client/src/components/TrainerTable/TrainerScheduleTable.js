@@ -14,7 +14,7 @@ import './style.css'
 export default class TrainerScheduleTable extends Component {
 
     render() {
-        const {classes} = this.props;
+        const {classes,handleDelete} = this.props;
 
         console.log("Trainer schedule table classes:", classes);
         let mondayClasses = [];
@@ -29,6 +29,7 @@ export default class TrainerScheduleTable extends Component {
                 <TrainerScheduleItem
                     key={trainerSchedule.Id}
                     trainerSchedule={trainerSchedule}
+                    handleDelete={handleDelete}
                 />
             );
             switch (trainerSchedule.DayOfWeek) {
