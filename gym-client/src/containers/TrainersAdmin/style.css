@@ -1,0 +1,36 @@
+.users {
+    width: 70%;
+    margin: 0 auto;
+    font-family: 'Poppins', sans-serif;
+    padding: 50px 0;
+    margin-bottom: 180px;
+    margin-top: 20px;
+}
+
+.users .schedule-table td {
+    text-align: center;
+    vertical-align: center;
+    background-color: white;
+    padding: 10px;
+    font-size: 13px;
+}
+
+.users .schedule-table .table-header th {
+    background-color: #616b8d;
+}
+
+.users .trainers-admin-button {
+    width: 50%;
+    background-image: linear-gradient(to right, #748ccc 0%, #98c2f1 51%, #748ccc 100%);
+    border-radius:5px;
+    border:0;
+    cursor:pointer;
+    color:white;
+    font-size:15px;
+    padding-top:10px;
+    padding-bottom:10px;
+    transition: 0.5s;
+    margin-top:-4px;
+}
+
+.users .trainers-admin-button:hover { background-position: right center; /* change the direction of the change here */ }

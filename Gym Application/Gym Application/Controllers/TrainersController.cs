@@ -21,7 +21,7 @@ namespace Gym_Application.Controllers
         [HttpGet]
         [Route("api/trainers")]
         [JwtAuthentication]
-        
+
         public IEnumerable<BaseUserModelView> getTrainers()
         {
             return service.GetTrainers()
@@ -61,7 +61,7 @@ namespace Gym_Application.Controllers
         [HttpGet]
         [Route("api/trainers/{id}")]
         [JwtAuthentication]
-        
+
         public IHttpActionResult getTrainer(int id)
         {
             User user = service.GetTrainer(id);

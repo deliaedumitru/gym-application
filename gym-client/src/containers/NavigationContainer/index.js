@@ -8,6 +8,7 @@ import TrainerProfile from "../TrainerProfile";
 import Trainers from "../Trainers";
 import SubscriptionUser from "../SubscriptionUser";
 import SubscriptionAdmin from "../SubscriptionAdmin";
+import TrainersAdmin from "../TrainersAdmin";
 import ClassSchedule from "../ScheduleAdmin/index.js";
 import {getUserRole} from "../../utils/UserUtils";
 import {Navigation} from "../../components/Navigation";
@@ -36,15 +37,16 @@ const NAVIGATION_ITEMS = {
     'trainers': {path: "/Trainers", component: Trainers, title: 'TRAINERS'},
     'subscription_user': {path: "/SubscriptionUser", component: SubscriptionUser, title: 'SUBSCRIPTION'},
     'subscription_admin': {path: "/SubscriptionAdmin", component: SubscriptionAdmin, title: 'MANAGE SUBSCRIPTIONS'},
+    'trainers_admin': {path: "/TrainersAdmin", component: TrainersAdmin, title: 'MANAGE TRAINERS'},
 };
 
 // the available components, based on role(can contain content which does not have 'title'
 // and is therefore not on the navbar
 const DEFAULT_NAVBARS = {
-    'ANON': ['home', 'login', 'signup', 'trainers', 'schedule', 'trainer_profile'],
+    'ANON': ['home','trainers', 'schedule', 'trainer_profile', 'login', 'signup'],
     'USER': ['home', 'schedule', 'schedule_personal', 'trainers', 'subscription_user', 'trainer_profile', 'logout'],
     'TRAINER': ['home', 'schedule', 'schedule_trainer', 'trainers', 'trainer_profile', 'logout'],
-    'ADMIN': ['home',  'add_schedule', 'class', 'trainers', 'trainer_profile', 'subscription_admin', 'logout'],
+    'ADMIN': ['home',  'add_schedule', 'class', 'trainers', 'trainer_profile', 'subscription_admin', 'trainers_admin', 'logout'],
 
 };
 

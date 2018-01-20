@@ -91,5 +91,20 @@ namespace Business_Layer.Services
                 return ids;
             }
         }
+
+        public List<BaseUserModelView> GetAllUsers()
+        {
+            using (var uow = new UnitOfWork())
+            {
+                List<int> ids = new List<int>();
+                IEnumerable<User> users = uow.Repository<User>().findAll();
+                List<BaseUserModelView> models = new List<BaseUserModelView>();
+                foreach (User user in users)
+                {
+                    models.Add(UserMapper.UserToBaseUserMV(user));
+                }
+                return models;
+            }
+        }
     }
 }
