@@ -689,6 +689,27 @@ export const getPersonalUserSchedule = (userId, startDate, endDate, onSuccess = 
     });
 };
 
+export const postPersonalUserSchedule = (userId, trainerId, date, room, onSuccess = () => {}, onFail = () => {}) => {
+    let personalUrl = SERVER + SCHEDULE_PERSONALS + '/';
+    fetchWithToken(personalUrl, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+            ParticipantId: userId,
+            TrainerId: trainerId,
+            Date: date,
+            Room: room,
+        })
+    }).then(response => response.json()).then(responseData => {
+        onSuccess(responseData);
+    }).catch((error) => {
+        console.error(error);
+        onFail(error);
+    });
+};
+
 export const makeTrainer = (userId, onSuccess = (resp) => {}, onFail = (err) => {}) => {
     fetchWithToken(`${SERVER}${TRAINERS}/` + userId, {
             method: 'POST',
@@ -722,6 +743,20 @@ export const makeUser = (userId, onSuccess = (resp) => {}, onFail = (err) => {})
             return response
         }).then(response => {
             onSuccess(response);
+        }).catch((error) => {
+            console.error(error);
+            onFail(error);
+        });
+};
+
+export const getUsers = (onSuccess = (resp) => {}, onFail = (err) => {}) => {
+    fetchWithToken(`${SERVER}${USERS}/simple`, {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json'
+            }
+        }).then(response => response.json()).then(responseData => {
+            onSuccess(responseData);
         }).catch((error) => {
             console.error(error);
             onFail(error);
