@@ -21,7 +21,7 @@
 
 .users .trainers-admin-button {
     width: 50%;
-    background:#95a2ce;
+    background-image: linear-gradient(to right, #748ccc 0%, #98c2f1 51%, #748ccc 100%);
     border-radius:5px;
     border:0;
     cursor:pointer;
@@ -29,8 +29,8 @@
     font-size:15px;
     padding-top:10px;
     padding-bottom:10px;
-    transition: all 0.3s;
+    transition: 0.5s;
     margin-top:-4px;
 }
 
-.users .trainers-admin-button:hover { background:#6267bb; }
+.users .trainers-admin-button:hover { background-position: right center; /* change the direction of the change here */ }

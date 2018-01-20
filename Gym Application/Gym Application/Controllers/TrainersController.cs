@@ -21,19 +21,16 @@ namespace Gym_Application.Controllers
         [HttpGet]
         [Route("api/trainers")]
         [JwtAuthentication]
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+
         public IEnumerable<BaseUserModelView> getTrainers()
         {
-            //default permissions for get
             return service.GetTrainers()
-               .Select(e => UserMapper.UserToBaseUserMV(e));
+                .Select(e => UserMapper.UserToBaseUserMV(e));
         }
-        
 
         [HttpPost]
         [Route("api/trainers/{id}")]
         [JwtAuthentication]
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult AddTrainer(int id)
         {
             // users should not be able to perform destructive operations
@@ -49,7 +46,6 @@ namespace Gym_Application.Controllers
         [HttpDelete]
         [Route("api/trainers/{id}")]
         [JwtAuthentication]
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
         public IHttpActionResult DeleteTrainer(int id)
         {
             // users should not be able to perform destructive operations
@@ -65,7 +61,7 @@ namespace Gym_Application.Controllers
         [HttpGet]
         [Route("api/trainers/{id}")]
         [JwtAuthentication]
-        [EnableCors(origins: "*", headers: "*", methods: "*")]
+
         public IHttpActionResult getTrainer(int id)
         {
             User user = service.GetTrainer(id);

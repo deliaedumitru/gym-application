@@ -43,7 +43,7 @@ const NAVIGATION_ITEMS = {
 // the available components, based on role(can contain content which does not have 'title'
 // and is therefore not on the navbar
 const DEFAULT_NAVBARS = {
-    'ANON': ['home', 'login', 'signup', 'trainers', 'schedule', 'trainer_profile'],
+    'ANON': ['home','trainers', 'schedule', 'trainer_profile', 'login', 'signup'],
     'USER': ['home', 'schedule', 'schedule_personal', 'trainers', 'subscription_user', 'trainer_profile', 'logout'],
     'TRAINER': ['home', 'schedule', 'schedule_trainer', 'trainers', 'trainer_profile', 'logout'],
     'ADMIN': ['home',  'add_schedule', 'class', 'trainers', 'trainer_profile', 'subscription_admin', 'trainers_admin', 'logout'],
