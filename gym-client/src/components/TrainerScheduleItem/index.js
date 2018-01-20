@@ -17,17 +17,19 @@ export default class TrainerScheduleItem extends Component {
         const start = moment(date).tz("Europe/Bucharest").format("HH:mm");
         const end = moment(endDate).tz("Europe/Bucharest").format("HH:mm");
         return (
-            <div className="trainer-schedule" style={{borderRadius: 10, textAlign: 'center', fontSize: 14}}>
+            <div className="trainer-schedule" style={{borderRadius: 10, textAlign: 'center', fontSize: 14,margin:5,backgroundColor:'rgba(250, 250, 250, 0.4)'}}>
                 <h3>With: {numeParticipant}</h3>
                 <p>
                     Room {room}
                     <br/>
                     {start} - {end}
-                    <Button
-                        className="btn"
+                    <br/>
+                    <button
+                        style={{backgroundColor:'rgba(250, 250, 250, 0.4)',width:'100%'}}
+                        className='btn'
                         onClick={() => handleDelete(id)}>
                         delete
-                    </Button>
+                    </button>
                 </p>
             </div>
         );

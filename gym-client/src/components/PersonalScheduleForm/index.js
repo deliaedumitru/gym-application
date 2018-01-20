@@ -15,7 +15,7 @@ export default class PersonalScheduleForm extends Component {
 
         this.state = {
             room: '',
-            startDate: moment(),            
+            startDate: moment(),
             selectedUser: '',
         };
     }
@@ -42,10 +42,11 @@ export default class PersonalScheduleForm extends Component {
         });
     }
 
-    handleSubmit(event) {
+    handleSubmit() {
+        console.log("handle submit");
         const {handleSubmit} = this.props;
         const {selectedUser, room, startDate} = this.state;
-        handleSubmit(event, selectedUser, room, startDate);
+        handleSubmit(selectedUser, room, startDate);
     }
 
     filterDate(day) {
@@ -58,20 +59,22 @@ export default class PersonalScheduleForm extends Component {
         const {users} = this.props;
 
         const userSelection = (
-            <label className="select-container">
+            <label className="select-container" style={{color: '#48476a'}}>
                 User:
                 <Select
                     name="form-field-name"
                     value={selectedUser && selectedUser.value}
                     onChange={this.handleChangeUser}
                     options={users}
-                    wrapperStyle={{alignSelf: 'center', width: 150}}
+                    wrapperStyle={{alignSelf: 'center', width: '100%'}}
                 />
             </label>
         );
 
         const datePicker = (
-            <div>
+            <div className='wrapInput' style={{width: '100%'}}>
+                Date:
+                <br/>
                 <DatePicker
                     selected={startDate}
                     onChange={this.handleChangeDate}
@@ -85,23 +88,46 @@ export default class PersonalScheduleForm extends Component {
         );
 
         const roomInput = (
-            <label>
+            <div className="wrapInput">
                 Room:
                 <br/>
-                <input name='room' type="text" value={room} onChange={this.handleInputChange}/>
-            </label>
+                <input className="input100" name='room' type="text" value={room} onChange={this.handleInputChange}/>
+            </div>
         );
 
         return (
-            <form onSubmit={this.handleSubmit}>
-                {roomInput}
-                <br/><br/>
+            <div style={{
+                width: '120%',
+                marginLeft: 15,
+                backgroundColor: 'rgba(250, 250, 250, 0.7)',
+                borderRadius: 10,
+                paddingTop: 20,
+                display: 'flex',
+                flexDirection: 'column',
+                textAlign: 'center'
+            }}>
                 {userSelection}
+                <br/><br/>
+                {roomInput}
                 <br/><br/>
                 {datePicker}
                 <br/><br/>
-                <input type="submit" value="Submit"/>
-            </form>
+                <button id='submit-btn' onClick={this.handleSubmit}>
+                    Add
+                </button>
+            </div>
+        )
+    }
+}
+
+class CustomInput extends React.Component {
+    render() {
+        return (
+            <button
+                style={{width: '100%'}}
+                onClick={this.props.onClick}>
+                {this.props.value}
+            </button>
         )
     }
 }

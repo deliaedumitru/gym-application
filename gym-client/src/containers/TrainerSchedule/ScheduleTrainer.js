@@ -5,7 +5,12 @@ import React, {Component} from 'react';
 import moment from 'moment';
 import 'whatwg-fetch';
 
-import {getPersonalTrainerSchedule, getUsers,postPersonalUserSchedule, deletePersonalUserSchedule} from "../../api/gym";
+import {
+    getPersonalTrainerSchedule,
+    getUsers,
+    postPersonalUserSchedule,
+    deletePersonalUserSchedule
+} from "../../api/gym";
 import TrainerScheduleTable from "../../components/TrainerTable/TrainerScheduleTable";
 
 import PersonalScheduleForm from "../../components/PersonalScheduleForm/index";
@@ -26,7 +31,7 @@ export default class ScheduleTrainer extends Component {
             classes: [],
             monday: getMonday(new Date()),
             sunday: getSunday(getMonday(new Date())),
-            
+
             users: null,
             isTrainer: null
         };
@@ -48,7 +53,7 @@ export default class ScheduleTrainer extends Component {
         let sunday = getSunday(monday);
         this.loadSchedule(monday, sunday);
 
-        if(this.userRole && this.userRole == 1) {
+        if (this.userRole && this.userRole == 1) {
             this.setState({isTrainer: true});
             this.loadUsers();
         }
@@ -67,16 +72,14 @@ export default class ScheduleTrainer extends Component {
         getUsers(onSucces);
     }
 
-    addPersonalSchedule(event, selectedUser, room, startDate) {
-        event.preventDefault();
-        
+    addPersonalSchedule(selectedUser, room, startDate) {
         const user = JSON.parse(localStorage.getItem("user"));
         const userId = user ? user.id : null;
 
         console.log(selectedUser.value + " " + room + " " + startDate);
         const onSuccess = (responseData) => {
-            alert("Added!");
-             let monday = getMonday(new Date());
+            //alert("Added!");
+            let monday = getMonday(new Date());
             let sunday = getSunday(monday);
             this.loadSchedule(monday, sunday);
         };
@@ -127,32 +130,34 @@ export default class ScheduleTrainer extends Component {
                 <p className="center">
                     <br/>
                     <button className="button" onClick={this.loadPrevWeek}>‹</button>
-                    <span style={{padding: 20,fontSize:20}}>
+                    <span style={{padding: 20, fontSize: 20}}>
                         GYM SCHEDULE {start} - {end}
                     </span>
                     <button className="button" onClick={this.loadNextWeek}>›</button>
 
                 </p>
-                <br/><div style={{display: 'inline-flex', width: '100%'}}>
+                <br/>
+                <div style={{display: 'flex', width: '100%'}}>
+                    <div style={{width:'40%'}}>
                         <PersonalScheduleForm
                             users={this.state.users}
                             handleSubmit={this.addPersonalSchedule}
                         />
+                    </div>
+                    {classes ?
+                        <div className="schedule">
+                            <TrainerScheduleTable
+                                classes={classes}
+                                handleDelete={this.handleDeletePersonalSchedule}
+                            />
+                        </div>
+                        : <div className="loading">
+                            <i className="fa fa-spinner fa-spin"/>
+                            <span>Loading...</span>
+                        </div>
+                    }
+                </div>
 
-                        {classes ?
-                            <div className="schedule">
-                                <TrainerScheduleTable
-                                    classes={classes}
-                                    handleDelete={this.handleDeletePersonalSchedule}
-                                />
-                            </div>
-                            : <div className="loading">
-                                <i className="fa fa-spinner fa-spin"/>
-                                <span>Loading...</span>
-                            </div>
-                        }
-                    </div> 
-                
             </div>
         )
     }
