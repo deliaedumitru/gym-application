@@ -1,5 +1,7 @@
 import {HashRouter, NavLink, Route} from "react-router-dom";
 import React from "react";
+import logo from '../../images/logo.png';
+import '../../containers/Main.css';
 
 /**
  * Navbar component, return the nab object, with the
@@ -19,7 +21,7 @@ const NavBar = ({items}) => (
             alignItems: 'center',
             justifyContent: 'flex-start',
         }} className="logoul">
-            <li>Gym App</li>
+            <img src={logo} className="main-logo" alt="logo" />
         </ul>
         <ul style={{
             height: '100%',

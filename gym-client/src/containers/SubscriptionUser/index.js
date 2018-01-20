@@ -4,7 +4,6 @@ import './style.css'
 import Modal from "../../components/Modal/index";
 import SubscriptionTable from "../../components/SubscriptionsTable/index";
 
-
 export default class SubscriptionUser extends Component {
     constructor(props) {
         super(props);
@@ -32,6 +31,7 @@ export default class SubscriptionUser extends Component {
 
     componentDidMount() {
         console.log("component did mount");
+        window.scrollTo(0, 0);
         this.loadSubscriptions();
     }
 

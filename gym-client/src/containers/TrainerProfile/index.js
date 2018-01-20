@@ -39,6 +39,7 @@ export default class TrainerProfile extends Component {
 
     componentDidMount() {
         console.log("TrainerProfile: component did mount");
+        window.scrollTo(0, 0);
         this.getTrainerDetails();
         this.getFeedbackFromUser();
         this.getFeedbacks();

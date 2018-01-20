@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 import {addSubscription, editSubscription, getSubscriptions} from "../../api/gym";
 import './style.css'
+import Modal from "../../components/Modal/index";
 import SubscriptionTable from "../../components/SubscriptionsTable/index";
 import SubscriptionItem from "../../components/SubscriptionItem/index";
-
 
 export default class SubscriptionAdmin extends Component {
     constructor(props) {
@@ -28,6 +28,7 @@ export default class SubscriptionAdmin extends Component {
 
     componentDidMount() {
         console.log("component did mount");
+        window.scrollTo(0, 0);
         this.loadSubscriptions();
     }
 

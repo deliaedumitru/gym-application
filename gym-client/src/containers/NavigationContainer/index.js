@@ -2,7 +2,7 @@ import React, {Component} from "react";
 import App from "../App";
 import LogIn from "../LogIn/LogIn";
 import Schedule from "../ScheduleUser";
-import SignUp from "../SignUp";
+import SignUp from "../SignUp/SignUp";
 import ScheduleTrainer from "../TrainerSchedule/ScheduleTrainer";
 import TrainerProfile from "../TrainerProfile";
 import Trainers from "../Trainers";

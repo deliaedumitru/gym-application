@@ -1,0 +1,8 @@
+#home-page-container{
+    -webkit-animation: fadein 2s;
+}
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
