@@ -74,9 +74,10 @@ export default class ScheduleTrainer extends Component {
 
         console.log(selectedUser.value + " " + room + " " + startDate);
         const onSuccess = (responseData) => {
-            this.setState((prevState)=>(
-                prevState.classes.push(responseData)
-            ));
+            alert("Added!");
+             let monday = getMonday(new Date());
+            let sunday = getSunday(monday);
+            this.loadSchedule(monday, sunday);
         };
         postPersonalUserSchedule(selectedUser.value, userId, startDate, room, onSuccess);
         
