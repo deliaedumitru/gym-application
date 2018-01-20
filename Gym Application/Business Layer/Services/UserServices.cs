@@ -106,5 +106,23 @@ namespace Business_Layer.Services
                 return models;
             }
         }
+
+        public IEnumerable<BaseUserModelView> GetSimpleUsers()
+        {
+            using (UnitOfWork uow = new UnitOfWork())
+            {
+                IEnumerable<User> users = uow.Repository<User>()
+                    .findAll()
+                    .Where(e => e.Role == Role.USER);
+                List<BaseUserModelView> models = new List<BaseUserModelView>();
+                foreach(User user in users)
+                {
+                    models.Add(UserMapper.UserToBaseUserMV(user));
+                }
+
+                return models;
+            }
+        }
+
     }
 }
